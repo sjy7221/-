@@ -252,7 +252,7 @@ class IndexController extends Controller
 
         //查询是否有房卡
         $member = DB::table('member')->where('id', $mid)->first();
-        var_dump($member);die;
+  
         if ($member->num < $fei) {
             return json_encode(['status' => 0, 'msg' => '钻石不足，请充值!']);
         }
