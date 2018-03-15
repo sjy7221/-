@@ -249,7 +249,7 @@ class IndexController extends Controller
         }else{
             $fei = 2;
         }
-          echo 1;die;
+     
         //查询是否有房卡
         $member = DB::table('member')->where('id', $mid)->first();
         if ($member->num < $fei) {
