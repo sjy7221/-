@@ -183,7 +183,7 @@ class IndexController extends Controller
      */
     public function create_pdk()
     {
-        echo 111;die;
+     
         $mid = Input::get('mid');//用户ID
       
         $jushu = Input::get('jushu'); //局数 10/20？
