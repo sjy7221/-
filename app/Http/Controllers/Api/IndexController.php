@@ -230,7 +230,7 @@ class IndexController extends Controller
      */
     public function create_pdk()
     {
-   
+     
         $mid = Input::get('mid');//用户ID
     
         $jushu = Input::get('jushu'); //局数 10/20？砖石1个、2
@@ -249,10 +249,8 @@ class IndexController extends Controller
         }else{
             $fei = 2;
         }
-
         //查询是否有房卡
         $member = DB::table('member')->where('id', $mid)->first();
-  
         if ($member->num < $fei) {
             return json_encode(['status' => 0, 'msg' => '钻石不足，请充值!']);
         }
@@ -336,8 +334,6 @@ class IndexController extends Controller
        //判断房间是否存在
         if (!Redis::exists($room_id)) {
             return json_encode(['status' => 0, 'msg' => '房间不存在！']);
-        }else{
-            echo 'cunzai';
         }
         //判断是否是重新进入房间
         $users = Redis::sort('fang_'.$room_id);
