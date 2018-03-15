@@ -185,7 +185,7 @@ class IndexController extends Controller
     {
      
         $mid = Input::get('mid');//用户ID
-      
+    
         $jushu = Input::get('jushu'); //局数 10/20？砖石1个、2
         $renshu = Input::get('renshu');//人数
         $suanfa = Input::get('suanfa');//31为黑桃3 102//红桃十 //1为显示0为不显示
@@ -220,37 +220,33 @@ class IndexController extends Controller
             }
         }
 
-        $fang = $this->getNum();
-        var_dump($fang);die;
+        $fang = $this->getNum();//生成房间号
+       
         $roomInfo = [
             'guize' => [
                 'room_id' => $fang,
-                'difen' => $difen,
+               
                 'jushu' => $jushu,
-                'fangfei' => $fangfei,
+                'fangfei' => $fei,
                 'suanfa' => $suanfa,
-                'num'=>4,
-                'gid'=>1
+                'gid'=>51 //游戏种类
             ],
             'fangzhu' => $mid,
-            'ju' => 1,
-            'status' => 0,
-            'users' => [],
-            'lai'=>0,
-            'zhuang'=>0,
-            'tp' => []                                  //投票
+            'status' => 0,//0代表未开始
+            'users' => []//玩家
+                                //投票
         ];
         $userInfo = [];
         $re = Redis::hmset($fang, 'roomInfo', serialize($roomInfo), 'userInfo', serialize($userInfo));
         if ($re) {
             $rid =  DB::table('rooms')->insertGetId([
                 'room_id' => $fang,
-                'difen' => $difen,
-                'jushu' => $jushu * 8,
+                'difen' => 0,
+                'jushu' => $jushu,
                 'users' => 0,
                 'fangzhu' => $member->nickname,
                 'f_id'=>$mid,
-                'gid' => 1
+                'gid' => 51
             ]);
             DB::table('rooms_user')->insert([
                 'rid'=>$rid,
