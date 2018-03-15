@@ -334,6 +334,8 @@ class IndexController extends Controller
        //判断房间是否存在
         if (!Redis::exists($room_id)) {
             return json_encode(['status' => 0, 'msg' => '房间不存在！']);
+        }else{
+            echo 'cunzai';
         }
         //判断是否是重新进入房间
         $users = Redis::sort('fang_'.$room_id);
