@@ -232,7 +232,7 @@ class IndexController extends Controller
     {
      
         $mid = Input::get('mid');//用户ID
-    
+      
         $jushu = Input::get('jushu'); //局数 10/20？砖石1个、2
         $renshu = Input::get('renshu');//人数
         $suanfa = Input::get('suanfa');//31为黑桃3 102//红桃十 //1为显示0为不显示
@@ -272,7 +272,7 @@ class IndexController extends Controller
         $roomInfo = [
             'guize' => [
                 'room_id' => $fang,
-               
+                'renshu'=>   $renshu
                 'jushu' => $jushu,
                 'fangfei' => $fei,
                 'suanfa' => $suanfa,
