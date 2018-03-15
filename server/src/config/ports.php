@@ -8,23 +8,23 @@
 
 use Server\CoreBase\PortManager;
 
-$config['ports'][] = [
-    'socket_type' => PortManager::SOCK_TCP,
-    'socket_name' => '0.0.0.0',
-    'socket_port' => 9091,
-    'pack_tool' => 'LenJsonPack',
-    'route_tool' => 'NormalRoute',
-    'middlewares' => ['MonitorMiddleware']
-];
+// $config['ports'][] = [
+//     'socket_type' => PortManager::SOCK_TCP,
+//     'socket_name' => '0.0.0.0',
+//     'socket_port' => 9091,
+//     'pack_tool' => 'LenJsonPack',
+//     'route_tool' => 'NormalRoute',
+//     'middlewares' => ['MonitorMiddleware']
+// ];
 
-$config['ports'][] = [
-    'socket_type' => PortManager::SOCK_HTTP,
-    'socket_name' => '0.0.0.0',
-    'socket_port' => 8081,
-    'route_tool' => 'NormalRoute',
-    'middlewares' => ['MonitorMiddleware', 'NormalHttpMiddleware'],
-    'method_prefix' => 'http_'
-];
+// $config['ports'][] = [
+//     'socket_type' => PortManager::SOCK_HTTP,
+//     'socket_name' => '0.0.0.0',
+//     'socket_port' => 8081,
+//     'route_tool' => 'NormalRoute',
+//     'middlewares' => ['MonitorMiddleware', 'NormalHttpMiddleware'],
+//     'method_prefix' => 'http_'
+// ];
 
 $config['ports'][] = [
     'socket_type' => PortManager::SOCK_WS,
