@@ -317,6 +317,7 @@ class IndexController extends Controller
         $room_id = Input::get('room_id');
         //如果有房间 就连之前的
         $roo = DB::table('member')->where('id',$mid)->value('room_id');
+        var_dump($roo);die;
         if($roo){
             $room_id = $roo;
             return json_encode(['status' => 1, 'room_id' => $room_id]);
