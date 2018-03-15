@@ -317,7 +317,7 @@ class IndexController extends Controller
         $room_id = Input::get('room_id');
         //如果有房间 就连之前的
         $roo = DB::table('member')->where('id',$mid)->value('room_id');
-        var_dump($roo);die;
+
         if($roo){
             $room_id = $roo;
             return json_encode(['status' => 1, 'room_id' => $room_id]);
@@ -345,27 +345,8 @@ class IndexController extends Controller
         if(count($users)>=4){
             return json_encode(['status' => 0, 'msg' => '房间人数已满！']);
         }
-        //判断砖石是足够
-        $roomInfo = unserialize(Redis::hget($room_id, 'roomInfo'));
-
-        //如果是玩家支付 判断一下砖石是否足够
-        if($roomInfo['guize']['fangfei'] == 2){
-            //查询是否有房卡
-            $member = DB::table('member')->where('id', $mid)->first();
-            if ($member->num <  $roomInfo['guize']['jushu']) {
-                return json_encode(['status' => 0, 'msg' => '钻石不足，请充值!']);
-            }
-        }
-        //如果开启了ip防作弊 判断ip是否一样
-        if(in_array(2,$roomInfo['guize']['suanfa'])){
-            $ip = $_SERVER["REMOTE_ADDR"];
-            $re1 = DB::table('member')
-                ->where(['ip'=>$ip,'room_id'=>$room_id])
-                ->first();
-            if($re1){
-                return json_encode(['status' => 0, 'msg' => '无法进入,房间内有相同IP玩家!']);
-            }
-        }
+      
+   
         $room = DB::table('rooms')->where('room_id',$room_id)->where('status',0)->first();
         if ($room) {
             $rr = DB::table('rooms_user')->where(['mid'=>$mid,'rid'=>$room->rid])->first();
