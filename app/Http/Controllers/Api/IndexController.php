@@ -192,21 +192,22 @@ class IndexController extends Controller
         $suanfa = explode(',',$suanfa);
         
         $roo = DB::table('member')->where('id',$mid)->value('room_id');
-        dd($roo);
+
         if($roo){
             return json_encode(['status' => 1, 'data' => $roo]);
         }
-
-        if($fangfei == 1){        //房主支付
-            $fei = $jushu * 4;
+        //10局为1个砖石，20局为2个砖石
+        if($jushu == 10){
+            $fei =1;
         }else{
-            $fei = $jushu;        //4人支付
+            $fei = 2;
         }
         //查询是否有房卡
         $member = DB::table('member')->where('id', $mid)->first();
         if ($member->num < $fei) {
             return json_encode(['status' => 0, 'msg' => '钻石不足，请充值!']);
         }
+        
 
         //删除8分钟的空房间
         $rooms = DB::table('rooms')->where('status',0)->where('users',0)->get();
