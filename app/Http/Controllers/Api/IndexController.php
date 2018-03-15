@@ -342,7 +342,7 @@ class IndexController extends Controller
             return json_encode(['status' => 1, 'room_id' => $room_id]);
         }
        $roominfo =  Redis::hget($room_id,'roomInfo');
-       var_dump($roominfo);die;
+       var_dump(unserialize($roominfo));die;
 
         //判断房间人数
         if(count($users)>=4){
