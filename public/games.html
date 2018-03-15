@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>麻将</title>
+</head>
+<body>
+<style>
+    body,html{width: 100%;height: 100%;}
+    *{margin: 0;padding: 0;box-sizing: border-box;}
+
+    .container{
+
+        width:100%;
+        height:100%;
+    }
+    .cf:after{content:" ";display:block;height:0;clear:both;visibility:hidden;}
+    .cf{display:inline-block;}
+    .center{margin-left: 500px;}
+    .fl{float:left;}
+    .fr{float:right;}
+    .top{width:300px;height: 70px;       margin-left: 800px;}
+    .top .span{width: 300px;height:90px; display: inline-block;  margin: 0 auto; border: 1px solid #980000;position:relative;}
+    .name{width:80px;height:50px; border:1px solid blue; position:absolute; top:-52px;}
+    .center .left{width: 300px;height: 90px;border: 1px solid #980000; margin-top: 150px;}
+    .center .centerCen{width: 300px;height: 300px;    position: relative;}
+    .point{width: 40px;height: 40px;border: 1px solid #980000;position: absolute;left:50%;top:50%;transform: translate(-50% ,-50%);}
+    .center .centerLeft{width: 300px;height: 90px;border: 1px solid #980000;margin-top: 150px;}
+    .footer{margin-left: 600px; margin-top: 100px;}
+    .footer .Fleft{width: 200px;height: 50px;border: 1px solid #980000;}
+    .footer .Fcen{width: 310px;height: 50px;border: 1px solid #980000;}
+    .footer .FRight{width: 50px;height: 50px;border: 1px solid #980000;}
+    .four{float:right;}
+    .four .four_group{width:100px; color:#fff;float:left; height:30px;background:#980000; border-right:1px solid #fff; text-align:center; line-height:30px}
+    .chupai{width:220px;height:50px; border:1px solid blue;    margin-left: 80px;
+        margin-top: -52px;}
+    .chupainan{width:300px;height:80px; border:1px solid blue; position:absolute; top:-90px ;left: 200px;}
+    .naizi{position: fixed;right: 268px;top: 44px;width: 240px;height: 35px;border: 1px solid red;}
+    .naizi span{display: inline-block;width: 75px;height: 100%;float: left;text-align: center;line-height: 35px;background: yellow;margin-right: 6px;}
+    .naizi span:last-child{margin-right: 0px;}
+</style>
+<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<div class="naizi">
+    <span></span>
+    <span></span>
+    <span></span>
+</div>
+<div style="width:30%;float:left;">
+
+    <p >
+       <!-- <input type="button" name="" value="创建房间" id="create">-->
+        <input type="button" name="" value="测试" id="test">
+        <input type="button" name="" value="离座" id="lizuo">
+        <input type="button" name="" value="离开" id="likai">
+        <input type="button" name="" value="解散房间" id="jiesan">
+    </p>
+
+  <input type="text" id="json">
+        <input type="button" name="" value="复制" id="copy"></p>
+    <p>
+        <input type="text" name="xiaoxi">
+        <input type="button" name="" value="发消息" id="xiaoxi">
+    </p>
+
+</div>
+
+<div class="container cf" style="float:left;">
+    房间号: <span id="room_id"></span>
+    <div class="top">
+
+        <div class="span s">
+
+            <div class="name zuo" wz="d">东</div>
+            <div class="chupai pp"></div>
+            <p class="cc" style="margin-top: 0px;"></p>
+
+        </div>
+    </div>
+    <div class="con">
+        <div class="center cf">
+            <div class="left fl z"  style="position:relative;">
+                <div class="chupai pp"></div>
+                <div class="name zuo" wz="n">南</div>
+                <p style="margin-top: 0px;" class="cc"></p>
+            </div>
+            <div class="centerCen fl">
+                <div class="point chu" style="text-align: center;line-height: 40px;">
+
+                </div>
+            </div>
+            <div class="centerLeft fl y" style="position:relative;">
+                <div class="chupai pp"></div>
+                <div class="name zuo" wz="b">北</div>
+                <p class="cc" style="margin-top: 0px;" ></p>
+            </div>
+        </div>
+        <div class="footer cf">
+
+            <div class="Fleft fl x"  style="position:relative;">
+                <div class="name zuo" wz="x">西</div>
+                <div class="chupainan cc"></div>
+                <p class="pp" style="margin-top: 0px;"></p>
+
+            </div>
+            <div class="Fcen fl wo"></div>
+            <div class="FRight fl qi"></div>
+            <p>牌<input type="text" name="pai">
+                <input type="button" name="" value="出牌" id="send">
+            </p>
+        </div>
+
+        <div class="four cf">
+            <div class="four_group chi">吃
+             <div style="display:none">
+             </div>
+            </div>
+            <div class="four_group peng">碰</div>
+            <div class="four_group gang">杠
+                <div style="display:none">
+                </div>
+            </div>
+            <div class="four_group hu">胡</div>
+            <div class="four_group guo">过</div>
+        </div>
+    </div>
+</div>
+<input type="hidden" id='mid' value="">
+<script>
+
+    function GetQueryString(name){
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+    }
+    var mid = GetQueryString("mid");
+    var room_id = GetQueryString("room_id");
+    $("#mid").val(mid);
+    $("#room_id").text(room_id);
+
+    var mids={};
+    var userInfo;
+    var me_wz='';  //自己的位置
+    var wzs = [];
+    var roomInfo;
+    var  liang = [];
+
+
+    // 假设服务端ip为127.0.0.1
+   // ws = new WebSocket("ws://192.168.3.131:8081");
+    ws = new WebSocket("ws://114.55.116.174:9515");
+    //连接成功 上传用户信息
+    ws.onopen = function() {
+        alert("欢迎进入游戏房间！");
+        var data={
+               'mid':mid,
+               'room_id':room_id
+        };
+        send('RoomController','jinru',data);
+    };
+    ws.onclose =function () {
+      alert('服务器已断开连接!');
+      location.href="http://wuhanmj.tumujinhua.com/login";
+    }
+
+    ws.onmessage = function(e) {
+        var data = JSON.parse(e.data);
+       $("#json").val(e.data);
+        console.log(data);
+        switch(data.route) {
+            //断线重连请求数据
+            case 'jinru':
+                jinru(data.data);
+                break;
+             //入座
+            case 'ruzuo':
+                ruzuo(data.data);
+                break;
+            //离座
+            case 'lizuo':
+                lizuo(data.data);
+                break;
+            //解散房间
+            case 'jiesan':
+                jiesan(data.data);
+                break;
+            //进入游戏
+            case 'getGame':
+                getGame(data.data);
+                break;
+            //可以开始游戏
+            case 'game_go':
+                game_go(data.data);
+                break;
+            //开局收到牌
+            case 'kaiju':
+                kaiju(data.data);
+                break;
+           //抓牌
+            case 'zhuapai':
+                zhuapai(data.data);
+                break;
+            //打牌
+            case 'dapai':
+                dapai(data.data);
+                break;
+            //操作提示
+            case 'caozuo_tx':
+                caozuo_tx(data.data);
+                break;
+            //有人操作
+            case 'caozuo':
+                caozuo(data.data);
+                break;
+
+        }
+    }
+    /**
+     * 收到的消息
+     *--------------------------------------------------------------------------------------------------
+     */
+
+    /**
+     * 进入游戏
+     * @param data
+     */
+    function  jinru(data) {
+          roomInfo = data.roomInfo;  //房间信息
+          userInfo = data.userInfo;  //用户信息
+
+         var status   = data.status;    //状态
+         var users = roomInfo.users;
+
+         if(typeof users == 'object' && users != ''){
+             mids = users;
+         }
+        //遍历玩家位置
+        $.each(mids, function (n, v) {
+            wzs[v]=n;
+            if(v==mid){
+                me_wz = n;
+            }
+            var wz = getWz(n);
+            $(wz + ' .name').text(userInfo[v].nickname);
+        })
+        //如果我是玩家 就重新排列位置
+       if(me_wz && status>0){
+            $.each(mids, function (n,v) {
+                var wz = getWz2(me_wz,n);
+                wzs[v] = wz;
+                $(wz + ' .name').text(userInfo[v].nickname);
+            })
+           //请求断线重连的数据
+           var  data={
+               'mid':mid,
+               'room_id':room_id
+           }
+           send('GameController','getGame',data);
+        }
+
+    }
+
+    /**
+     *入座
+     * @param data
+     */
+    function  ruzuo(data) {
+        var member = data.member;
+        userInfo[member.id]=member;
+        eval("mids."+data.weizhi+"="+member.id);
+        var wz = getWz(data.weizhi);
+        $(wz + ' .name').text(member.nickname);
+
+        //如果自己那么保存
+        if(member.id==mid){
+            me_wz = data.weizhi;
+        }
+        if(me_wz){
+            $(".name").text('');
+            console.log(mids);
+            $.each(mids, function (n, v) {
+                var wz = getWz2(me_wz,n);
+                 wzs[v] = wz;
+                $(wz + ' .name').text(userInfo[v].nickname);
+            })
+        }
+
+    }
+    /**
+     * 离座
+     */
+    function lizuo(data) {
+         var uid = data.mid;
+         var weizhi = data.weizhi;
+         delete mids.weizhi;
+         delete userInfo.uid;
+         delete wzs.uid;
+         if(me_wz){
+             var wz = getWz2(me_wz,weizhi);
+             $(wz + ' .name').text('');
+         }else {
+             var wz = getWz(weizhi);
+             $(wz + ' .name').text('');
+         }
+    }
+    /**
+     * 解散房间
+     * result 1.同意 0.解散失败
+     * type   1.游戏未开始 2.游戏开始
+     */
+    function jiesan(data) {
+       if(data.result==1){
+           alert("房间成功解散!");
+           location.href="http://wuhanmj.tumujinhua.com.com//login";
+       }
+    }
+
+    /**
+     * 游戏开始
+     */
+     function game_go(data){
+         //给服务器发送游戏开始的请求
+        var  data={
+            'room_id':room_id
+        }
+        send('GameController','game_go',data);
+     }
+     /**
+      * 断线重连获取游戏数据
+      */
+     function getGame(data){
+         chu(wzs[data.now]);
+           liang = data.liang;
+         $(".naizi span").each(function (k,v) {
+             $(this).text(liang[k]);
+         })
+          var pais = data.pais;
+         $.each(pais, function (n, v) {
+             var qi = v.q;
+             var zz = v.c.concat(v.p,v.mg,v.ag,v.ng);
+                zz = zz.join(' ');
+             var cc = v.d.join(' ');
+               if(n == mid){
+                   var pai = sort_s(v.s);
+                   $(".wo").text(pai);
+                   if(v.q != ''){
+                    $(".qi").text(v.q);
+                   }
+               }
+               $(wzs[n]+" .cc").text(cc);
+               $(wzs[n]+" .pp").text(zz);
+         })
+
+     }
+
+     /**
+      * 开局
+      */
+     function kaiju(data) {
+         liang = data.liang;
+         $(".cc").text('');
+         $(".pp").text('');
+         $(".qi").text('');
+         $(".naizi span").text('');
+          if(me_wz){
+              var pai = sort_s(data.pais);
+              $(".wo").text(pai);
+          }
+         $(".naizi span").each(function (k,v) {
+             $(this).text(liang[k]);
+         })
+
+     }
+
+     /**
+      *抓牌
+      */
+     function zhuapai(data) {
+         var pai = data.pai;
+         var uid = data.mid;
+          //指向操作人
+         chu(wzs[uid]);
+         //自己抓牌
+         if(pai != ''){
+           $(".qi").text(pai);
+         }
+     }
+
+     /**
+      * 打牌
+      */
+     function  dapai(data) {
+         var pai = data.pai;
+         var uid = data.mid;
+         //如果打牌人是我
+         if(uid == mid){
+             var wo =  $(".wo").text();
+             var qi =  $(".qi").text();
+             var pais = da(wo,pai,qi);
+             var paiss = sort_s(pais);
+             $(".wo").text(paiss);
+             $(".qi").text('');
+             $(".x .cc").append(' '+pai);
+         }else {
+             $(wzs[uid]+" .cc").append(' '+pai);
+         }
+     }
+
+     /**
+      * 有操作提醒
+      */
+     function caozuo_tx(data) {
+         var status = data.status;    //[]数组 1吃2碰3杠4胡
+         var chi = data.pais.chi;
+         var gang = data.pais.gang;
+         var pai = data.pais.pai;
+         var uid= data.mid;
+         var da_mid  = data.da_mid;    //打牌的人id  没有就为空代表自摸
+         alert('有操作提示!');
+         $(".guo").css("background","green");  //过
+         $(".guo").click(function () {
+             var  data={
+                 'room_id':room_id,
+                 'mid':mid,
+                 'status':0,
+                 'pai':pai,
+                 'chi':[]
+             }
+             send('GameController','caozuo',data);
+             clearStatus();
+         })
+
+         $.each(status, function (k,v) {
+              //吃
+             if(v==1){
+                 $(".chi").css("background","green");
+                 var s = '';
+                 $.each(chi, function (k,v) {
+                     var vv= v.join(" ");
+                     s+='<ul><button class="chi2" pai="'+pai+'">'+vv+'</button></ul>';
+                 })
+                 $(".chi div").html(s);
+                 $(".chi div").slideDown();
+
+               //碰
+             }else if(v==2){
+                 $(".peng").css("background","green");
+                 $(".peng").click(function () {
+                     var  data={
+                         'room_id':room_id,
+                         'mid':mid,
+                         'status':2,
+                         'pai':pai,
+                         'chi':[]
+                     }
+                     send('GameController','caozuo',data);
+                     clearStatus();
+                 })
+               //杠
+             }else  if(v==3){
+                 $(".gang").css("background","green");
+                 var s = '';
+                 $.each(gang, function (k,v) {
+                     s+='<ul><button class="gang2" >'+v+'</button></ul>';
+                 })
+                 $(".gang div").html(s);
+                 $(".gang div").slideDown();
+              //胡
+             }else  if(v==4){
+                 $(".hu").css("background","green");
+                 $(".hu").click(function () {
+                     var  data={
+                         'room_id':room_id,
+                         'mid':mid
+                     }
+                     send('GameController','hu',data);
+                     clearStatus();
+                 })
+
+             }
+
+         })
+     }
+
+    /**
+     * 有人操作
+     */
+    function  caozuo(data) {
+        var uid = data.mid;
+        var da_mid = data.da_mid;  //打牌人id
+        var pai = data.pai;        //pai
+        var chi = data.chi;        //
+        var status = data.status;  //1.吃 2.碰 3.杠
+        var type  = data.type;      //1.明杠 2.暗杠 3.赖杠
+        chu(wzs[uid]);
+        if(da_mid){               //如果有人打 那么先减掉打的那个牌
+            var da_cc = $(wzs[da_mid]+' .cc').text();
+            var da_cc2 = da_cc.split (" ");
+            da_cc2.pop();
+            var  da_cc3 =da_cc2.join(' ');
+            $(wzs[da_mid]+' .cc').text(da_cc3);
+        }
+
+        //处理吃
+        if(status==1){
+            $(wzs[uid]+" .pp").append(' '+chi[0]+" "+chi[1]+" "+chi[2]);
+            //如果是自己吃 那么扣除两张手牌
+            if(uid == mid){
+                var upais = $(".wo").text();
+                     upais = upais.split (" ");
+                $.each(chi, function (k,v) {
+                      if(v != pai){
+                          upais.splice($.inArray(v,upais),1);
+                      }
+                })
+                upais = sort_s(upais);
+                $(".wo").text(upais);
+            }
+          //处理碰
+        }else if(status==2){
+
+            $(wzs[uid]+" .pp").append(' '+pai+" "+pai+" "+pai);
+            //如果是自己碰 那么扣除两张手牌
+            if(uid == mid){
+                var upais = $(".wo").text();
+                    upais = upais.split (" ");
+                     upais = qingkong(upais);
+                    upais.splice($.inArray(pai,upais),2);
+                    upais = sort_s(upais);
+                   $(".wo").text(upais);
+            }
+
+        }else if(status==3){
+            //明杠
+            if(type==1){
+                var zpais = $(wzs[uid]+".pp").text();
+                    zpais = zpais.split (" ");
+                    if($.inArray(pai,zpais)!=-1){
+                        $(wzs[uid]+" .pp").append(' '+pai);
+                        if(uid == mid){
+                            var upais = $(".wo").text();
+                            var qi = $(".qi").text();
+                            upais = upais.split (" ");
+                            upais.push(qi);
+                            upais = qingkong(upais);
+                            upais.splice($.inArray(pai,upais),1);
+                            upais = sort_s(upais);
+                            $(".wo").text(upais);
+                        }
+                    }else {
+                        $(wzs[uid]+" .pp").append(' '+pai+" "+pai+" "+pai+" "+pai);
+                        if(uid == mid){
+                            var upais = $(".wo").text();
+                            var qi = $(".qi").text();
+                            upais = upais.split (" ");
+                            upais.push(qi);
+                            upais = qingkong(upais);
+                            upais.splice($.inArray(pai,upais),3);
+                            upais = sort_s(upais);
+                            $(".wo").text(upais);
+                        }
+                    }
+               //暗杠
+            }else  if(type==2){
+                   $(wzs[uid]+" .pp").append(' '+0+" "+0+" "+0+" "+0);
+                if(uid == mid){
+                    var upais = $(".wo").text();
+                    var qi = $(".qi").text();
+                    upais = upais.split (" ");
+                    upais.push(qi);
+                    upais = qingkong(upais);
+                    upais.splice($.inArray(pai,upais),4);
+                    upais = sort_s(upais);
+                    $(".wo").text(upais);
+                }
+            }else if(type==3){
+                   $(wzs[uid]+" .pp").append(' '+pai);
+                if(uid == mid){
+                    var upais = $(".wo").text();
+                    var qi = $(".qi").text();
+                    upais = upais.split (" ");
+                    upais.push(qi);
+                    upais = qingkong(upais);
+                    upais.splice($.inArray(pai,upais),1);
+                    console.log(upais);
+                    upais = sort_s(upais);
+                    $(".wo").text(upais);
+                }
+            }
+
+        }
+    }
+
+
+
+
+
+    /**
+     * 操作
+     *--------------------------------------------------------------------------------------------------
+     */
+    //入座
+   $(".zuo").click(function () {
+      var wz = $(this).attr('wz');
+      weizhi = wz;
+      var  data={
+             'mid':mid,
+              'room_id':room_id,
+               'weizhi':wz
+      }
+    send('RoomController','ruzuo',data);
+    $(".zuo").unbind('click');
+})
+
+    //离座
+    $("#lizuo").click(function () {
+        var wz = weizhi;
+        var  data={
+            'mid':mid,
+            'room_id':room_id,
+            'weizhi':wz
+        }
+        send('RoomController','lizuo',data);
+    })
+
+    //离开房间
+    $("#likai").click(function () {
+        ws.close();
+    })
+
+    //申请解散房间
+    $("#jiesan").click(function () {
+        var  data={
+            'mid':mid,
+            'room_id':room_id,
+            'status':1
+        }
+        send('RoomController','jiesan',data);
+    })
+
+    //发消息
+    $("#xiaoxi").click(function () {
+        var wz = weizhi;
+        var  data={
+            'mid':mid,
+            'room_id':room_id,
+            'type':1,
+            'msg':$("input[name='xiaoxi']").val()
+        }
+        send('RoomController','xiaoxi',data);
+    })
+
+    //测试
+    $("#test").click(function () {
+        var  data={
+             'room_id':room_id,
+             'zhuang':1007
+        }
+        send('GameController','test',data);
+    });
+
+   //吃
+    $('.chi div').on('click', '.chi2', function() {
+        var pais = $(this).text();
+        pais = pais.split (" ");
+        var  data={
+            'room_id':room_id,
+            'mid':mid,
+            'status':1,
+            'pai':$(this).attr('pai'),
+            'chi':pais
+        }
+        send('GameController','caozuo',data);
+        clearStatus();
+
+    });
+
+    //杠
+    $('.gang div').on('click', '.gang2', function() {
+        var pai = $(this).text();
+        var  data={
+            'room_id':room_id,
+            'mid':mid,
+            'status':3,
+            'pai':pai,
+            'chi':[]
+        }
+        send('GameController','caozuo',data);
+        clearStatus();
+    });
+
+
+    //打牌
+    $("#send").click(function () {
+        var pai = $("input[name='pai']").val();
+        var  data={
+            'room_id':room_id,
+            'mid':mid,
+            'pai':pai
+        }
+        send('GameController','dapai',data);
+    });
+
+    /**
+     * 封装的方法
+     *--------------------------------------------------------------------------------------------------
+     */
+function clearStatus(){
+        $(".chi div").slideUp();
+        $(".chi").css("background","#980000");
+        $(".peng").css("background","#980000");
+        $(".peng").unbind('click');
+        $(".gang").css("background","#980000");
+        $(".gang").unbind('click');
+        $(".guo").css("background","#980000");
+        $(".guo").unbind('click');
+        $(".hu").css("background","#980000");
+        $(".hu").unbind('click');
+    }
+    //箭头指向
+    function chu(a) {
+        if(a=='.y'){
+            $(".chu").text('→');
+        }
+        if(a=='.x'){
+            $(".chu").text('↓');
+        }
+        if(a=='.z'){
+            $(".chu").text('←');
+        }
+        if(a=='.s'){
+            $(".chu").text('↑');
+        }
+    }
+    //获取位置
+function  getWz(wz) {
+    if(wz=='b'){
+        return '.y';
+    }
+    if(wz=='n'){
+        return '.z';
+    }
+    if(wz=='d'){
+        return '.s';
+    }
+    if(wz=='x'){
+        return '.x';
+    }
+}
+   //根据自己获取其他人位置
+function getWz2(me,wz) {
+    if(me=='d'){
+        if(wz=='n'){
+            return '.y';
+        }
+        if(wz=='x'){
+            return '.s';
+        }
+        if(wz=='b'){
+            return '.z';
+        }
+            return '.x';
+    }
+    if(me=='b'){
+        if(wz=='n'){
+            return '.s';
+        }
+        if(wz=='x'){
+            return '.z';
+        }
+        if(wz=='d'){
+            return '.y';
+        }
+        return '.x';
+    }
+    if(me=='x'){
+        if(wz=='n'){
+            return '.z';
+        }
+        if(wz=='b'){
+            return '.y';
+        }
+        if(wz=='d'){
+            return '.s';
+        }
+        return '.x';
+    }
+    if(me=='n'){
+        if(wz=='d'){
+            return '.z';
+        }
+        if(wz=='b'){
+            return '.s ';
+        }
+        if(wz=='x'){
+            return '.y';
+        }
+        return '.x';
+    }
+
+}
+
+function sort_s(arr) {
+    arr = arr.sort(function(a,b){return a-b})
+    var arrr=[];
+    $.each(arr,function (k,v) {
+        if(v!="" && typeof(v) != "undefined"){
+            arrr.push(parseInt(v));
+        }
+    })
+        var arr2 = [];
+      $.each(arrr,function (k,v) {
+          var num= $.inArray(v,liang);
+        if( num != -1 || v==45) {
+            arr2.push(v);
+             var ks = arrr.indexOf(v);
+            delete arrr[ks]
+        }
+    })
+       arr2 = arr2.sort(function(a,b){return a-b});
+       pais = arrr.sort(function(a,b){return a-b});
+      $.each(pais, function (k,v) {
+            arr2.push(v);
+    })
+    var pai =arr2.join(' ');
+    return  pai;
+}
+function da(pais,da,qi) {
+    var array = pais.split (" ");
+    array.push(qi);
+    var ks = array.indexOf(da);
+    delete array[ks]
+    return array;
+}
+
+$("#copy").click(function () {
+    var Url2=document.getElementById("json");
+    Url2.select(); // 选择对象
+    document.execCommand("Copy");
+})
+
+function  send(controller,method,data) {
+    var a = {
+        'controller_name':controller,
+        'method_name':method,
+        'data':data
+    };
+    ws.send(JSON.stringify(a));
+}
+
+function qingkong(arr) {
+    var arrr=[];
+    $.each(arr,function (k,v) {
+        if(v!="" && typeof(v) != "undefined"){
+            arrr.push(parseInt(v));
+        }
+    })
+    return arrr;
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,4 @@
+eclipse.preferences.version=1
+org.eclipse.php.debug.core.xdebugDebuggerSettingsProvider=<settings><proxyEnable>false</proxyEnable><clientPort>9000</clientPort><ownerId>zend-studio-builtin-php</ownerId><proxyIdeKey>ECLIPSE_DBGP_xxx</proxyIdeKey><proxyAddress></proxyAddress></settings>
+org.eclipse.php.debug.core.zendExtendedDebuggerSettingsProvider=<settings><clientPort>10137</clientPort><ownerId>zend-studio-builtin-php</ownerId></settings>
+org.eclipse.php.debug.coredefaultPHP=Built-in PHP

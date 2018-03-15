@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<buildpath>
+	<buildpathentry external="true" kind="lib" path="/Users/ouyangshibo1/Desktop/帮助文档/sample&amp;sdk/dySms/php/api_sdk/Dysmsapi"/>
+	<buildpathentry kind="src" path=""/>
+	<buildpathentry kind="con" path="org.eclipse.php.core.LANGUAGE"/>
+	<buildpathentry external="true" kind="lib" path="/Users/ouyangshibo1/Desktop/帮助文档/sample&amp;sdk/dySms/php/api_sdk/aliyun-php-sdk-core"/>
+</buildpath>

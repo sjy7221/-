@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>.org.eclipse.dltk.core.external.folders</name>
+	<comment></comment>
+	<projects>
+	</projects>
+	<buildSpec>
+	</buildSpec>
+	<natures>
+	</natures>
+	<linkedResources>
+		<link>
+			<name>.link3</name>
+			<type>2</type>
+			<location>/Users/ouyangshibo1/Desktop/帮助文档/sample&amp;sdk/dySms/php/api_demo/alicom-dysms-api/.metadata/.plugins/org.eclipse.php.core/__language__/a2ec99b7</location>
+		</link>
+		<link>
+			<name>.link4</name>
+			<type>2</type>
+			<location>/Users/ouyangshibo1/Desktop/帮助文档/sample&amp;sdk/dySms/php/api_demo/alicom-dysms-api/.metadata/.plugins/com.zend.php.core/__language__/f52c861a</location>
+		</link>
+		<link>
+			<name>.link5</name>
+			<type>2</type>
+			<location>/Users/ouyangshibo1/Desktop/帮助文档/sample&amp;sdk/dySms/php/api_demo/alicom-dysms-api/.metadata/.plugins/com.zend.php.core/__language__/7927351f</location>
+		</link>
+	</linkedResources>
+</projectDescription>

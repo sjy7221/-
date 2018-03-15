@@ -1,0 +1,273 @@
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+font,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-weight: inherit;
+    font-style: inherit;
+    font-size: 100%;
+    /*font-family: inherit;*/
+    vertical-align: baseline;
+    /*height: 100%;*/
+}
+
+html {
+    font-family: PingFang SC, Helvetica Neue, Helvetica, Arial, Hiragino Sans GB, Microsoft Yahei, \5FAE\8F6F\96C5\9ED1, STHeiti, \534E\6587\7EC6\9ED1, sans-serif;
+    font-size: 14px;
+    background: #fff;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0)
+}
+
+html,
+body {
+    height: 100%;
+    width: 100%;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+img {
+    border: 0;
+    max-width: 100% !important;
+    vertical-align: middle;
+}
+
+address,
+caption,
+cite,
+code,
+dfn,
+i,
+em,
+strong,
+th,
+var {
+    font-weight: normal;
+    font-style: normal;
+}
+
+ol,
+ul {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover,
+a:focus {
+    outline: none;
+}
+
+caption,
+th {
+    text-align: left;
+    font-weight: normal;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: normal;
+    font-size: 100%;
+}
+
+q:before,
+q:after {
+    content: '';
+}
+
+abbr,
+acronym {
+    border: 0;
+}
+
+button,
+input,
+optgroup,
+select,
+textarea {
+    margin: 0;
+    font: inherit;
+    color: inherit;
+}
+
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box
+}
+
+:before,
+:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+input[type=search]::-webkit-search-cancel-button,
+input[type=search]::-webkit-search-decoration {
+    -webkit-appearance: none;
+}
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+nav,
+section,
+summary {
+    display: block;
+}
+
+
+/*去掉边框的默认聚焦样式*/
+
+button {
+    border: none;
+    outline: none;
+}
+
+input,
+textarea {
+    outline: none
+}
+
+
+/*默认a连接*/
+
+a,
+a:focus,
+a:hover {
+    color: #337ab7;
+}
+
+
+/* 清浮动*/
+
+.f-fl {
+    float: left;
+}
+
+.f-fr {
+    float: right;
+}
+
+.clearfix:after,
+.clearfix:before {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.clearfix {
+    *zoom: 1
+}
+
+
+/*额外的*/
+
+.navbar {
+    margin-bottom: 10px;
+    text-align: center;
+    font-size: 25px;
+    line-height: 50px;
+    background: #404040;
+    color: #fff;
+}
+
+.content .balance span {
+    display: inline-block;
+    width: 45%;
+}
+
+.content .balance span:nth-of-type(1) {
+    float: left;
+}
+
+.content .balance span:nth-of-type(2) {
+    float: right;
+}
+
+.content .balance {
+    border-bottom: 1px solid #000;
+    padding-right: 5px;
+    font-size: 16px;
+}
+.link{
+            margin: 5px 0;
+        }
+
+table{
+    margin-top: 20px;
+}
