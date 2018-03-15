@@ -207,7 +207,7 @@ class IndexController extends Controller
         if ($member->num < $fei) {
             return json_encode(['status' => 0, 'msg' => '钻石不足，请充值!']);
         }
-        
+
 
         //删除8分钟的空房间
         $rooms = DB::table('rooms')->where('status',0)->where('users',0)->get();
@@ -221,6 +221,7 @@ class IndexController extends Controller
         }
 
         $fang = $this->getNum();
+        var_dump($fang);die;
         $roomInfo = [
             'guize' => [
                 'room_id' => $fang,
