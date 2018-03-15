@@ -14,6 +14,53 @@ use Symfony\Component\HttpFoundation\ServerBag;
 
 class IndexController extends Controller
 {
+    //redis
+      public function test($room_id){
+        Redis::del($room_id);
+        for ($i=1;$i<=30;$i++){
+            Redis::sadd($room_id,$i.'_'.rand(111,222));
+        }
+        $re = Redis::Smembers($room_id);
+        dd($re);
+    }
+
+    public function all($room_id=0)
+    {
+        if(empty($room_id)){
+            dd(Redis::keys('*'));
+        }else{
+           $re =  Redis::Hgetall($room_id);
+           $a=[];
+           if(isset($re['roomInfo']) && !empty($re['roomInfo'])){
+               $a['roomInfo'] = unserialize($re['roomInfo']);
+           }
+            if(isset($re['gameInfo']) && !empty($re['gameInfo'])){
+                $a['gameInfo'] = unserialize($re['gameInfo']);
+            }
+            $aa  = Redis::Hgetall('uids_'.$room_id);
+            if($aa){
+                $a['users_status'] = $aa;
+            }
+            dd($a);
+        }
+    }
+
+    public function del($room_id=0)
+    {
+        Redis::del($room_id);
+        Redis::del('uids_'.$room_id);
+        Redis::del('jx_'.$room_id);
+        Redis::del('js_'.$room_id);
+        Redis::del('logs_'.$room_id);
+        DB::table('member')->where('room_id',$room_id)->delete();
+        DB::table('rooms')->where('room_id',$room_id)->delete();
+        echo '清除完成';
+    }
+
+    public function del_all(){
+       dd(Redis::flushdb());
+    }
+
 
 
 
@@ -253,6 +300,7 @@ class IndexController extends Controller
                 'mid' => $mid,
                 'room_id' => $fang,
             ]);
+            //1建房成功
             return json_encode(['status' => 1, 'data' => $fang]);
         } else {
             return json_encode(['status' => 0, 'msg' => '请稍后重试！']);

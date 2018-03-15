@@ -22,6 +22,12 @@ Route::any('api/login','Api\IndexController@login');
 /**
  * 游客登入
  */
+// redis 
+    Route::any('redis/{room_id?}','Api\IndexController@all');
+    Route::any('redis/{room_id}/del','Api\IndexController@del');
+    Route::any('redis_delAll','Api\IndexController@del_all');
+
+    
 Route::any('api/youke','Api\IndexController@youke');
 Route::group(['prefix'=>'api','namespace'=>'Api','middleware'=>['appApi']], function() {
 
@@ -88,5 +94,6 @@ Route::group(['prefix'=>'api','namespace'=>'Api','middleware'=>['appApi']], func
     Route::any('goods','IndexController@goods');
 
     Route::any('pay','IndexController@pay');
+
 
 });
