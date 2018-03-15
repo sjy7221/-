@@ -24,8 +24,8 @@ class RoomController extends Controller
         $this->AppModel = $this->loader->model('AppModel', $this);
     }
 
-   public function jinru()
-   {
+   // public function jinru()
+   // {
         
-   }
+   // }
 }
