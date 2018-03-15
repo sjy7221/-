@@ -16,7 +16,7 @@ define('LARAVEL_START', microtime(true));
 
 require __DIR__.'/../vendor/autoload.php';
 require __DIR__.'/../vendor/function.php';
-require __DIR__.'/../vendor/suanfa.php';
+// require __DIR__.'/../vendor/suanfa.php';
 /*
 |--------------------------------------------------------------------------
 | Include The Compiled Class File
