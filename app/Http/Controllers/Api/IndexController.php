@@ -230,7 +230,7 @@ class IndexController extends Controller
      */
     public function create_pdk()
     {
-     echo 1;die;
+   
         $mid = Input::get('mid');//用户ID
     
         $jushu = Input::get('jushu'); //局数 10/20？砖石1个、2
@@ -249,6 +249,7 @@ class IndexController extends Controller
         }else{
             $fei = 2;
         }
+          echo 1;die;
         //查询是否有房卡
         $member = DB::table('member')->where('id', $mid)->first();
         if ($member->num < $fei) {
