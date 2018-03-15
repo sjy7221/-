@@ -9,7 +9,7 @@
 /**
  * 服务器设置
  */
-$config['name'] = 'SWD';
+$config['name'] = 'paodekuai';
 $config['server']['send_use_task_num'] = 500;
 $config['server']['set'] = [
     'log_file' => LOG_DIR."/swoole.log",
