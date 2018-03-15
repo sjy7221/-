@@ -27,7 +27,7 @@ Route::group(['prefix'=>'api','namespace'=>'Api','middleware'=>['appApi']], func
 
     /**口口翻创建房间
      */
-    Route::any('create','IndexController@create');
+    Route::any('create_pdk','IndexController@create_pdk');
     /**口口翻进入房间
      */
     Route::any('join','IndexController@join');
@@ -35,7 +35,7 @@ Route::group(['prefix'=>'api','namespace'=>'Api','middleware'=>['appApi']], func
     /**
      * 卡五星创建房间
      */
-    Route::any('create_kwx','IndexController@create_kwx');
+    // Route::any('create_pdk','IndexController@create_pdk');
 
     /**
      * 卡五星进入房间

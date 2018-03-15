@@ -181,8 +181,9 @@ class IndexController extends Controller
     /**
      *创建房间
      */
-    public function create()
+    public function create_pdk()
     {
+        echo 111;die;
         $mid = Input::get('mid');
         $difen = Input::get('difen');
         $jushu = Input::get('jushu');
