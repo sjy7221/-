@@ -29,7 +29,7 @@ use Server\CoreBase\PortManager;
 $config['ports'][] = [
     'socket_type' => PortManager::SOCK_WS,
     'socket_name' => '0.0.0.0',
-    'socket_port' => 9541,
+    'socket_port' => 9542,
     'route_tool' => 'NormalRoute',
     'pack_tool' => 'NonJsonPack',
     'opcode' => PortManager::WEBSOCKET_OPCODE_TEXT,
