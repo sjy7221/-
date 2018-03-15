@@ -184,13 +184,14 @@ class IndexController extends Controller
     public function create_pdk()
     {
         echo 111;die;
-        $mid = Input::get('mid');
-        $difen = Input::get('difen');
-        $jushu = Input::get('jushu');
-        $fangfei = Input::get('fangfei');
-        $suanfa = Input::get('suanfa');
+        $mid = Input::get('mid');//用户ID
+      
+        $jushu = Input::get('jushu'); //局数 10/20？
+        $fangfei = Input::get('fangfei');//钻石
+        $renshu = Input::get('renshu');//人数
+        $suanfa = Input::get('suanfa');//31为黑桃3 102//红桃十 //xianshi
         $suanfa = explode(',',$suanfa);
-
+        var_dump($suanfa);die;
         $roo = DB::table('member')->where('id',$mid)->value('room_id');
         if($roo){
             return json_encode(['status' => 1, 'data' => $roo]);
