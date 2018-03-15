@@ -26,6 +26,6 @@ class RoomController extends Controller
 
    public function jinru()
    {
-    print_r($this->client_data->data);
+        
    }
 }
