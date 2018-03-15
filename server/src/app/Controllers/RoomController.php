@@ -11,7 +11,7 @@ use Server\CoreBase\Controller;
  * Date: 16-7-15
  * Time: 下午3:51
  */
-class AppController extends Controller
+class RoomController extends Controller
 {
     /**
      * @var AppModel
