@@ -103,11 +103,11 @@ class RoomController extends Controller
             }
             sort($pais[$i]);
             foreach ($users as $key => $v) {
-                $v['pai'] = array_push($pais[$i]) ;
+               var_dump($v);
             }
         }
        
-       var_dump($users);
+      
       
 
        
