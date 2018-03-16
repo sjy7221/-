@@ -31,8 +31,7 @@ class RoomController extends Controller
         $this->mid = $this->data->mid;
         $this->room_id = $this->data->room_id;
         $res =  yield $this->CommModel->exit($this->data);//判断传过来的类型;
-        echo $this->CommModel;
-        echo $res;
+      
        if($res){
              $this->send('nonono,数据错误',false);
             $this->close();

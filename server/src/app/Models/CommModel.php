@@ -13,9 +13,7 @@ use Server\CoreBase\Model;
 
 class CommModel extends Model
 {
-	public function __construct(){
-		return 11;
-	}
+
     public function exit($data)
     {
        if(empty($data->mid) || empty($data->room_id)){
