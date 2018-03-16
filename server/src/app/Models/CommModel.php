@@ -26,6 +26,12 @@ class CommModel extends Model
     }
     public function jinru($mid,$room_id,$roominfo)
     {
+    	
+    	 if (in_array($mid, $roomInfo['weizhi'])){
+    	 	$i = 1;
+    	 }else{
+    	 	 $roominfo['weizhi'][] = $mid;
+    	 }
     	  $member = yield $this->mysql_pool->dbQueryBuilder
                 ->select('headimgurl')
                 ->select('nickname')
@@ -40,7 +46,7 @@ class CommModel extends Model
            }
            $member = $member['result'][0];
            //新玩家加入weihzi
-           $roominfo['weizhi'][] = $mid;
+      
                  $roominfo['users'][$mid] = [
                 'id' => $mid,
                 'headimgurl' => $member['headimgurl'],
