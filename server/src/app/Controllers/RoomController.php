@@ -26,11 +26,11 @@ class RoomController extends Controller
         $this->data = $this->client_data->data;
       $res =  yield $this->CommModel->exit($this->data);//判断传过来的类型;
       var_dump($res);
-      if($res){
-            $this->send('nonono,数据错误',false);
-           $this->close();
-            return;
-      }
+      // if($res){
+      //       $this->send('nonono,数据错误',false);
+      //      $this->close();
+      //       return;
+      // }
     }
 
     public function jinru()
