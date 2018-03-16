@@ -31,7 +31,7 @@ class RoomController extends Controller
         $this->mid = $this->data->mid;
         $this->room_id = $this->data->room_id;
         $res =  yield $this->CommModel->exit($this->data);//判断传过来的类型;
-      
+
        if($res){
              $this->send('nonono,数据错误',false);
             $this->close();
@@ -62,6 +62,9 @@ class RoomController extends Controller
             $this->close();
             return;
         }
+        //模型处理数据
+        $re = yield $this->CommModel->jinru($this->mid, $this->room_id, $this->roomInfo);
+       var_dump($re);
 
     }
 }
