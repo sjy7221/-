@@ -97,13 +97,13 @@ class RoomController extends Controller
         $users  = $this->roomInfo['users'];
         for($i = 0;$i<$renshu;$i++){
             for($j=0;$j<$numb;$j++){
-              $users['users'][$users['weizhi'][$i]]['pai'] = array_pop($pai);
+              $users['users']["$users['weizhi'][$i]"]['pai'] = array_pop($pai);
             }
             sort( $users['users'][$users['weizhi'][$i]]['pai']);
 
         }
  
-        var_dump($users['users'][$users['weizhi'][2]]['pai']);
+        var_dump($users['users']["$users['weizhi'][2]"]['pai']);
        
     }
 }
