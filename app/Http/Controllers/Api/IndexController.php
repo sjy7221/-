@@ -214,6 +214,24 @@ class IndexController extends Controller
     /**
      * 游戏记录
      */
-
+    /**
+     *  房间号剔除重复
+     */
+    public function getNum()
+    {
+        while (true) {
+            $num = rand(100000, 999999);
+            if (Redis::exists($num)) {
+                continue;
+            } else {
+                $re = DB::table('rooms')->where('room_id',$num)->first();
+                if(!$re){
+                    return $num;
+                }else{
+                    continue;
+                }
+            }
+        }
+    }
 
 }
