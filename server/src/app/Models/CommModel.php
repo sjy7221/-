@@ -40,8 +40,8 @@ class CommModel extends Model
            }
            $member = $member['result'][0];
            //新玩家加入weihzi
-            $roomInfo['weizhi'][] = $mid;
-                 $roomInfo['users'][$mid] = [
+           $roominfo['weizhi'][] = $mid;
+                 $roominfo['users'][$mid] = [
                 'id' => $mid,
                 'headimgurl' => $member['headimgurl'],
                 'nickname' => $member['nickname'],
@@ -56,7 +56,7 @@ class CommModel extends Model
                 ->where('id', $mid)
                 ->coroutineSend();
             yield $this->redis_pool->getCoroutine()->hset('uids_'.$this->room_id,$this->mid,1);
-            if(count($roominfo['users']) ==  $roomInfo['guize']['renshu']){
+            if(count($roominfo['users']) ==  $roominfo['guize']['renshu']){
             	  yield $this->mysql_pool->dbQueryBuilder
                 ->update('gs_rooms')
                 ->set('status',1)
@@ -67,7 +67,7 @@ class CommModel extends Model
             	$game_start = 0;
             }
 
-            yield $this->redis_pool->hset($room_id, 'roomInfo', serialize($roomInfo));
-             return [ 'game_start' => $game_start, 'roomInfo' => $roomInfo];
+            yield $this->redis_pool->hset($room_id, 'roomInfo', serialize($roominfo));
+             return [ 'game_start' => $game_start, 'roomInfo' => $roominfo];
     }
 }
