@@ -54,7 +54,7 @@ class RoomController extends Controller
 
     public function jinru()
     {
-
+        echo "【jinru】".$this->data;
       if ($this->is_destroy) {
             return;
         }
@@ -64,7 +64,7 @@ class RoomController extends Controller
             $this->close();
             return;
         }
-  
+
         //模型处理数据
         $re = yield $this->CommModel->jinru($this->mid, $this->room_id, $this->roomInfo);
        
