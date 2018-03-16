@@ -29,7 +29,7 @@ class CommModel extends Model
     	
     	 if (in_array($mid, $roomInfo['weizhi'])){
     	 	$i = 1;
-    	 }else{
+    	 }else{ 
     	 	 $member = yield $this->mysql_pool->dbQueryBuilder
                 ->select('headimgurl')
                 ->select('nickname')
