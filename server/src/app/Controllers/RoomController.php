@@ -22,7 +22,7 @@ class RoomController extends Controller
     {
         parent::initialization($controller_name, $method_name);
         $this->AppModel = $this->loader->model('AppModel', $this);
-      print_r($controller.'/'.$method_name.':数据为'. $this->client_data->data);
+      var_dump($controller.'/'.$method_name.':数据为'. $this->client_data->data);
     }
 
     public function jinru()
