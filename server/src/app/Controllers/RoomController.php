@@ -112,7 +112,7 @@ class RoomController extends Controller
            $v['pai'] = $pais[$o] ;
         }
         
-        var_dump($pais[$o]);
+        var_dump($pais);
        
     }
 }
