@@ -79,13 +79,13 @@ class RoomController extends Controller
          $this->roomInfo = $re['roomInfo'];
         
         $this->sendToUids($this->uids,['game_go','游戏开始'],false);
-        $this->fapai($re['roomInfo']['guize']['renshu']);
+        $this->fapai($re['roomInfo']['guize']['renshu'],$re['roomInfo']);
        }
        $this->destroy();
 
     }
 
-    public function fapai($renshu)
+    public function fapai($renshu,$users)
     {
   
 
@@ -93,8 +93,6 @@ class RoomController extends Controller
         shuffle($pai);
 
         $numb = count($pai)/$renshu;
-     
-        $users  = $this->roomInfo['users'];
         $weizhi = $users['weizhi'];
         for($i = 0;$i<$renshu;$i++){
             for($j=0;$j<$numb;$j++){
