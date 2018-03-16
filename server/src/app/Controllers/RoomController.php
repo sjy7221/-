@@ -67,7 +67,7 @@ class RoomController extends Controller
 
         //模型处理数据
         $re = yield $this->CommModel->jinru($this->mid, $this->room_id, $this->roomInfo);
-       var_dump($re);
+
        if(!$re['game_start']){
          $data = [
             'route'=>'jinru',

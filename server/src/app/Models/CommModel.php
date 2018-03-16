@@ -27,7 +27,7 @@ class CommModel extends Model
     public function jinru($mid,$room_id,$roominfo)
     {
     	
-    	 if (in_array($mid, $roomInfo['weizhi']) || isset($array[$key])
+    	 if (in_array($mid, $roominfo['weizhi']))
 ){
     	 	$i = 1;
     	 }else{ 
