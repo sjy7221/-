@@ -30,9 +30,7 @@ class CommModel extends Model
     	 if (in_array($mid, $roomInfo['weizhi'])){
     	 	$i = 1;
     	 }else{
-    	 	 $roominfo['weizhi'][] = $mid;
-    	 }
-    	  $member = yield $this->mysql_pool->dbQueryBuilder
+    	 	 $member = yield $this->mysql_pool->dbQueryBuilder
                 ->select('headimgurl')
                 ->select('nickname')
                 ->select('num')
@@ -46,7 +44,7 @@ class CommModel extends Model
            }
            $member = $member['result'][0];
            //新玩家加入weihzi
-      
+           $roominfo['weizhi'][] = $mid;
                  $roominfo['users'][$mid] = [
                 'id' => $mid,
                 'headimgurl' => $member['headimgurl'],
@@ -62,6 +60,8 @@ class CommModel extends Model
                 ->where('id', $mid)
                 ->coroutineSend();
             yield $this->redis_pool->getCoroutine()->hset('uids_'.$room_id,$mid,1);
+    	 }
+    	 
             if(count($roominfo['users']) ==  $roominfo['guize']['renshu']){
             	  yield $this->mysql_pool->dbQueryBuilder
                 ->update('gs_rooms')
