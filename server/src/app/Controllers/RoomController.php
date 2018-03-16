@@ -100,7 +100,7 @@ class RoomController extends Controller
             for($j=0;$j<$numb;$j++){
               $users['users'][$weizhi][$i]['pai'] = array_pop($pai);
             }
-            sort( $users['users'][$weizhi][$i]]['pai']);
+            sort( $users['users'][$weizhi][$i]['pai']);
 
         }
  
