@@ -22,11 +22,11 @@ class RoomController extends Controller
     {
         parent::initialization($controller_name, $method_name);
         $this->AppModel = $this->loader->model('AppModel', $this);
-   print_r("RoomController/{$method_name} 数据:", $this->client_data->data);
+        echo 11111111;
     }
 
     public function jinru()
     {
-    echo 1;
+     echo 1;
     }
 }
