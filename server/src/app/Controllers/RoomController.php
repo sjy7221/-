@@ -93,16 +93,17 @@ class RoomController extends Controller
         shuffle($pai);
 
         $numb = count($pai)/$renshu;
-        $pais = [];
-
+     
+        $users  = $this->roomInfo['users'];
         for($i = 0;$i<$renshu;$i++){
             for($j=0;$j<$numb;$j++){
-               $pais[$i][] =  array_pop($pai);
+              $users['users'][$users['weizhi'][$i]]['pai'] = array_pop($pai);
             }
-            sort($pais[$i]);
+            sort( $users['users'][$users['weizhi'][$i]]['pai']);
+
         }
-      var_dump ($this->roomInfo['users']);
-      
+ 
+        var_dump($users['users'][$users['weizhi'][2]]['pai']);
        
     }
 }
