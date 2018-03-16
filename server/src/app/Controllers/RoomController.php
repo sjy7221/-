@@ -109,10 +109,10 @@ class RoomController extends Controller
         $o = 0;
         foreach ($users as $v) {
             $o++;
-            var_dump($v);
+           $v['pai'] = $pais[$o] ;
         }
         
-        
+        var_dump($users);
        
     }
 }
