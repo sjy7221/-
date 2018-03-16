@@ -87,6 +87,6 @@ class RoomController extends Controller
 
     public function game()
     {
-        $room_id
+       echo 1;
     }
 }
