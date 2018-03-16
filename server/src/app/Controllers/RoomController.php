@@ -20,7 +20,7 @@ class RoomController extends Controller
     public $data; // 传过来数据
     public $mid; //传过来的id
     public $room_id;//传过来的房间号
-    public $roomInfo；//房间信息
+    public $roomInfo;//房间信息
 
     protected function initialization($controller_name,$method_name)
     {
