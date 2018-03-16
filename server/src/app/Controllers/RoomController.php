@@ -76,14 +76,17 @@ class RoomController extends Controller
          $this->sendToUids($this->uids, $data, false);
 
        }else{
-         
+         $this->roomInfo = $re['roomInfo'];
+         var_dump($this->roomInfo);
         $this->sendToUids($this->uids,['game_go','游戏开始'],false);
+        $this->game();
        }
+       $this->destroy();
 
     }
 
     public function game()
     {
-
+        $room_id
     }
 }
