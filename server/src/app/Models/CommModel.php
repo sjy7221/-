@@ -55,7 +55,7 @@ class CommModel extends Model
                 ->set('room_id', $room_id)
                 ->where('id', $mid)
                 ->coroutineSend();
-            if(count($roominfo['users']) == == $roomInfo['guize']['renshu']){
+            if(count($roominfo['users']) ==  $roomInfo['guize']['renshu']){
             	  yield $this->mysql_pool->dbQueryBuilder
                 ->update('gs_rooms')
                 ->set('status',1)
