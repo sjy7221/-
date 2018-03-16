@@ -62,7 +62,7 @@ class RoomController extends Controller
           if (!in_array($this->mid,$this->uids)  && count($this->uids) >= $this->roomInfo['guize']['renshu']) {
             $this->send('人数已满', false);
             $this->close();
-            return;
+            return '空';
         }
 
         //模型处理数据

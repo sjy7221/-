@@ -27,8 +27,7 @@ class CommModel extends Model
     public function jinru($mid,$room_id,$roominfo)
     {
     	
-    	 if (in_array($mid, $roominfo['weizhi']))
-){
+    	 if (in_array($mid, $roominfo['weizhi'])){
     	 	$i = 1;
     	 }else{ 
     	 	 $member = yield $this->mysql_pool->dbQueryBuilder
