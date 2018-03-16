@@ -15,6 +15,6 @@ class CommModel extends Model
 {
     public function exit($data)
     {
-        return 123456;
+       return $data;
     }
 }
