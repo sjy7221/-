@@ -54,11 +54,11 @@ class RoomController extends Controller
 
     public function jinru()
     {
-        var_dump($this->roomInfo);
+
       if ($this->is_destroy) {
             return;
         }
-        var_dump($this->uids);
+ 
           if (!in_array($this->mid,$this->uids)  && count($this->uids) >= $this->roomInfo['guize']['renshu']) {
             $this->send('人数已满', false);
             $this->close();
