@@ -110,9 +110,9 @@ class RoomController extends Controller
         foreach ($users as $v) {
 
                    $o++;
-            array_push($v,$pais[$o]) ;
+           $v['pai'] = $pais[$o];
         }
-        
+        echo $o;
         var_dump($users);
        
     }
