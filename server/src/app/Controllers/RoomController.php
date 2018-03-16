@@ -101,7 +101,7 @@ class RoomController extends Controller
             }
             sort($pais[$i]);
         }
-      var_dump ($this->roomInfo);
+      var_dump ($this->roomInfo['users']);
       
        
     }
