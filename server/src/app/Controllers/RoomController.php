@@ -16,13 +16,21 @@ class RoomController extends Controller
     /**
      * @var AppModel
      */
-    public $AppModel;
+    public $CommModel;
+    public $data; // 传过来数据
 
     protected function initialization($controller_name, $method_name)
     {
         parent::initialization($controller_name, $method_name);
-        $this->AppModel = $this->loader->model('AppModel', $this);
-      echo ($controller.'/'.$method_name.':数据为'. $this->client_data->data);
+        $this->CommModel = $this->loader->model('CommModel', $this);
+        $this->data = $this->client_data->data;
+      $res =  yield $this->CommModel->exit($this->data);//判断传过来的类型;
+      var_dump($res);
+      if($res){
+            $this->send('nonono,数据错误',false);
+           $this->close();
+            return;
+      }
     }
 
     public function jinru()
