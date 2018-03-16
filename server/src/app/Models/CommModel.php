@@ -36,7 +36,7 @@ class CommModel extends Model
                 ->from('gs_member')
                 ->coroutineSend();
            if(empty($member)){
-           		return false;
+           		return false; 
            }
            $member = $member['result'][0];
            //新玩家加入weihzi
