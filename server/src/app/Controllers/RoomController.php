@@ -109,10 +109,10 @@ class RoomController extends Controller
         $o = 0;
         foreach ($users as $v) {
             $o++;
-            
+            var_dump($v);
         }
         
-        var_dump($o);
+        
        
     }
 }
