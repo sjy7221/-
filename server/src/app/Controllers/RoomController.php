@@ -64,6 +64,7 @@ class RoomController extends Controller
             $this->close();
             return;
         }
+        $this->send($this->mid,$this->roomInfo);
         //模型处理数据
         $re = yield $this->CommModel->jinru($this->mid, $this->room_id, $this->roomInfo);
        
