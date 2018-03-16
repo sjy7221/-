@@ -113,7 +113,7 @@ class RoomController extends Controller
                    $o++;
            $roominfo['users'][$k]['pai'] = $pais[$o];
         }
-        
-       var_dump($roominfo);
+       var_dump($this->uids);
+       
     }
 }
