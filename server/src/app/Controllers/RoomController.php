@@ -93,10 +93,10 @@ class RoomController extends Controller
         $pai = [31,32,33,34,41,42,43,44,51,52,53,54,61,62,63,64,71,72,73,74,81,82,83,84,91,92,93,94,101,102,103,104,111,112,113,114,121,122,123,124,131,132,133,134,141,142,143,160];
         shuffle($pai);
 
-        $numb = count($pai)/$people;
+        $numb = count($pai)/$renshu;
         $pais = [];
 
-        for($i = 0;$i<$people;$i++){
+        for($i = 0;$i<$renshu;$i++){
             for($j=0;$j<$numb;$j++){
                $pais[$i][] =  array_pop($pai);
             }
