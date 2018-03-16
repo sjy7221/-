@@ -54,10 +54,11 @@ class RoomController extends Controller
 
     public function jinru()
     {
+        var_dump($this->roomInfo);
       if ($this->is_destroy) {
             return;
         }
-        var_dump($this->roomInfo['guize']);
+        var_dump($this->uids);
           if (!in_array($this->mid,$this->uids)  && count($this->uids) >= $this->roomInfo['guize']['renshu']) {
             $this->send('人数已满', false);
             $this->close();
@@ -65,7 +66,23 @@ class RoomController extends Controller
         }
         //模型处理数据
         $re = yield $this->CommModel->jinru($this->mid, $this->room_id, $this->roomInfo);
-       var_dump($re);
+       
+       if($re['status']){
+         $data = [
+            'route'=>'jinru',
+            'roomInfo'=>$re['roomInfo']
+        ];
+         $this->sendToUids($this->uids, $data, false);
+
+       }else{
+         
+        $this->sendToUids($this->uids,['game_go','游戏开始'],false);
+       }
+
+    }
+
+    public function game()
+    {
 
     }
 }

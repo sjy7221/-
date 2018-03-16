@@ -55,6 +55,7 @@ class CommModel extends Model
                 ->set('room_id', $room_id)
                 ->where('id', $mid)
                 ->coroutineSend();
+            yield $this->redis_pool->getCoroutine()->hset('uids_'.$this->room_id,$this->mid,1);
             if(count($roominfo['users']) ==  $roomInfo['guize']['renshu']){
             	  yield $this->mysql_pool->dbQueryBuilder
                 ->update('gs_rooms')
