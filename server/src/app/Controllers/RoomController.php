@@ -114,6 +114,6 @@ class RoomController extends Controller
            $roominfo['users'][$k]['pai'] = $pais[$o];
         }
         
-       
+       var_dump($roominfo);
     }
 }
