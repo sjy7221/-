@@ -22,7 +22,7 @@ class RoomController extends Controller
     public $room_id;//传过来的房间号
     public $roomInfo；//房间信息
 
-    protected function initialization($controller_name, $method_name)
+    public function initialization($controller_name,$method_name)
     {
         parent::initialization($controller_name, $method_name);
         $this->CommModel = $this->loader->model('CommModel', $this);
@@ -38,7 +38,7 @@ class RoomController extends Controller
             return;
          }
           $room = yield $this->redis_pool->getCoroutine()->hgetall($this->room_id);
-           if (isset($room['roomInfo']) && $room['roomInfo']) {
+           if (isset($room['roomInfo']) && $room['roomInfo']){
             $this->roomInfo = unserialize($room['roomInfo']);
         } else {
             $this->send('找不到房间信息'), false);
