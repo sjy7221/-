@@ -51,8 +51,8 @@ class CommModel extends Model
                 'nickname' => $member['nickname'],
                 'num' => $member['num'],
                 'ip' => $member['ip'],
-                'sex'=>$member['sex']
-            
+                'sex'=>$member['sex'],
+              	'pai'=>[]
             ];
            yield $this->mysql_pool->dbQueryBuilder
                 ->update('gs_member')
