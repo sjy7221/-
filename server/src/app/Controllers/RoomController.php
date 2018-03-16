@@ -96,15 +96,18 @@ class RoomController extends Controller
 
         $numb = count($pai)/$renshu;
         $pais = [];
-
+        $users = $this->roomInfo['users'];
         for($i = 0;$i<$renshu;$i++){
             for($j=0;$j<$numb;$j++){
                $pais[$i][] =  array_pop($pai);
             }
             sort($pais[$i]);
+            foreach ($users as $key => $v) {
+                $v['pai'] = $pais[$i] ;
+            }
         }
-       var_dump ($pais);
        
+       var_dump($users);
       
 
        
