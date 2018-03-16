@@ -22,7 +22,7 @@ class RoomController extends Controller
     {
         parent::initialization($controller_name, $method_name);
         $this->AppModel = $this->loader->model('AppModel', $this);
-        echo 11111111;
+       var_dump($controller_name);
     }
 
     public function jinru()
