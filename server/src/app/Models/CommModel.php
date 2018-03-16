@@ -13,8 +13,17 @@ use Server\CoreBase\Model;
 
 class CommModel extends Model
 {
+	public function __construct(){
+		return 11;
+	}
     public function exit($data)
     {
-       return $data;
+       if(empty($data->mid) || empty($data->room_id)){
+       	return true;
+       }
+       if (!yield $this->redis_pool->EXISTS($data->room_id)) {
+            return true;
+        }
+        return false;
     }
 }
