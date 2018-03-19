@@ -105,7 +105,7 @@ class RoomController extends Controller
 
         $numb = count($pai)/$renshu;
         $pais = [];
-       $userInfo =  $this->userInfo;
+       $gameInfo =  $this->gameInfo;
  
         for($i = 0;$i<$renshu;$i++){
             for($j=0;$j<$numb;$j++){
@@ -117,12 +117,12 @@ class RoomController extends Controller
        
             $o = -1;
 
-        foreach ( $userInfo['users'] as $k=>$v) {
+        foreach ( $gameInfo['users'] as $k=>$v) {
 
                    $o++;
-           $userInfo['users'][$k]['pai'] = $pais[$o];
+           $gameInfo['users'][$k]['shoupai'] = $pais[$o];
         }
-       var_dump($userInfo['users']);
+       var_dump($gameInfo['users']);
        
     }
 }
