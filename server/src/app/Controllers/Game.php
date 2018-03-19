@@ -1,29 +1,29 @@
 <?php
 class Game{
 
-    public function pai($people)
-    {
+    // public function pai($people)
+    // {
  
-        //开局人数
-        if($people == 2 || $people == 3){
+    //     //开局人数
+    //     if($people == 2 || $people == 3){
 
-        $pai = [31,32,33,34,41,42,43,44,51,52,53,54,61,62,63,64,71,72,73,74,81,82,83,84,91,92,93,94,101,102,103,104,111,112,113,114,121,122,123,124,131,132,133,134,141,142,143,160];
-        shuffle($pai);
+    //     $pai = [31,32,33,34,41,42,43,44,51,52,53,54,61,62,63,64,71,72,73,74,81,82,83,84,91,92,93,94,101,102,103,104,111,112,113,114,121,122,123,124,131,132,133,134,141,142,143,160];
+    //     shuffle($pai);
 
-        $numb = count($pai)/$people;
-        $pais = [];
+    //     $numb = count($pai)/$people;
+    //     $pais = [];
 
-        for($i = 0;$i<$people;$i++){
-            for($j=0;$j<$numb;$j++){
-               $pais[$i][] =  array_pop($pai);
-            }
-            sort($pais[$i]);
-        }
-        return $pais;
-        }
+    //     for($i = 0;$i<$people;$i++){
+    //         for($j=0;$j<$numb;$j++){
+    //            $pais[$i][] =  array_pop($pai);
+    //         }
+    //         sort($pais[$i]);
+    //     }
+    //     return $pais;
+    //     }
        
       
-    }   
+    // }   
     //单
     public function dan($pai)
     {
@@ -333,23 +333,6 @@ class Game{
 
 }
 
-$game = new Game();
- 
 
-// var_dump($v);die;
-   $pai = $_POST['pai'];
-
-// $game->zhadan($pai);
-// die;
-
-if(count($pai)== 1){
-    $game->dan($pai);
-}elseif(count($pai) == 2){
-    $game->duizi($pai);
-}elseif(count($pai) == 3){
-    $game->hou3($pai);
-}elseif(count($pai)>=4){
-   
-         $game->liandui($pai); 
 
 }
