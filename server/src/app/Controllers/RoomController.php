@@ -4,7 +4,7 @@ namespace app\Controllers;
 
 use app\Models\AppModel;
 use Server\CoreBase\Controller;
-
+// include_once ''
 /**
  * Created by PhpStorm.
  * User: zhangjincheng
@@ -175,4 +175,31 @@ class RoomController extends Controller
           }
           $this->destroy();
     }
+    public function dachu()
+    {
+        // $dachu =   $this->data->dachu;
+        $basedir = dirname(__FILE__); 
+        echo $basedir;
+    }
+
+
+
+    //离开
+    public function exit()
+    {
+         if ($this->is_destroy) {
+            return;
+        }
+        //模型处理数据
+        $re = yield $this->CommModel->likai($this->mid, $this->room_id, $this->roomInfo);
+        if($re){
+            $re['likai'] = $this->mid;
+            $this->sendToUids($this->uids, reData('likai',$re), false);
+            //解绑房间信息
+            yield $this->redis_pool->getCoroutine()->HDEL('uids_'.$this->room_id,$this->mid);
+        }
+        $this->destroy();
+    }
+
+
 }
