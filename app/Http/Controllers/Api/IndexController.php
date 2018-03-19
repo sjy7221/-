@@ -41,7 +41,7 @@ class IndexController extends Controller
             if($aa){
                 $a['users_status'] = $aa;
             }
-            dd($a);
+            dd($aa);
         }
     }
 
