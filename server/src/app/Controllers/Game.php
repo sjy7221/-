@@ -1,4 +1,5 @@
 <?php
+namespace app\Controllers;
 class Game{
 
     // public function pai($people)
@@ -331,7 +332,7 @@ class Game{
             return $numb;
     }
 
-}
+
 
 
 

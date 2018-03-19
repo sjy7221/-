@@ -4,7 +4,7 @@ namespace app\Controllers;
 
 use app\Models\AppModel;
 use Server\CoreBase\Controller;
- include_once './Game.php';
+use Game;
 /**
  * Created by PhpStorm.
  * User: zhangjincheng
