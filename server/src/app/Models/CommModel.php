@@ -28,7 +28,7 @@ class CommModel extends Model
     {
     	var_dump($mid);
     	 if (in_array($mid, $roominfo['weizhi'])){
-    	 	$i = 1;
+    	 	return false;
     	 }else{ 
     	 	 $member = yield $this->mysql_pool->dbQueryBuilder
                 ->select('headimgurl')
@@ -60,7 +60,7 @@ class CommModel extends Model
                 ->where('id', $mid)
                 ->coroutineSend();
             yield $this->redis_pool->getCoroutine()->hset('uids_'.$room_id,$mid,1);
-            yield $this->redis_pool->getCoroutine()->hset($room_id,'userInfo'=>$userinfo);
+            // yield $this->redis_pool->getCoroutine()->hset($room_id,'userInfo'=>$userinfo);
     	 }
     	 
             if(count($userinfo['users']) ==  $roominfo['guize']['renshu']){
