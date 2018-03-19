@@ -156,7 +156,7 @@ class RoomController extends Controller
   
           yield $this->redis_pool->hset($roomid, 'roomInfo', serialize($roomInfo),'gameInfo',serialize($gameInfo));
 
-          foreach($gameInfo['users'] as $users => $u){
+          foreach($gameInfo['users'] as $us => $u){
 
             $data = [
                 'route'=>'fapai',
@@ -166,7 +166,8 @@ class RoomController extends Controller
                 'pai'=>$u['shoupai']
                 
         ];
-            $this->sendToUid($users,$data);
+        var_dump($us);
+            // $this->sendToUid($us,$data);
           }
 
     }
