@@ -46,7 +46,7 @@ class RoomController extends Controller
             return;
         }
           //获取房间所有人
-        $this->uids = yield $this->redis_pool->getCoroutine()->hkeys('uids_' . $this->room_id); 
+        $this->uids = yield $this->redis_pool->getCoroutine()->hkeys('uids_' . $this->room_id,); 
         if(!$this->uid){
             $this->bindUid($this->mid);
         }
@@ -58,7 +58,7 @@ class RoomController extends Controller
       if ($this->is_destroy) {
             return;
         }
-    var_dump($this->$this->uids);
+    var_dump($this->uids);
           if (!in_array($this->mid,$this->uids)  && count($this->uids) >= $this->roomInfo['guize']['renshu']) {
             $this->send('人数已满', false);
             $this->close();
