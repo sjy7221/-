@@ -4,7 +4,7 @@ namespace app\Controllers;
 
 use app\Models\AppModel;
 use Server\CoreBase\Controller;
-
+use Game
 /**
  * Created by PhpStorm.
  * User: zhangjincheng

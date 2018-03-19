@@ -1,6 +1,6 @@
 <?php
 namespace app\Controllers;
-class Game{
+class Game extends Controller{
 
     // public function pai($people)
     // {
