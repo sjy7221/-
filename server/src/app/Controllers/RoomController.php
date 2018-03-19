@@ -190,7 +190,7 @@ if(count($pai)== 1){
    
    $leixing = liandui($pai); 
     }
-    var_dump($leixing);
+    var_dump($leixing['type']);
     }
 
     //离开
