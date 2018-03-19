@@ -124,7 +124,7 @@ class RoomController extends Controller
          
         }
        foreach($gameInfo['users'] as $kk=>$vv){
-        if(array_search(31,$gameInfo['users'][$kk]['shoupai']) === false){
+        if(!(array_search(31,$gameInfo['users'][$kk]['shoupai']) === false)){
             echo 1;
         }
        }
