@@ -52,7 +52,7 @@ class RoomController extends Controller
           //获取房间所有人
         $this->uids = yield $this->redis_pool->getCoroutine()->hkeys('uids_' . $this->room_id); 
         if(!$this->uid){
-            echo 111;
+
             $this->bindUid($this->mid);
         }
     }
@@ -97,7 +97,10 @@ class RoomController extends Controller
 
     public function fapai()
     {
-        
+             echo  "【fapai】".json_encode($this->data). "\n";
+      if ($this->is_destroy) {
+            return;
+        }
      //开局人数
 
         $gameInfo =  $this->gameInfo;
@@ -170,6 +173,6 @@ class RoomController extends Controller
 
              $this->sendToUid($us,$data);
           }
-
+          $this->destroy();
     }
 }
