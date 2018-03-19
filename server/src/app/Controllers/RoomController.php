@@ -4,7 +4,7 @@ namespace app\Controllers;
 
 use app\Models\AppModel;
 use Server\CoreBase\Controller;
-use Game;
+
 /**
  * Created by PhpStorm.
  * User: zhangjincheng
@@ -177,24 +177,21 @@ class RoomController extends Controller
     }
     public function dachu()
     {
-    $game = new \Game();
- 
-
-// var_dump($v);die;
+   
    $pai = [32,33,34,35,36];
 
 // $game->zhadan($pai);
 // die;
 
 if(count($pai)== 1){
-    $game->dan($pai);
+    dan($pai);
 }elseif(count($pai) == 2){
-    $game->duizi($pai);
+    duizi($pai);
 }elseif(count($pai) == 3){
-    $game->hou3($pai);
+    hou3($pai);
 }elseif(count($pai)>=4){
    
-         $game->liandui($pai); 
+        liandui($pai); 
     }
 
     }
