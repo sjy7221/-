@@ -66,15 +66,17 @@ class RoomController extends Controller
             return '空';
         }
 
-          // var_dump($this->mid);
+           var_dump($this->uids);
+
         $re = yield $this->CommModel->jinru($this->mid, $this->room_id, $this->roomInfo);
-     
+
        if(!$re['game_start']){
          $data = [
             'route'=>'jinru',
             'roomInfo'=>$re['roomInfo'],
             'userInfo'=>$re['userInfo']
         ];
+           var_dump($data);
          $this->sendToUids($this->uids, $data, false);
 
        }else{
