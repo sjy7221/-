@@ -147,7 +147,7 @@ class RoomController extends Controller
         if($roomInfo['guize']['suanfa'][2]){
             $roomInfo['xianshi'] = 1;
         }
-
+        var_dump($gameInfo);
           yield $this->redis_pool->hset($roomid, 'roomInfo', serialize($roomInfo), 'userInfo','gameInfo',serialize($gameInfo));
     }
 }
