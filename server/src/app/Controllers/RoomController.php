@@ -143,10 +143,10 @@ class RoomController extends Controller
        if($roomInfo['guize']['suanfa'][0] && $roomInfo['nowjushu'] == 1){
             $gameInfo['now'] = $h3id;
        }
-        if($roomInfo['guize']['suanfa'][1]){
+        if(isset($roomInfo['guize']['suanfa'][1]) && $roomInfo['guize']['suanfa'][1]){
             $roomInfo['niaoid'] = $niaoid;
         }
-        if($roomInfo['guize']['suanfa'][2]){
+        if(isset($roomInfo['guize']['suanfa'][2]) && $roomInfo['guize']['suanfa'][2]){
             $roomInfo['xianshi'] = 1;
         }
   
