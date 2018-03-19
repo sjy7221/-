@@ -124,7 +124,7 @@ class RoomController extends Controller
          
         }
        foreach( $gameInfo['users'] as $k=>$v){
-            if(!array_search(31,$gameInfo['users'][$k]['shoupai']) == false){
+            if(!array_search(31,$gameInfo['users'][$k]['shoupai']) === false){
                 $mid = $k;
             }
        }
