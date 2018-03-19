@@ -126,7 +126,7 @@ class RoomController extends Controller
            $gameInfo['users'][$k]['shoupai'] = $pais[$o];
          
         }
-        // var_dump( $gameInfo['users']);
+       var_dump( $gameInfo['users']);
         //找出牌中黑桃三先出的mid 和鸟牌 mid
        foreach($gameInfo['users'] as $kk=>$vv){
         //黑桃三先出的mid 
@@ -148,7 +148,7 @@ class RoomController extends Controller
         if($roomInfo['guize']['suanfa'][2]){
             $roomInfo['xianshi'] = 1;
         }
-        var_dump($gameInfo);
+  
           yield $this->redis_pool->hset($roomid, 'roomInfo', serialize($roomInfo), 'userInfo','gameInfo',serialize($gameInfo));
     }
 }
