@@ -63,6 +63,7 @@
             $numb = zhuanhuan($pai);
             //判断打出去的牌是不是炸弹
         if(count($numb) == 4 && $numb[0] == $numb[1] && $numb[1] == $numb[2] && $numb[2] == $numb[3]){
+          echo 111;
              zhadan($numb);
         }else{
              $cishu = (array_count_values($numb));
