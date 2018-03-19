@@ -101,6 +101,7 @@ class RoomController extends Controller
 
         $gameInfo =  $this->gameInfo;
         $roomInfo = $this->roomInfo;
+        $userInfo = $this->userInfo;
         $renshu = $roomInfo['guize']['renshu'];
         $roomid = $roomInfo['guize']['room_id'];
         $pai = [31,32,33,34,41,42,43,44,51,52,53,54,61,62,63,64,71,72,73,74,81,82,83,84,91,92,93,94,101,102,103,104,111,112,113,114,121,122,123,124,131,132,133,134,141,142,143,160];
@@ -127,7 +128,7 @@ class RoomController extends Controller
            $gameInfo['users'][$k]['shoupai'] = $pais[$o];
          
         }
-        var_dump( $gameInfo);
+        // var_dump( $gameInfo);
         //找出牌中黑桃三先出的mid 和鸟牌 mid
        foreach($gameInfo['users'] as $kk=>$vv){
         //黑桃三先出的mid 
@@ -156,13 +157,16 @@ class RoomController extends Controller
           yield $this->redis_pool->hset($roomid, 'roomInfo', serialize($roomInfo),'gameInfo',serialize($gameInfo));
 
           foreach($gameInfo['users'] as $users => $u){
+
             $data = [
                 'route'=>'fapai',
-                'mid'=>$users,
-                'pai'=>$u['shoupai'],
-                'now'=>$h3id;
+                'roomInfo'=>$roomInfo,
+                'userInfo'=>$userInfo,
+                'now'=>$gameInfo['now'],
+                'pai'=>$u['shoupai']
+                
         ];
-            $this->sendToUid($users,)
+            $this->sendToUid($users,$data);
           }
 
     }
