@@ -97,7 +97,7 @@ class RoomController extends Controller
 
     public function fapai($renshu,$roomid)
     {
-  
+        echo 11;die;
      //开局人数
   
 
