@@ -91,7 +91,7 @@ class RoomController extends Controller
          $this->sendToUids($this->uids,['game_go','游戏开始'],false);
     
        }
-       $this->destroy();
+       // $this->destroy();
 
     }
 
