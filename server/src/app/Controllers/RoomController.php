@@ -88,7 +88,7 @@ class RoomController extends Controller
          $this->roomInfo = $re['roomInfo'];
         $this->userInfo = $re['userInfo'];
         // $this->fapai($re['roomInfo']['guize']['renshu'],$this->room_id);
-        echo 1;
+       
         $this->sendToUids($this->uids,['game_go','游戏开始'],false);
     
        }
@@ -96,9 +96,9 @@ class RoomController extends Controller
 
     }
 
-    public function fapai($renshu,$roomid)
+    public function fapai()
     {
-        echo 11;die;
+        
      //开局人数
   
 
@@ -151,5 +151,6 @@ class RoomController extends Controller
         }
   
           yield $this->redis_pool->hset($roomid, 'roomInfo', serialize($roomInfo), 'userInfo','gameInfo',serialize($gameInfo));
+          $this->send('1');
     }
 }
