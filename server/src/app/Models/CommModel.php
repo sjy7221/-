@@ -27,9 +27,9 @@ class CommModel extends Model
     public function jinru($mid,$room_id,$roominfo)
     {
     
-    	 if (in_array($mid, $roominfo['weizhi']) && isset($roominfo['weizhi'])){
-    	 	$i =1 ;
-    	 }else{ 
+    	 // if (in_array($mid, $roominfo['weizhi']) && isset($roominfo['weizhi'])){
+    	 // 	$i =1 ;
+    	 // }else{ 
     	 	 $member = yield $this->mysql_pool->dbQueryBuilder
                 ->select('headimgurl')
                 ->select('nickname')
@@ -69,7 +69,7 @@ class CommModel extends Model
                 ->coroutineSend();
             yield $this->redis_pool->getCoroutine()->hset('uids_'.$room_id,$mid,1);
              // yield $this->redis_pool->getCoroutine()->hset($room_id,'userInfo',serialize($userInfo),'gameInfo',serialize($gameinfo));
-    	 }
+    	 // }
     	 
             if(count($userinfo['users']) ==  $roominfo['guize']['renshu']){
             	  yield $this->mysql_pool->dbQueryBuilder
