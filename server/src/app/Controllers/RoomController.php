@@ -166,8 +166,8 @@ class RoomController extends Controller
                 'pai'=>$u['shoupai']
                 
         ];
-        var_dump($us);
-            // $this->sendToUid($us,$data);
+
+             $this->sendToUid($us,$data);
           }
 
     }
