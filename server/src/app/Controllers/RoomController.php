@@ -21,7 +21,7 @@ class RoomController extends Controller
     public $mid; //传过来的id
     public $room_id;//传过来的房间号
     public $roomInfo;//房间信息
-
+    public $userInfo;
     protected function initialization($controller_name,$method_name)
     {
         parent::initialization($controller_name, $method_name);
@@ -71,13 +71,14 @@ class RoomController extends Controller
        if(!$re['game_start']){
          $data = [
             'route'=>'jinru',
-            'roomInfo'=>$re['roomInfo']
+            'roomInfo'=>$re['roomInfo'],
+            'userInfo'=>$re['userInfo']
         ];
          $this->sendToUids($this->uids, $data, false);
 
        }else{
          $this->roomInfo = $re['roomInfo'];
-        
+        $this->userInfo = $re['userInfo'];
         $this->sendToUids($this->uids,['game_go','游戏开始'],false);
         $this->fapai($re['roomInfo']['guize']['renshu']);
        }
@@ -96,7 +97,7 @@ class RoomController extends Controller
 
         $numb = count($pai)/$renshu;
         $pais = [];
-       $roominfo =  $this->roomInfo;
+       $userInfo =  $this->userInfo;
  
         for($i = 0;$i<$renshu;$i++){
             for($j=0;$j<$numb;$j++){
@@ -108,12 +109,12 @@ class RoomController extends Controller
        
             $o = -1;
 
-        foreach ( $roominfo['users'] as $k=>$v) {
+        foreach ( $userInfo['users'] as $k=>$v) {
 
                    $o++;
-           $roominfo['users'][$k]['pai'] = $pais[$o];
+           $userInfo['users'][$k]['pai'] = $pais[$o];
         }
-       var_dump($this->uids);
+       var_dump($userInfo['users']);
        
     }
 }

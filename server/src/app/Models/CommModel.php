@@ -45,14 +45,14 @@ class CommModel extends Model
            $member = $member['result'][0];
            //新玩家加入weihzi
           		 $roominfo['weizhi'][] = $mid;
-                 $roominfo['users'][$mid] = [
+                 $userinfo['users'][$mid] = [
                 'id' => $mid,
                 'headimgurl' => $member['headimgurl'],
                 'nickname' => $member['nickname'],
                 'num' => $member['num'],
                 'ip' => $member['ip'],
                 'sex'=>$member['sex'],
-              	'pai'=>[]
+                'pai'=>[]
             ];
            yield $this->mysql_pool->dbQueryBuilder
                 ->update('gs_member')
@@ -62,7 +62,7 @@ class CommModel extends Model
             yield $this->redis_pool->getCoroutine()->hset('uids_'.$room_id,$mid,1);
     	 }
     	 
-            if(count($roominfo['users']) ==  $roominfo['guize']['renshu']){
+            if(count($userinfo['users']) ==  $roominfo['guize']['renshu']){
             	  yield $this->mysql_pool->dbQueryBuilder
                 ->update('gs_rooms')
                 ->set('status',1)
@@ -73,7 +73,7 @@ class CommModel extends Model
             	$game_start = 0;
             }
 
-            yield $this->redis_pool->hset($room_id, 'roomInfo', serialize($roominfo));
-             return [ 'game_start' => $game_start, 'roomInfo' => $roominfo];
+            yield $this->redis_pool->hset($room_id, 'roomInfo', serialize($roominfo), 'userInfo', serialize($userinfo));
+             return [ 'game_start' => $game_start, 'roomInfo' => $roominfo,'userInfo'=>$userinfo];
     }
 }
