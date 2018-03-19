@@ -80,15 +80,14 @@ class RoomController extends Controller
             'userInfo'=> $this->userInfo,
             'gameInfo'=> $this->gameInfo
         ];
-           // var_dump($re);
-           // var_dump($data);
+     
          $this->sendToUids($this->uids, $data, false);
 
        }else{
  
          $this->fapai($re['roomInfo']['guize']['renshu'],$re['roomInfo']['guize']['room_id']);
      
-        // $this->sendToUids($this->uids,['game_go','游戏开始'],false);
+         $this->sendToUids($this->uids,['game_go','游戏开始'],false);
     
        }
        $this->destroy();
