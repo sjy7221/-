@@ -190,7 +190,7 @@ if(count($pai)== 1){
    
    $leixing = liandui($pai); 
     }
-    echo 111;
+    var_dump($leixing);
     }
 
     //离开
