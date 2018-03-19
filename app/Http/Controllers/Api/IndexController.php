@@ -37,6 +37,9 @@ class IndexController extends Controller
             if(isset($re['gameInfo']) && !empty($re['gameInfo'])){
                 $a['gameInfo'] = unserialize($re['gameInfo']);
             }
+            if(isset($re['userInfo']) && !empty($re['userInfo'])){
+                $a['userInfo'] = unserialize($re['userInfo']);
+            }
             $aa  = Redis::Hgetall('uids_'.$room_id);
             if($aa){
                 $a['users_status'] = $aa;
