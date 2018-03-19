@@ -65,7 +65,7 @@ class RoomController extends Controller
             return '空';
         }
 
-        //模型处理数据
+          var_dump($this->mid);
         $re = yield $this->CommModel->jinru($this->mid, $this->room_id, $this->roomInfo);
 
        if(!$re['game_start']){
