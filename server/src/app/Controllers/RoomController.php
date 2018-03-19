@@ -116,19 +116,26 @@ class RoomController extends Controller
         }
        
             $o = -1;
-            $mid = '';
+            $h3id = '';
+            $niaoid = '';
         foreach ( $gameInfo['users'] as $k=>$v) {
 
                    $o++;
            $gameInfo['users'][$k]['shoupai'] = $pais[$o];
          
         }
-        var_dump( $gameInfo['users']);
+        // var_dump( $gameInfo['users']);
+        //找出牌中黑桃三先出的mid 和鸟牌 mid
        foreach($gameInfo['users'] as $kk=>$vv){
+        //黑桃三先出的mid 
         if(!(array_search(31,$gameInfo['users'][$kk]['shoupai']) === false)){
-            $mid = $kk;
+            $h3id = $kk;
+        }
+        // 鸟牌 mid
+        if(!(array_search(102,$gameInfo['users'][$kk]['shoupai']) === false)){
+            $niaoid = $kk;
         }
        }
-       echo $mid;
+     
     }
 }

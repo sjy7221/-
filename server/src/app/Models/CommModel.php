@@ -46,6 +46,7 @@ class CommModel extends Model
            $member = $member['result'][0];
            //新玩家加入weihzi
           		 $roomInfo['weizhi'][] = $mid;
+                $roomInfo['nowjushu'] = 1;//为开局第一局
                  $userInfo['users'][$mid] = [
                 'id' => $mid,
                 'headimgurl' => $member['headimgurl'],
