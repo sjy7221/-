@@ -142,6 +142,9 @@ class RoomController extends Controller
 
        if($roomInfo['guize']['suanfa'][0] && $roomInfo['nowjushu'] == 1){
             $gameInfo['now'] = $h3id;
+       }elseif($roomInfo['nowjushu'] == 1){
+         $gameInfo['now'] = array_rand( $gameInfo['users'], 1 );
+         $gameInfo['now'] = $gameInfo['now']['id'];
        }
         if(isset($roomInfo['guize']['suanfa'][1]) && $roomInfo['guize']['suanfa'][1]){
             $roomInfo['niaoid'] = $niaoid;
@@ -151,6 +154,16 @@ class RoomController extends Controller
         }
   
           yield $this->redis_pool->hset($roomid, 'roomInfo', serialize($roomInfo),'gameInfo',serialize($gameInfo));
+
+          foreach($gameInfo['users'] as $users => $u){
+            $data = [
+                'route'=>'fapai',
+                'mid'=>$users,
+                'pai'=>$u['shoupai'],
+                'now'=>$h3id;
+        ];
+            $this->sendToUid($users,)
+          }
 
     }
 }
