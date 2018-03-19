@@ -150,7 +150,7 @@ class RoomController extends Controller
             $roomInfo['xianshi'] = 1;
         }
   
-          yield $this->redis_pool->hset($roomid, 'roomInfo', serialize($roomInfo), 'userInfo','gameInfo',serialize($gameInfo));
+          yield $this->redis_pool->hset($roomid, 'roomInfo', serialize($roomInfo),'gameInfo',serialize($gameInfo));
 
     }
 }
