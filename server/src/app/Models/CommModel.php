@@ -71,7 +71,7 @@ class CommModel extends Model
               // yield $this->redis_pool->getCoroutine()->hset($room_id,'userInfo',serialize($userInfo),'gameInfo',serialize($gameInfo));
     	 // }
     	 
-            if(count($userinfo['users']) ==  $roominfo['guize']['renshu']){
+            if(count($userInfo['users']) ==  $roomInfo['guize']['renshu']){
             	  yield $this->mysql_pool->dbQueryBuilder
                 ->update('gs_rooms')
                 ->set('status',1)
@@ -84,6 +84,6 @@ class CommModel extends Model
 
             yield $this->redis_pool->hset($room_id, 'roomInfo', serialize($roomInfo), 'userInfo', serialize($userInfo),'gameInfo',serialize($gameInfo));
          // $userinfo =  yield $this->redis_pool->hget($room_id,  'userInfo', serialize($userinfo),'gameInfo',serialize($gameinfo));
-             return [ 'game_start' => $game_start, 'roomInfo' => $roominfo,'userInfo'=>$userinfo];
+             return [ 'game_start' => $game_start, 'roomInfo' => $roomInfo,'userInfo'=>$userInfo];
     }
 }
