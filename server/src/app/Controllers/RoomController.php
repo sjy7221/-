@@ -179,7 +179,7 @@ class RoomController extends Controller
     {
    
  $pai = [32,33,34];
-
+ 
 if(count($pai)== 1){
    $leixing = dan($pai);
 }elseif(count($pai) == 2){
