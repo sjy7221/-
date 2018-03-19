@@ -22,6 +22,7 @@ class RoomController extends Controller
     public $room_id;//传过来的房间号
     public $roomInfo;//房间信息
     public $userInfo;
+    public $uids;
     protected function initialization($controller_name,$method_name)
     {
         parent::initialization($controller_name, $method_name);
