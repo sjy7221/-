@@ -5,7 +5,7 @@
     function dan($pai)
     {
         if(count($pai) == 1){
-          var_dump(['type'=>1,'len'=>1]); 
+          return ['type'=>1,'len'=>1]; 
         }else{
             return false;
         }
@@ -31,8 +31,8 @@
                }
             
          if($u == count($pai)){
-            var_dump($numb);
-           var_dump( ['type'=>2,'len'=>count($pai)]);
+            
+           return ['type'=>2,'len'=>count($pai)];
          }else{
 
            sandai($pai);
@@ -50,10 +50,10 @@
             $numb =  zhuanhuan($pai);
        //单对，两位相等
       if($numb[0] == $numb[1]){
-         var_dump($numb);
-         var_dump(['type'=>3,'len'=>2]); 
+      
+         return ['type'=>3,'len'=>2] ; 
       }else{
-        echo '牌型错误';
+       
       }
     }
     //连对
@@ -97,9 +97,9 @@
 
                if($u == count($numb)){
                 var_dump($numb);
-           var_dump( ['type'=>4,'len'=>count($pai)]);
+           return ['type'=>4,'len'=>count($pai)] ;
          }else{
-            echo '牌型错误，连对';
+            return false;
          }
 
         }elseif($b == 1){
@@ -140,16 +140,16 @@
          }
       
        if($b == 1){
-        var_dump($numb);
-         var_dump( ['type'=>5,'len'=>count($pai)]);
+      
+       return ['type'=>5,'len'=>count($pai)];
 
        }else{
-        echo 'sandai 牌型错误'; die;
+       return false;
        }
         }elseif(count($pai) == 4){
             sand1($pai);
         }else{
-             echo '牌型错误,3dai';
+           return false;
         }
        
      
@@ -175,15 +175,15 @@
          }
       
        if($b == 1){
-        var_dump($numb);
-         var_dump( ['type'=>6,'len'=>count($pai)]);
+      
+        return ['type'=>6,'len'=>count($pai)];
 
        }else{
-        echo '牌型错误,3dai1';
+        return false;
        }
-       var_dump($numb);
+     
         }else{
-            echo '手牌多了';
+            return false;
         }
         
     }
@@ -209,14 +209,14 @@
       
        if($b == 1){
         // var_dump($numb);
-         var_dump( ['type'=>7,'len'=>count($pai)]);
+         return ['type'=>7,'len'=>count($pai)] ;
 
        }else{
-        echo '牌型错误hou3';
+        return false;
        }
        // var_dump($numb);
         }else{
-            echo '手牌多了hoou3';
+             return false;
         }
     }
 
@@ -253,11 +253,11 @@
             //判断是否为333444连续
          if($b == 2 && $ob[0]+1 == $ob[1]){
      
-         var_dump( ['type'=>8,'len'=>count($pai)]);
+        return ['type'=>8,'len'=>count($pai)];
 
        }else{
 
-        echo '牌型错误feiji';
+        return false;
        }
        
         
@@ -279,21 +279,21 @@
       
          if($b == 2){
         
-         var_dump( ['type'=>8,'len'=>count($pai)]);
+         return ['type'=>8,'len'=>count($pai)];
 
        }else{
 
-        echo '牌型错误feiji';
+        return false;
        }
     }else{
-        echo 'feiji牌少但别打错';
+         return false;
     }
     }
 
     //炸弹
     function zhadan($numb)
     {
-         var_dump( ['type'=>10,'len'=>count($numb)]);
+        return ['type'=>10,'len'=>count($numb)];
     }
 
     //私有转换牌去掉花色
