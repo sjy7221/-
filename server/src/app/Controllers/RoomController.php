@@ -87,16 +87,16 @@ class RoomController extends Controller
        }else{
          $this->roomInfo = $re['roomInfo'];
         $this->userInfo = $re['userInfo'];
-        // $this->fapai($re['roomInfo']['guize']['renshu'],$this->room_id);
-       
-        $this->sendToUids($this->uids,['game_go','游戏开始'],false);
+        $ob =   $this->fapai($re['roomInfo']['guize']['renshu'],$this->room_id);
+       var_dump($ob);
+        // $this->sendToUids($this->uids,['game_go','游戏开始'],false);
     
        }
        $this->destroy();
 
     }
 
-    public function fapai()
+    public function fapai($renshu,$roomid)
     {
         
      //开局人数
@@ -127,7 +127,7 @@ class RoomController extends Controller
            $gameInfo['users'][$k]['shoupai'] = $pais[$o];
          
         }
-       var_dump( $gameInfo['users']);
+       // var_dump( $gameInfo['users']);
         //找出牌中黑桃三先出的mid 和鸟牌 mid
        foreach($gameInfo['users'] as $kk=>$vv){
         //黑桃三先出的mid 
@@ -151,6 +151,6 @@ class RoomController extends Controller
         }
   
           yield $this->redis_pool->hset($roomid, 'roomInfo', serialize($roomInfo), 'userInfo','gameInfo',serialize($gameInfo));
-          $this->send('1');
+          return 1;
     }
 }
