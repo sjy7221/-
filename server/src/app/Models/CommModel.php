@@ -59,7 +59,7 @@ class CommModel extends Model
                 'id'=>$mid,
                 'shoupai' =>[],
                 'dachu'=>[],
-                'fenshu'=>1000,
+                'fenshu'=>1000
               
               ]
            yield $this->mysql_pool->dbQueryBuilder
