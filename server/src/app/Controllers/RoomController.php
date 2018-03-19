@@ -66,7 +66,7 @@ class RoomController extends Controller
             return '空';
         }
 
-           var_dump($this->uids);
+
 
         $re = yield $this->CommModel->jinru($this->mid, $this->room_id, $this->roomInfo);
 
@@ -77,7 +77,7 @@ class RoomController extends Controller
             'userInfo'=>$re['userInfo']
         ];
            var_dump($re);
-           var_dump($data);
+           // var_dump($data);
          $this->sendToUids($this->uids, $data, false);
 
        }else{
