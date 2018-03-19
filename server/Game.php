@@ -96,7 +96,7 @@
                }
 
                if($u == count($numb)){
-                var_dump($numb);
+            
            return ['type'=>4,'len'=>count($pai)] ;
          }else{
             return false;
