@@ -71,7 +71,7 @@ class RoomController extends Controller
 
 
 
-        $re = yield $this->CommModel->jinru($this->mid, $this->room_id, $this->roomInfo);
+        $re = yield $this->CommModel->jinru($this->mid, $this->room_id, $this->roomInfo,$this->userInfo,$this->gameInfo);
 
        if(!$re['game_start']){
          $data = [
