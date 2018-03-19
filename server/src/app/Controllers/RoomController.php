@@ -178,19 +178,19 @@ class RoomController extends Controller
     public function dachu()
     {
    
-   $pai = [32,33,34,35];
-
+ $pai = [32,33,34,35];
+ $leixing = [];
 if(count($pai)== 1){
-    dan($pai);
+   $leixing = dan($pai);
 }elseif(count($pai) == 2){
-    duizi($pai);
+   $leixing = duizi($pai);
 }elseif(count($pai) == 3){
-    hou3($pai);
+   $leixing = hou3($pai);
 }elseif(count($pai)>=4){
    
-    liandui($pai); 
+   $leixing = liandui($pai); 
     }
-
+    var_dump($leixing);
     }
 
     //离开
