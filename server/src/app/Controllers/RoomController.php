@@ -177,7 +177,7 @@ class RoomController extends Controller
     }
     public function dachu()
     {
-    $game = new Game();
+    $game = new \Game();
  
 
 // var_dump($v);die;
