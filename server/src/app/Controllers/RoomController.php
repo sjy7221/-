@@ -76,7 +76,7 @@ class RoomController extends Controller
             'roomInfo'=>$re['roomInfo'],
             'userInfo'=>$re['userInfo']
         ];
-           var_dump($re);
+           // var_dump($re);
            // var_dump($data);
          $this->sendToUids($this->uids, $data, false);
 
