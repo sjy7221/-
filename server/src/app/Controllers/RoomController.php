@@ -87,7 +87,8 @@ class RoomController extends Controller
        }else{
          $this->roomInfo = $re['roomInfo'];
         $this->userInfo = $re['userInfo'];
-        $this->fapai($re['roomInfo']['guize']['renshu'],$this->room_id);
+        // $this->fapai($re['roomInfo']['guize']['renshu'],$this->room_id);
+        echo 1;
         $this->sendToUids($this->uids,['game_go','游戏开始'],false);
     
        }
