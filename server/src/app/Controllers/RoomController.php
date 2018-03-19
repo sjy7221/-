@@ -123,6 +123,7 @@ class RoomController extends Controller
            $gameInfo['users'][$k]['shoupai'] = $pais[$o];
          
         }
+        var_dump( $gameInfo['users']);
        foreach($gameInfo['users'] as $kk=>$vv){
         if(!(array_search(31,$gameInfo['users'][$kk]['shoupai']) === false)){
             $mid = $kk;
