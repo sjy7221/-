@@ -178,10 +178,7 @@ class RoomController extends Controller
     public function dachu()
     {
    
-   $pai = [32,33,34,35,36];
-
-// $game->zhadan($pai);
-// die;
+   $pai = [32,33,34,35];
 
 if(count($pai)== 1){
     dan($pai);
@@ -191,7 +188,7 @@ if(count($pai)== 1){
     hou3($pai);
 }elseif(count($pai)>=4){
    
-        liandui($pai); 
+    liandui($pai); 
     }
 
     }
