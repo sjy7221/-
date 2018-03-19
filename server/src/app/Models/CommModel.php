@@ -46,7 +46,7 @@ class CommModel extends Model
            $member = $member['result'][0];
            //新玩家加入weihzi
           		 $roominfo['weizhi'][] = $mid;
-                 $userinfo['users'][$mid] = [
+                 $userinfo['users'][] = [
                 'id' => $mid,
                 'headimgurl' => $member['headimgurl'],
                 'nickname' => $member['nickname'],
@@ -56,7 +56,7 @@ class CommModel extends Model
                
             ];
               $gameinfo['now'] = 0;//存该谁出牌 用户id
-              $gameinfo['users'][$mid] = [
+              $gameinfo['users'][] = [
                 'id'=>$mid,
                 'shoupai' =>[],
                 'dachu'=>[],
