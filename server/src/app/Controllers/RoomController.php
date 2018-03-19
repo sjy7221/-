@@ -43,10 +43,10 @@ class RoomController extends Controller
         } else {
             $this->send('找不到房间信息', false);
             $this->close();
-            return;
+            return false;
         }
           //获取房间所有人
-        $this->uids = yield $this->redis_pool->getCoroutine()->hkeys('uids_' . $this->room_id,); 
+        $this->uids = yield $this->redis_pool->getCoroutine()->hkeys('uids_' . $this->room_id); 
         if(!$this->uid){
             $this->bindUid($this->mid);
         }
