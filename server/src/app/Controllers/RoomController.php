@@ -105,8 +105,9 @@ class RoomController extends Controller
 
         $numb = count($pai)/$renshu;
         $pais = [];
-       $gameInfo =  $this->gameInfo;
- 
+        $gameInfo =  $this->gameInfo;
+        $roomInfo = $this->roomInfo;
+
         for($i = 0;$i<$renshu;$i++){
             for($j=0;$j<$numb;$j++){
                $pais[$i][] =  array_pop($pai);
@@ -136,6 +137,17 @@ class RoomController extends Controller
             $niaoid = $kk;
         }
        }
-     
+
+       if($roomInfo['guize']['suanfa'][0] && $roomInfo['nowjushu'] == 1){
+            $gameInfo['now'] = $h3id;
+       }
+        if($roomInfo['guize']['suanfa'][1]){
+            $roomInfo['niaoid'] = $niaoid;
+        }
+        if($roomInfo['guize']['suanfa'][2]){
+            $roomInfo['xianshi'] = 1;
+        }
+
+          yield $this->redis_pool->hset($room_id, 'roomInfo', serialize($roomInfo), 'userInfo','gameInfo',serialize($gameInfo));
     }
 }
