@@ -52,6 +52,7 @@ class RoomController extends Controller
           //获取房间所有人
         $this->uids = yield $this->redis_pool->getCoroutine()->hkeys('uids_' . $this->room_id); 
         if(!$this->uid){
+            echo 111;
             $this->bindUid($this->mid);
         }
     }
