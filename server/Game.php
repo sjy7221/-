@@ -35,7 +35,7 @@
            var_dump( ['type'=>2,'len'=>count($pai)]);
          }else{
 
-          $this->sandai($pai);
+           sandai($pai);
          }
 
      
@@ -47,7 +47,7 @@
     function duizi($pai)
     {
 
-            $numb = $this->zhuanhuan($pai);
+            $numb =  zhuanhuan($pai);
        //单对，两位相等
       if($numb[0] == $numb[1]){
          var_dump($numb);
@@ -63,7 +63,7 @@
             $numb = zhuanhuan($pai);
             //判断打出去的牌是不是炸弹
         if(count($numb) == 4 && $numb[0] == $numb[1] && $numb[1] == $numb[2] && $numb[2] == $numb[3]){
-            $this->zhadan($numb);
+             zhadan($numb);
         }else{
              $cishu = (array_count_values($numb));
       
@@ -103,13 +103,13 @@
          }
 
         }elseif($b == 1){
-           $this->sandai($pai);
+            sandai($pai);
        
         }elseif($b == 2){
-              $this->feiji($pai);
+               feiji($pai);
         }else{
 
-            $this->shun($pai);
+             shun($pai);
         }
         }
      
@@ -147,7 +147,7 @@
         echo 'sandai 牌型错误'; die;
        }
         }elseif(count($pai) == 4){
-           $this->sand1($pai);
+            sand1($pai);
         }else{
              echo '牌型错误,3dai';
         }
