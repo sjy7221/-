@@ -60,8 +60,7 @@ class CommModel extends Model
                 'shoupai' =>[],
                 'dachu'=>[],
                 'fenshu'=>1000
-              
-              ]
+              ];
            yield $this->mysql_pool->dbQueryBuilder
                 ->update('gs_member')
                 ->set('room_id', $room_id)
