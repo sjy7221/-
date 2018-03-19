@@ -40,6 +40,7 @@ class CommModel extends Model
                 ->from('gs_member')
                 ->coroutineSend();
            if(empty($member)){
+            echo '无信息';
            		return false; 
            }
            $member = $member['result'][0];
