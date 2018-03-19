@@ -178,7 +178,7 @@ class RoomController extends Controller
     public function dachu()
     {
    
- $pai = [32,33,34,35];
+ $pai = [32,33,34];
 
 if(count($pai)== 1){
    $leixing = dan($pai);
@@ -190,7 +190,7 @@ if(count($pai)== 1){
    
    $leixing = liandui($pai); 
     }
-    var_dump($leixing['type']);
+   
     }
 
     //离开
