@@ -21,7 +21,8 @@ class RoomController extends Controller
     public $mid; //传过来的id
     public $room_id;//传过来的房间号
     public $roomInfo;//房间信息
-    public $userInfo;
+    public $userInfo;//用户信息
+    public $gameInfo;//游戏信息
     public $uids;
     protected function initialization($controller_name,$method_name)
     {
@@ -41,6 +42,8 @@ class RoomController extends Controller
           $room = yield $this->redis_pool->getCoroutine()->hgetall($this->room_id);
            if (isset($room['roomInfo']) && $room['roomInfo']){
             $this->roomInfo = unserialize($room['roomInfo']);
+            $this->userInfo = unserialize($room['userInfo']);
+            $this->gameInfo = unserialize($room['gameInfo']);
         } else {
             $this->send('找不到房间信息', false);
             $this->close();
@@ -73,8 +76,9 @@ class RoomController extends Controller
        if(!$re['game_start']){
          $data = [
             'route'=>'jinru',
-            'roomInfo'=>$re['roomInfo'],
-            'userInfo'=>$re['userInfo']
+            'roomInfo'=>$this->roomInfo,
+            'userInfo'=> $this->userInfo,
+            'gameInfo'=> $this->gameInfo
         ];
            // var_dump($re);
            // var_dump($data);
