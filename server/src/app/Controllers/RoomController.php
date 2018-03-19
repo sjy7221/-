@@ -116,13 +116,16 @@ class RoomController extends Controller
         }
        
             $o = -1;
-
+            $mid = '';
         foreach ( $gameInfo['users'] as $k=>$v) {
 
                    $o++;
            $gameInfo['users'][$k]['shoupai'] = $pais[$o];
+           if(array_search(31,$gameInfo['users'][$k]['shoupai'])){
+                $mid = $k;
+           }
         }
-       var_dump($gameInfo['users']);
+       var_dump($mid);
        
     }
 }
