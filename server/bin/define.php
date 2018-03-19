@@ -10,6 +10,7 @@ define("BIN_DIR", __DIR__);
 define('MYROOT',BIN_DIR."/..");
 
 require_once MYROOT . '/vendor/autoload.php';
+require_once MYROOT . '/Game.php';
 
 checkfile("SERVER_DIR", MYROOT."/vendor/tmtbe/swooledistributed/src/Server");
 checkfile("APP_DIR", MYROOT . "/src/app");

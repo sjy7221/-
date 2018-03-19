@@ -45,7 +45,10 @@ class CommModel extends Model
            }
            $member = $member['result'][0];
            //新玩家加入weihzi
-          		 $roomInfo['weizhi'][] = $mid;
+         if(array_search($mid,$roomInfo['weizhi']) == null){
+            $roomInfo['weizhi'][] = $mid;
+         } 
+          		 
                 $roomInfo['nowjushu'] = 1;//为开局第一局
                  $userInfo['users'][$mid] = [
                 'id' => $mid,
@@ -86,5 +89,27 @@ class CommModel extends Model
             yield $this->redis_pool->hset($room_id, 'roomInfo', serialize($roomInfo), 'userInfo', serialize($userInfo),'gameInfo',serialize($gameInfo));
          // $userinfo =  yield $this->redis_pool->hget($room_id,  'userInfo', serialize($userinfo),'gameInfo',serialize($gameinfo));
              return [ 'game_start' => $game_start, 'roomInfo' => $roomInfo,'userInfo'=>$userInfo];
+    }
+    public function likai($mid, $room_id, $roomInfo)
+    {
+       //查找自己的位置
+         $k = array_search($mid,$roomInfo['weizhi']);
+         if($k === false){
+            return false;
+         }
+         //删除位置
+         unset($roomInfo['weizhi'][$k]);
+         $roomInfo['weizhi'] = array_values($roomInfo['weizhi']);
+
+        //修改member表 清空房间号
+        yield $this->mysql_pool->dbQueryBuilder
+            ->update('gs_member')
+            ->set('room_id', 0)
+            ->where('id', $mid)
+            ->coroutineSend();
+        //删除用户信息
+        unset($roomInfo['users'][$mid]);
+        yield $this->redis_pool->hset($room_id, 'roomInfo', serialize($roomInfo));
+        return $roomInfo;
     }
 }
