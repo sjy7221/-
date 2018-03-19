@@ -68,7 +68,7 @@ class RoomController extends Controller
 
           // var_dump($this->mid);
         $re = yield $this->CommModel->jinru($this->mid, $this->room_id, $this->roomInfo);
-
+        var_dump($re);
        if(!$re['game_start']){
          $data = [
             'route'=>'jinru',
