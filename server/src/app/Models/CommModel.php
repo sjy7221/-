@@ -26,7 +26,7 @@ class CommModel extends Model
     }
     public function jinru($mid,$room_id,$roominfo)
     {
-    	var_dump($mid);
+    	echo $mid .'OKOK';
     	 if (in_array($mid, $roominfo['weizhi'])){
     	 	return false;
     	 }else{ 
