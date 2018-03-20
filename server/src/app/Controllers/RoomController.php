@@ -184,16 +184,16 @@ class RoomController extends Controller
         $pai = [32,32,34,35];
 
         if(count($pai)== 1){
-            $leix =  dan($pai);
+               dan($pai);
             }elseif(count($pai) == 2){
-              $leix = duizi($pai);
+              duizi($pai);
             }elseif(count($pai) == 3){
-            $leix =  hou3($pai);
+              hou3($pai);
             }elseif(count($pai)>=4){
    
-              $leix =  liandui($pai); 
+                liandui($pai); 
              }
-          var_dump($leix);
+          
     }
 
     //离开
