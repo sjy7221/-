@@ -177,7 +177,10 @@ class RoomController extends Controller
     }
     public function dachu()
     {
-   
+        echo  "【dachu】".json_encode($this->data). "\n";
+            if ($this->is_destroy) {
+            return;
+        }
         $pai = [32,32,34,41,42,43];
 
         if(count($pai)== 1){
@@ -188,7 +191,7 @@ class RoomController extends Controller
               hou3($pai);
             }elseif(count($pai)>=4){
    
-          liandui($pai); 
+                liandui($pai); 
              }
           
     }
