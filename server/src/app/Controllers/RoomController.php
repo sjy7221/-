@@ -182,7 +182,12 @@ class RoomController extends Controller
             return;
         }*/
         var_dump ($this->data->pai);
-        $pai = $this->data->pai;
+       
+        if(isset($this->data->pai) || empty($this->data->pai)){
+            return false;
+        }else{
+            $pai = $this->data->pai;
+        }
         if(count($pai)== 1){
              $leix =   dan($pai);
             }elseif(count($pai) == 2){
@@ -193,7 +198,7 @@ class RoomController extends Controller
    
                $leix =  liandui($pai); 
              }
-          var_dump($leix);
+        var_dump ($this->gameInfo);
     }
 
     //离开
