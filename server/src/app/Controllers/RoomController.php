@@ -181,7 +181,7 @@ class RoomController extends Controller
             /*if ($this->is_destroy) {
             return;
         }*/
-        var_dump ($this->data->pai);
+
        
         if(isset($this->data->pai) || empty($this->data->pai)){
             return false;
