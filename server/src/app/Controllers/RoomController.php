@@ -184,7 +184,8 @@ class RoomController extends Controller
         }
             
               
-           $pai = $this->data->pai;
+           // $pai = $this->data->pai;
+           $pai = [34];
                  if(count($pai)== 1){
           
              $leix =   dan($pai);
@@ -196,7 +197,9 @@ class RoomController extends Controller
    
                $leix =  liandui($pai); 
              }
-         var_dump($this->gameInfo);
+         $gameInfo = $this->gameInfo;
+         $gameInfo['users'][$this->mid]['dachu'] = $pai;
+       $req =  array_diff($gameInfo['users'][$this->mid]['shoupai'],$pai)  ;
           
        
     }
