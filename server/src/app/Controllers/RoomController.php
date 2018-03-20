@@ -181,12 +181,10 @@ class RoomController extends Controller
             /*if ($this->is_destroy) {
             return;
         }*/
-
-       
-        if(isset($this->data->pai) || empty($this->data->pai)){
-            return false;
-        }else{
-            if(count($pai)== 1){
+        var_dump ($this->data->pai);
+        $pai = $this->data->pai;
+        
+        if(count($pai)== 1){
              $leix =   dan($pai);
             }elseif(count($pai) == 2){
              $leix =  duizi($pai);
@@ -196,9 +194,7 @@ class RoomController extends Controller
    
                $leix =  liandui($pai); 
              }
-        var_dump ($leix);
-        }
-        
+          var_dump($leix);
     }
 
     //离开
