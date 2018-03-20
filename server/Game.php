@@ -316,7 +316,7 @@
     //炸弹
     function zhadan($numb)
     {
-         var_dump( ['type'=>10,'len'=>count($numb)]);
+         return ['type'=>10,'len'=>count($numb)];
     }
 
     //私有转换牌去掉花色
