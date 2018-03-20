@@ -126,13 +126,13 @@
          }
 
         }elseif($b == 1){
-            sandai($pai);
+           return sandai($pai);
        
         }elseif($b == 2){
-               feiji($pai);
+              return  feiji($pai);
         }else{
 
-             shun($pai);
+            return  shun($pai);
         }
         }
      
