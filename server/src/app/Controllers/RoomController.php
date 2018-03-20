@@ -178,9 +178,9 @@ class RoomController extends Controller
     public function dachu()
     {
         echo  "【dachu】".json_encode($this->data). "\n";
-            /*if ($this->is_destroy) {
+            if ($this->is_destroy) {
             return;
-        }*/
+        }
         var_dump ($this->data->pai);
         $pai = $this->data->pai;
         
