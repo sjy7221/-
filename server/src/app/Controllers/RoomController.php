@@ -200,7 +200,7 @@ class RoomController extends Controller
          $gameInfo = $this->gameInfo;
          $gameInfo['users'][$this->mid]['dachu'] = $pai;
        $req =  array_diff($gameInfo['users'][$this->mid]['shoupai'],$pai)  ;
-          
+          var_dump($req);
        
     }
 
