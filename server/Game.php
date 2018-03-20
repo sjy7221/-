@@ -86,7 +86,7 @@
             $numb =  zhuanhuan($pai);
             //判断打出去的牌是不是炸弹
         if(count($numb) == 4 && $numb[0] == $numb[1] && $numb[1] == $numb[2] && $numb[2] == $numb[3]){
-             zhadan($numb);
+            return  zhadan($numb);
         }else{
              $cishu = (array_count_values($numb));
       
@@ -122,7 +122,7 @@
                 var_dump($numb);
            var_dump( ['type'=>4,'len'=>count($pai)]);
          }else{
-            echo '牌型错误，连对';
+            return false;
          }
 
         }elseif($b == 1){
@@ -170,7 +170,7 @@
         echo 'sandai 牌型错误'; die;
        }
         }elseif(count($pai) == 4){
-            sand1($pai);
+          return  sand1($pai);
         }else{
              echo '牌型错误,3dai';
         }
@@ -232,7 +232,7 @@
       
        if($b == 1){
         // var_dump($numb);
-         var_dump( ['type'=>7,'len'=>count($pai)]);
+        return ['type'=>7,'len'=>count($pai)];
 
        }else{
         echo '牌型错误hou3';
@@ -276,11 +276,11 @@
             //判断是否为333444连续
          if($b == 2 && $ob[0]+1 == $ob[1]){
      
-         var_dump( ['type'=>8,'len'=>count($pai)]);
+         return ['type'=>8,'len'=>count($pai)];
 
        }else{
 
-        echo '牌型错误feiji';
+        return false;
        }
        
         
@@ -302,14 +302,14 @@
       
          if($b == 2){
         
-         var_dump( ['type'=>8,'len'=>count($pai)]);
+         return ['type'=>8,'len'=>count($pai)];
 
        }else{
 
-        echo '牌型错误feiji';
+       return false;
        }
     }else{
-        echo 'feiji牌少但别打错';
+       return false;
     }
     }
 
