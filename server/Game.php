@@ -300,7 +300,8 @@
     //私有转换牌去掉花色
      function zhuanhuan($pai)
     {
-             $numb = [];
+        var_dump($pai);
+               $numb = [];
              //去掉花色
              foreach($pai as $v){
              $a = substr($v,0,strlen($v)-1);
