@@ -19,7 +19,13 @@
   
         //顺子5起步
         if(count($pai) >= 5){
-            $numb = zhuanhuan($pai);
+            
+               $numb = [];
+             //去掉花色
+             foreach($pai as $v){
+             $a = substr($v,0,strlen($v)-1);
+                array_push($numb,$a);
+            }
           
                 //做判断
                for($j=1;$j<count($numb);$j++){
@@ -47,7 +53,13 @@
     function duizi($pai)
     {
 
-            $numb =  zhuanhuan($pai);
+            
+               $numb = [];
+             //去掉花色
+             foreach($pai as $v){
+             $a = substr($v,0,strlen($v)-1);
+                array_push($numb,$a);
+            }
        //单对，两位相等
       if($numb[0] == $numb[1]){
       
@@ -60,7 +72,13 @@
     function liandui($pai)
     {
 
-            $numb = zhuanhuan($pai);
+            
+               $numb = [];
+             //去掉花色
+             foreach($pai as $v){
+             $a = substr($v,0,strlen($v)-1);
+                array_push($numb,$a);
+            }
             //判断打出去的牌是不是炸弹
         if(count($numb) == 4 && $numb[0] == $numb[1] && $numb[1] == $numb[2] && $numb[2] == $numb[3]){
 
@@ -124,7 +142,13 @@
     {
        
         if(count($pai) == 5){
-        $numb = zhuanhuan($pai);
+        
+               $numb = [];
+             //去掉花色
+             foreach($pai as $v){
+             $a = substr($v,0,strlen($v)-1);
+                array_push($numb,$a);
+            }
 
       $cishu = (array_count_values($numb));
    
@@ -161,7 +185,13 @@
         //自己手牌
         $arr = [31,32,33,150];
         if(count($arr) == 4){
-                $numb = zhuanhuan($pai);
+                
+               $numb = [];
+             //去掉花色
+             foreach($pai as $v){
+             $a = substr($v,0,strlen($v)-1);
+                array_push($numb,$a);
+            }
        //array_count_values 对数组中的所有值进行计数：
         $cishu = (array_count_values($numb));
        $numb =   array_unique($numb);
@@ -194,7 +224,13 @@
         //自己手牌
         $arr = [101,111,121];
         if(count($arr) == 3 && $arr==$pai){
-               $numb = zhuanhuan($pai);
+              
+               $numb = [];
+             //去掉花色
+             foreach($pai as $v){
+             $a = substr($v,0,strlen($v)-1);
+                array_push($numb,$a);
+            }
        //array_count_values 对数组中的所有值进行计数：
        $cishu = (array_count_values($numb));
        $numb =   array_unique($numb);
@@ -231,7 +267,13 @@
         if(count($arr) >= count($pai) && count($pai) == 10 ){
             //如果手牌大于或者等于打出的牌，那么打出的牌必须为10张
          
-               $numb = zhuanhuan($pai);
+             
+               $numb = [];
+             //去掉花色
+             foreach($pai as $v){
+             $a = substr($v,0,strlen($v)-1);
+                array_push($numb,$a);
+            }
              //去掉花色
            
             //相同数字做计数
@@ -264,7 +306,13 @@
         
     }elseif(count($arr)<10 && $arr === $pai){
             //去掉花色
-                  $numb = zhuanhuan($pai);
+                  
+               $numb = [];
+             //去掉花色
+             foreach($pai as $v){
+             $a = substr($v,0,strlen($v)-1);
+                array_push($numb,$a);
+            }
             //相同数字做计数
          $cishu = (array_count_values($numb));
             $numb =   array_unique($numb);
@@ -300,7 +348,7 @@
     //私有转换牌去掉花色
      function zhuanhuan($pai)
     {
-        var_dump($pai);
+       
                $numb = [];
              //去掉花色
              foreach($pai as $v){
