@@ -1,34 +1,34 @@
 <?php
 
 
-    function pai($people)
-    {
+    // function pai($people)
+    // {
  
-        //开局人数
-        if($people == 2 || $people == 3){
+    //     //开局人数
+    //     if($people == 2 || $people == 3){
 
-        $pai = [31,32,33,34,41,42,43,44,51,52,53,54,61,62,63,64,71,72,73,74,81,82,83,84,91,92,93,94,101,102,103,104,111,112,113,114,121,122,123,124,131,132,133,134,141,142,143,160];
-        shuffle($pai);
+    //     $pai = [31,32,33,34,41,42,43,44,51,52,53,54,61,62,63,64,71,72,73,74,81,82,83,84,91,92,93,94,101,102,103,104,111,112,113,114,121,122,123,124,131,132,133,134,141,142,143,160];
+    //     shuffle($pai);
 
-        $numb = count($pai)/$people;
-        $pais = [];
+    //     $numb = count($pai)/$people;
+    //     $pais = [];
 
-        for($i = 0;$i<$people;$i++){
-            for($j=0;$j<$numb;$j++){
-               $pais[$i][] =  array_pop($pai);
-            }
-            sort($pais[$i]);
-        }
-        return $pais;
-        }
+    //     for($i = 0;$i<$people;$i++){
+    //         for($j=0;$j<$numb;$j++){
+    //            $pais[$i][] =  array_pop($pai);
+    //         }
+    //         sort($pais[$i]);
+    //     }
+    //     return $pais;
+    //     }
        
       
-    }   
+    // }   
     //单
     function dan($pai)
     {
         if(count($pai) == 1){
-          var_dump(['type'=>1,'len'=>1]); 
+          return ['type'=>1,'len'=>1]; 
         }else{
             return false;
         }
@@ -54,8 +54,8 @@
                }
             
          if($u == count($pai)){
-            var_dump($numb);
-           var_dump( ['type'=>2,'len'=>count($pai)]);
+           
+           return ['type'=>2,'len'=>count($pai)];
          }else{
 
            sandai($pai);
@@ -63,7 +63,7 @@
 
      
         }else{
-            echo '不是顺子';
+             return false;
         }
     }
     //对子
@@ -73,10 +73,10 @@
             $numb =  zhuanhuan($pai);
        //单对，两位相等
       if($numb[0] == $numb[1]){
-         var_dump($numb);
-         var_dump(['type'=>3,'len'=>2]); 
+        
+         return ['type'=>3,'len'=>2]; 
       }else{
-        echo '牌型错误';
+         return false;
       }
     }
     //连对
@@ -119,10 +119,10 @@
                }
 
                if($u == count($numb)){
-                var_dump($numb);
-           var_dump( ['type'=>4,'len'=>count($pai)]);
+              
+           return ['type'=>4,'len'=>count($pai)];
          }else{
-            echo '牌型错误，连对';
+             return false;
          }
 
         }elseif($b == 1){
@@ -163,16 +163,16 @@
          }
       
        if($b == 1){
-        var_dump($numb);
-         var_dump( ['type'=>5,'len'=>count($pai)]);
+      
+         return ['type'=>5,'len'=>count($pai)];
 
        }else{
-        echo 'sandai 牌型错误'; die;
+         return false;
        }
         }elseif(count($pai) == 4){
             sand1($pai);
         }else{
-             echo '牌型错误,3dai';
+              return false;
         }
        
      
@@ -198,15 +198,15 @@
          }
       
        if($b == 1){
-        var_dump($numb);
-         var_dump( ['type'=>6,'len'=>count($pai)]);
+        // var_dump($numb);
+         return ['type'=>6,'len'=>count($pai)];
 
        }else{
         echo '牌型错误,3dai1';
        }
-       var_dump($numb);
+       // var_dump($numb);
         }else{
-            echo '手牌多了';
+            return false;
         }
         
     }
@@ -232,14 +232,14 @@
       
        if($b == 1){
         // var_dump($numb);
-         var_dump( ['type'=>7,'len'=>count($pai)]);
+         return ['type'=>7,'len'=>count($pai)];
 
        }else{
-        echo '牌型错误hou3';
+         return false;
        }
        // var_dump($numb);
         }else{
-            echo '手牌多了hoou3';
+            return false;
         }
     }
 
@@ -276,11 +276,11 @@
             //判断是否为333444连续
          if($b == 2 && $ob[0]+1 == $ob[1]){
      
-         var_dump( ['type'=>8,'len'=>count($pai)]);
+         return ['type'=>8,'len'=>count($pai)];
 
        }else{
 
-        echo '牌型错误feiji';
+         return false;
        }
        
         
@@ -302,14 +302,14 @@
       
          if($b == 2){
         
-         var_dump( ['type'=>8,'len'=>count($pai)]);
+        return ['type'=>8,'len'=>count($pai)];
 
        }else{
 
-        echo '牌型错误feiji';
+        return false;
        }
     }else{
-        echo 'feiji牌少但别打错';
+         return false;
     }
     }
 
