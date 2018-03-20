@@ -175,18 +175,16 @@ class RoomController extends Controller
           }
           $this->destroy();
     }
+    //传入 mid roomid pai
     public function dachu()
     {
         echo  "【dachu】".json_encode($this->data). "\n";
             if ($this->is_destroy) {
             return;
         }
-               $data = $this->client_data->data;
-           if(isset($data['pai']) || empty($data) || empty($data['pai'])){
-            return false;
-           }
+            
               
-           $pai = $data['pai'];
+           $pai = $this->data->pai;
                  if(count($pai)== 1){
           
              $leix =   dan($pai);
