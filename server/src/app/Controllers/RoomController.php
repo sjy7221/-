@@ -196,7 +196,7 @@ class RoomController extends Controller
    
                $leix =  liandui($pai); 
              }
-        var_dump ($this->gameInfo);
+        var_dump ($leix);
         }
         
     }
