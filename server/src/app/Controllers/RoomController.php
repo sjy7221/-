@@ -181,7 +181,7 @@ class RoomController extends Controller
             /*if ($this->is_destroy) {
             return;
         }*/
-        $pai = [32,32,34,35];
+        $pai = $this->data->pai;
 
         if(count($pai)== 1){
                dan($pai);
