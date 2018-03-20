@@ -182,9 +182,7 @@ class RoomController extends Controller
             return;
         }
               $pai = $this->data->pai;
-            if(empty($pai) || isset($pai)){
-                $pai = [];
-            }
+           
               
 
                  if(count($pai)== 1){
