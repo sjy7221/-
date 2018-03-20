@@ -181,11 +181,14 @@ class RoomController extends Controller
             if ($this->is_destroy) {
             return;
         }
-              $pai = $this->data->pai;
-           
+               $data = $this->client_data->data;
+           if(isset($data['pai']) || empty($data) || empty($data['pai'])){
+            return false;
+           }
               
-
+           $pai = $data['pai'];
                  if(count($pai)== 1){
+          
              $leix =   dan($pai);
             }elseif(count($pai) == 2){
              $leix =  duizi($pai);
