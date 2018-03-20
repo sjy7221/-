@@ -182,8 +182,8 @@ class RoomController extends Controller
             return;
         }
         
-        $pai = $this->data->pai;
-            if($pai){
+    
+            if($this->data->pai){
                  if(count($pai)== 1){
              $leix =   dan($pai);
             }elseif(count($pai) == 2){
