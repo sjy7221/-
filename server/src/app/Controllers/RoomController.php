@@ -207,7 +207,7 @@ class RoomController extends Controller
         $roomInfo['weizhi'] = [1,2,3];
        $weizhi =  array_search($this->mid,$roomInfo['weizhi']);//当前位置;
        if($roomInfo['guize']['renshu'] == 3){
-           
+            $weizhi += 1;
             if($weizhi > 2){
                 $now = 0;
             }else{
@@ -215,7 +215,7 @@ class RoomController extends Controller
             }
 
        }elseif($roomInfo['guize']['renshu'] == 2){
-            $weizhi += 1;
+           
             if($weizhi > 1){
                 $now = 0;
             }else{
