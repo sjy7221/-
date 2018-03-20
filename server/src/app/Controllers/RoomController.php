@@ -24,6 +24,8 @@ class RoomController extends Controller
     public $userInfo;//用户信息
     public $gameInfo;//游戏信息
     public $uids;
+    // public $weizhi;  //当前位置是谁打牌
+    // public $now; //现在改谁打牌
     protected function initialization($controller_name,$method_name)
     {
         parent::initialization($controller_name, $method_name);
@@ -197,13 +199,34 @@ class RoomController extends Controller
    
                $leix =  liandui($pai); 
              }
+        $roomInfo = $this->roomInfo;
          $gameInfo = $this->gameInfo;
          $gameInfo['users'][$this->mid]['dachu'] = $pai;
+         $gameInfo['users'][$this->mid]['dcleix'] = $leix;
+        $gameInfo['sjid'] = $this->mid;//现在打的人的id;
+        $roomInfo['weizhi'] = [1,2,3];
+       $weizhi =  array_search($this->mid,$roomInfo['weizhi']);//当前位置;
+       if($roomInfo['guize']['renshu'] == 3){
+           
+            if($weizhi > 2){
+                $now = 0;
+            }else{
+                $now = $weizhi;
+            }
+
+       }elseif($roomInfo['guize']['renshu'] == 2){
+            $weizhi += 1;
+            if($weizhi > 1){
+                $now = 0;
+            }else{
+                $now =$weizhi;
+            }
+       }
        $req =  array_diff($gameInfo['users'][$this->mid]['shoupai'],$pai)  ;
           sort($req);
           $gameInfo['users'][$this->mid]['shoupai'] = $req;
-          var_dump($gameInfo);
-       
+          var_dump($now);
+
     }
 
     //离开
