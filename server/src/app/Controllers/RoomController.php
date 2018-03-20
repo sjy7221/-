@@ -191,9 +191,9 @@ class RoomController extends Controller
               hou3($pai);
             }elseif(count($pai)>=4){
    
-                liandui($pai); 
+               $leix =  liandui($pai); 
              }
-          
+          var_dump($leix);
     }
 
     //离开
