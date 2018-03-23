@@ -300,6 +300,7 @@ class RoomController extends Controller
                                      $data = [
                                          'route'=>'guo',
                                          'now'=>$now,
+                                         'nowshoupai'=>$nextsp,
                                          'mid'=>$nextid,
                                          'type'=> false,
                                          'mg'=> '要不起'
