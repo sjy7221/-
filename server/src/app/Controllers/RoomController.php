@@ -71,22 +71,22 @@ class RoomController extends Controller
      */
     public function jinru()
     {
-        var_dump($this->gameInfo);
-//        echo  "【jinru】".json_encode($this->data). "\n";
-//      if ($this->is_destroy) {
-//            return;
-//        }
-//
-//          if (!in_array($this->mid,$this->uids)  && count($this->uids) >= $this->roomInfo['guize']['renshu']) {
-//            $this->send('人数已满', false);
-//            $this->close();
-//            return '空';
-//        }
-//
-//
-//
-//        $re = yield $this->CommModel->jinru($this->mid, $this->room_id, $this->roomInfo,$this->userInfo,$this->gameInfo);
-//    var_dump($re);
+
+        echo  "【jinru】".json_encode($this->data). "\n";
+      if ($this->is_destroy) {
+            return;
+        }
+
+          if (!in_array($this->mid,$this->uids)  && count($this->uids) >= $this->roomInfo['guize']['renshu']) {
+            $this->send('人数已满', false);
+            $this->close();
+            return '空';
+        }
+
+
+
+        $re = yield $this->CommModel->jinru($this->mid, $this->room_id, $this->roomInfo,$this->userInfo,$this->gameInfo);
+
 //       if(!$re['game_start']){
 //         $data = [
 //            'route'=>'jinru',

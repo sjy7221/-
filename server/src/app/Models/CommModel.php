@@ -44,9 +44,9 @@ class CommModel extends Model
            		return false; 
            }
            $member = $member['result'][0];
-
+       var_dump($roomInfo['weizhi']);
            //新玩家加入weihzi
-         if(array_search($mid,$roomInfo['weizhi']) == null && count($roomInfo['weizhi']) == $roomInfo['guize']['renshu']){
+         if(!in_array($mid,$roomInfo['weizhi'])  && count($roomInfo['weizhi']) < $roomInfo['guize']['renshu']+1){
             $roomInfo['weizhi'][] = $mid;
          } 
           		 
