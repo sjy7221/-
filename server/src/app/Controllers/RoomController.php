@@ -275,7 +275,9 @@ class RoomController extends Controller
                                  $data = [
                                      'route'=>'dachu',
                                      'now'=> $now,
+                                     'mid'=>$this->mid,
                                      'tishi'=>$tishi,
+                                     'pai'=>$pai,
                                      'type'=> true
                                  ];
                                  $gameInfo['now'] = $now;//存该谁打牌
@@ -296,13 +298,13 @@ class RoomController extends Controller
                                      $data = [
                                          'route'=>'guo',
                                          'now'=>$now,
-                                         'next'=>$nextid,
+                                         'mid'=>$nextid,
                                          'type'=> false,
                                          'mg'=> '要不起'
                                      ];
                                      $this->sendToUids($this->uids,$data,false);
 //                                 }
-                                
+
                              }
                          }
                      }elseif($roomInfo['guize']['renshu'] == 2){        //如果是两人房
