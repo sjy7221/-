@@ -87,7 +87,7 @@ class CommModel extends Model
             	$game_start = 0;
             }
 
-            yield $this->redis_pool->hmset($room_id, 'roomInfo', serialize($roomInfo), 'userInfo', serialize($userInfo),'gameInfo',serialize($gameInfo));
+            yield $this->redis_pool->hset($room_id, 'roomInfo', serialize($roomInfo), 'userInfo', serialize($userInfo),'gameInfo',serialize($gameInfo));
          // $userinfo =  yield $this->redis_pool->hget($room_id,  'userInfo', serialize($userinfo),'gameInfo',serialize($gameinfo));
              return [ 'game_start' => $game_start, 'roomInfo' => $roomInfo,'userInfo'=>$userInfo];
     }
