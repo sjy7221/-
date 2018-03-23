@@ -85,7 +85,7 @@ class RoomController extends Controller
 
         }
 
-
+        yield $this->redis_pool->getCoroutine()->hset('uids_'.$room_id,$mid,1);
 
         $re = yield $this->CommModel->jinru($this->mid, $this->room_id, $this->roomInfo,$this->userInfo,$this->gameInfo);
 
@@ -96,8 +96,8 @@ class RoomController extends Controller
             'userInfo'=> $this->userInfo
 
         ];
-
-         $this->sendToUids($this->uids, $data, false);
+          $users =  yield $this->redis_pool->getCoroutine()->hkeys('uids_' . $this->room_id);
+           $this->sendToUids($users, $data, false);
 
        }else{
             echo '1111';

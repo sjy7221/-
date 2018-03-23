@@ -49,7 +49,7 @@ class CommModel extends Model
          if(!in_array($mid,$roomInfo['weizhi'])  && count($roomInfo['weizhi']) < $roomInfo['guize']['renshu']+1){
             $roomInfo['weizhi'][] = $mid;
          } 
-          		 
+          		 $roomInfo['users'][] = [$mid];
                 $roomInfo['nowjushu'] = 1;//为开局第一局
                  $userInfo['users'][$mid] = [
                 'id' => $mid,
@@ -72,7 +72,7 @@ class CommModel extends Model
                 ->set('room_id', $room_id)
                 ->where('id', $mid)
                 ->coroutineSend();
-            yield $this->redis_pool->getCoroutine()->hset('uids_'.$room_id,$mid,1);
+//            yield $this->redis_pool->getCoroutine()->hset('uids_'.$room_id,$mid,1);
               // yield $this->redis_pool->getCoroutine()->hset($room_id,'userInfo',serialize($userInfo),'gameInfo',serialize($gameInfo));
     	 // }
 
