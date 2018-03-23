@@ -93,7 +93,8 @@ class RoomController extends Controller
          $data = [
             'route'=>'jinru',
             'roomInfo'=>$this->roomInfo,
-            'userInfo'=> $this->userInfo
+            'userInfo'=> $this->userInfo,
+             'mid'=>$this->mid
 
         ];
           $users =  yield $this->redis_pool->getCoroutine()->hkeys('uids_' . $this->room_id);
