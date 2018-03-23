@@ -74,13 +74,15 @@ class RoomController extends Controller
 
         echo  "【jinru】".json_encode($this->data). "\n";
       if ($this->is_destroy) {
+          echo 'des';
             return;
         }
 
           if (!in_array($this->mid,$this->uids)  && count($this->uids) >= $this->roomInfo['guize']['renshu']) {
+          echo 'man';
             $this->send('人数已满', false);
             $this->close();
-            return '空';
+
         }
 
 
@@ -98,7 +100,7 @@ class RoomController extends Controller
          $this->sendToUids($this->uids, $data, false);
 
        }else{
-
+            echo '1111';
          // $this->fapai($re['roomInfo']['guize']['renshu'],$re['roomInfo']['guize']['room_id']);
 
          $this->sendToUids($this->uids,['game_go','游戏开始'],false);
