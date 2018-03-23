@@ -227,7 +227,7 @@ class RoomController extends Controller
    
                $leix =  liandui($pai,$shoupai);
              }
-             var_dump($leix);
+
              //如果返回的类型
              if($leix){
 
@@ -237,7 +237,9 @@ class RoomController extends Controller
         // $roomInfo['weizhi'] = [1,2,3];
                  $gameInfo['users'][$this->mid]['zhadan'] = 0;
             $weizhi =  array_search($this->mid,$roomInfo['weizhi']);//当前位置;
-
+                var_dump($pai);
+                echo '<br>';
+                var_dump($shoupai);
                  //从手牌中去除打出的牌
               $req =  array_diff($shoupai,$pai);
                     if($leix['type'] == 10){ //炸弹数
