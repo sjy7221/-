@@ -45,7 +45,7 @@ class CommModel extends Model
            }
            $member = $member['result'][0];
            //新玩家加入weihzi
-         if(array_search($mid,$roomInfo['weizhi']) == null){
+         if(array_search($mid,$roomInfo['weizhi']) == null || isset($roomInfo['weizhi'])){
             $roomInfo['weizhi'][] = $mid;
          } 
           		 
