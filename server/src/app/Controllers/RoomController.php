@@ -116,7 +116,7 @@ class RoomController extends Controller
      * Date: 3/22
      *
      */
-    public function fapai($gameInfo,$roomInfo,$userInfo)
+    private function fapai($gameInfo,$roomInfo,$userInfo)
     {
 //             echo  "【fapai】".json_encode($this->data). "\n";
       if ($this->is_destroy) {
