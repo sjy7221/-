@@ -284,16 +284,17 @@ class RoomController extends Controller
                                  break;
                              }else{
 
-                                 if($i == 2){
-                                     $data = [
-                                         'route'=>'ziji',
-                                         'now'=> $this->mid
-                                     ];
-                                     $this->sendToUids($this->uids,$data,false);
-                                 }else{
+//                                 if($i == 2){
+//                                     $data = [
+//                                         'route'=>'ziji',
+//                                         'now'=> $this->mid
+//                                     ];
+//                                     $this->sendToUids($this->uids,$data,false);
+//                                 }else{
                                      $data = [
                                          'route'=>'guo',
                                          'now'=> $now,
+                                        
                                          'type'=> false,
                                          'mg'=> '要不起'
                                      ];
