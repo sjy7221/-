@@ -252,17 +252,18 @@ class RoomController extends Controller
 
 
                      $gameInfo['users'][$this->mid]['shoupai'] = $req;//把剩余的手牌存起来
-                     var_dump($gameInfo['users'][$this->mid]['shoupai']);
-                         echo '<br>';
+//                     var_dump($gameInfo['users'][$this->mid]['shoupai']);
+//                         echo '<br>';
                      if($roomInfo['guize']['renshu'] == 3){
 
                          for($i=1;$i<count($gameInfo['users']);$i++){
+
                              if($weizhi+$i == 3) {
                                  $next = 0;//下一个人
                              }elseif($weizhi+$i == 4){
                                  $next =1;//下下个人
                              }else{
-                                 $next = $i;
+                                 $next = $weizhi+1;
                              }
 
                              $now = $roomInfo['weizhi'][$next];//取出下一个人的mid
