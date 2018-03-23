@@ -45,7 +45,7 @@ class CommModel extends Model
            }
            $member = $member['result'][0];
            //新玩家加入weihzi
-         if(array_search($mid,$roomInfo['weizhi']) == null || isset($roomInfo['weizhi'])){
+         if(array_search($mid,$roomInfo['weizhi']) == null && count($roomInfo['weizhi']) == $roomInfo['guize']['renshu']){
             $roomInfo['weizhi'][] = $mid;
          } 
           		 
@@ -59,7 +59,7 @@ class CommModel extends Model
                 'sex'=>$member['sex'],
                
             ];
-              $gameInfo['now'] = 0;//存该谁出牌 用户id
+//              $gameInfo['now'] = 0;//存该谁出牌 用户id
               $gameInfo['users'][$mid] = [
                 'id'=>$mid,
                 'shoupai' =>[],
