@@ -44,8 +44,13 @@ class RoomController extends Controller
           $room = yield $this->redis_pool->getCoroutine()->hgetall($this->room_id);
            if (isset($room['roomInfo']) && $room['roomInfo']){
             $this->roomInfo = unserialize($room['roomInfo']);
-            $this->userInfo = unserialize($room['userInfo']);
-            $this->gameInfo = unserialize($room['gameInfo']);
+            if(isset($room['userInfo']) && $room['userInfo']){
+                $this->userInfo = unserialize($room['userInfo']);
+            }
+               if(isset($room['gameInfo']) && $room['gameInfo']){
+                   $this->userInfo = unserialize($room['gameInfo']);
+               }
+
         } else {
             $this->send('找不到房间信息', false);
             $this->close();
@@ -58,7 +63,12 @@ class RoomController extends Controller
             $this->bindUid($this->mid);
         }
     }
-
+    /**
+     * 进入房间流程.
+     * User: shijunyi
+     * Date: 3/22
+     *
+     */
     public function jinru()
     {
         echo  "【jinru】".json_encode($this->data). "\n";
@@ -80,8 +90,8 @@ class RoomController extends Controller
          $data = [
             'route'=>'jinru',
             'roomInfo'=>$this->roomInfo,
-            'userInfo'=> $this->userInfo,
-            'gameInfo'=> $this->gameInfo
+            'userInfo'=> $this->userInfo
+          
         ];
      
          $this->sendToUids($this->uids, $data, false);
@@ -97,6 +107,13 @@ class RoomController extends Controller
 
     }
 
+
+    /**
+     * 发牌流程.
+     * User: shijunyi
+     * Date: 3/22
+     *
+     */
     public function fapai()
     {
              echo  "【fapai】".json_encode($this->data). "\n";
@@ -110,7 +127,7 @@ class RoomController extends Controller
         $userInfo = $this->userInfo;
         $renshu = $roomInfo['guize']['renshu'];
         $roomid = $roomInfo['guize']['room_id'];
-        $pai = [31,32,33,34,41,42,43,44,51,52,53,54,61,62,63,64,71,72,73,74,81,82,83,84,91,92,93,94,101,102,103,104,111,112,113,114,121,122,123,124,131,132,133,134,141,142,143,160];
+        $pai = [31,32,33,34,41,42,43,44,51,52,53,54,61,62,63,64,71,72,73,74,81,82,83,84,91,92,93,94,101,102,103,104,111,112,113,114,121,122,123,124,131,132,133,134,144,142,143,160];
         shuffle($pai);
 
         $numb = count($pai)/$renshu;
@@ -154,7 +171,7 @@ class RoomController extends Controller
          $gameInfo['now'] = $gameInfo['now']['id'];
        }
         if(isset($roomInfo['guize']['suanfa'][1]) && $roomInfo['guize']['suanfa'][1]){
-            $roomInfo['niaoid'] = $niaoid;
+            $gameInfo['niaoid'] = $niaoid;
         }
         if(isset($roomInfo['guize']['suanfa'][2]) && $roomInfo['guize']['suanfa'][2]){
             $roomInfo['xianshi'] = 1;
@@ -177,60 +194,253 @@ class RoomController extends Controller
           }
           $this->destroy();
     }
-    //传入 mid roomid pai
+    /**
+     * 打出流程.
+     * User: shijunyi
+     * Date: 3/22
+     *
+     */
     public function dachu()
     {
+
         echo  "【dachu】".json_encode($this->data). "\n";
             if ($this->is_destroy) {
             return;
         }
-            
-              
-           // $pai = $this->data->pai;
-           $pai = [41];
+
+            $pai = $this->data->pai; //打出的牌
+
+            $room_id = $this->room_id;
+            $roomInfo = $this->roomInfo;
+            $gameInfo = $this->gameInfo;
+            $shoupai = $gameInfo['users'][$this->mid]['shoupai'];
+           //判断打出的牌型是否可出
                  if(count($pai)== 1){
           
              $leix =   dan($pai);
             }elseif(count($pai) == 2){
              $leix =  duizi($pai);
             }elseif(count($pai) == 3){
-             $leix =  hou3($pai);
+             $leix =  hou3($pai,$shoupai);
             }elseif(count($pai)>=4){
    
-               $leix =  liandui($pai); 
+               $leix =  liandui($pai,$shoupai);
              }
-        $roomInfo = $this->roomInfo;
-         $gameInfo = $this->gameInfo;
-         $gameInfo['users'][$this->mid]['dachu'] = $pai;
-         $gameInfo['users'][$this->mid]['dcleix'] = $leix;
-        $gameInfo['sjid'] = $this->mid;//现在打的人的id;
-        $roomInfo['weizhi'] = [1,2,3];
-       $weizhi =  array_search($this->mid,$roomInfo['weizhi']);//当前位置;
-       if($roomInfo['guize']['renshu'] == 3){
-            $weizhi += 1;
-            if($weizhi > 2){
-                $now = 0;
-            }else{
-                $now = $weizhi;
-            }
+             //如果返回的类型
+             if($leix){
 
-       }elseif($roomInfo['guize']['renshu'] == 2){
-           
-            if($weizhi > 1){
-                $now = 0;
-            }else{
-                $now =$weizhi;
-            }
+            $gameInfo['dachu']['mid'] = $this->mid;//打出牌人的id
+            $gameInfo['dachu']['pai'] = $pai;//打出的牌
+            $gameInfo['dachu']['leix'] = $leix;//打出的类型
+        // $roomInfo['weizhi'] = [1,2,3];
+                 $gameInfo['users'][$this->mid]['zhadan'] = 0;
+            $weizhi =  array_search($this->mid,$roomInfo['weizhi']);//当前位置;
+                 //从手牌中去除打出的牌
+              $req =  array_diff($shoupai,$pai);
+                    if($leix['type'] == 10){ //炸弹数
+                        $gameInfo['users'][$this->mid]['zhadan'] +=1;
+                    }
+
+                 if($req){//如果没打完
+                     sort($req);
+                     $gameInfo['users'][$this->mid]['shoupai'] = $req;//把剩余的手牌存起来
+                     if($roomInfo['guize']['renshu'] == 3){
+
+                         for($i=1;$i<count($gameInfo['users']);$i++){
+                             if($weizhi+$i == 3) {
+                                 $next = 0;//下一个人
+                             }elseif($weizhi+$i == 4){
+                                 $next =1;//下下个人
+                             }
+                             $now = $roomInfo['weizhi'][$next];//取出下一个人的mid
+                             $nextsp  =  $gameInfo['users'][$now]['shoupai'];//下一个人的手牌
+                             $tishi =  shoupai($nextsp,$pai,$leix) ;
+                             if($tishi){
+                                 $data = [
+                                     'route'=>'dachu',
+                                     'now'=> $now,
+                                     'tishi'=>$tishi,
+                                     'type'=> true
+                                 ];
+                                 $gameInfo['now'] = $now;//存该谁打牌
+                                 $gameInfo['tishi'][$now] = $tishi;
+                                 yield $this->redis_pool->hset($room_id, 'gameInfo',serialize($gameInfo));
+                                 $this->sendToUids($this->uids,$data,false);
+
+                                 break;
+                             }else{
+
+                                 if($i == 2){
+                                     $data = [
+                                         'route'=>'dachu',
+                                         'now'=> $this->mid
+                                     ];
+                                     $this->sendToUids($this->uids,$data,false);
+                                 }else{
+                                     $data = [
+                                         'route'=>'guo',
+                                         'now'=> $now,
+                                         'type'=> false,
+                                         'mg'=> '要不起'
+                                     ];
+                                     $this->sendToUids($this->uids,$data,false);
+                                 }
+
+                             }
+                         }
+                     }elseif($roomInfo['guize']['renshu'] == 2){        //如果是两人房
+                         $weizhi += 1;
+                         if($weizhi > 1){
+                             $now = 0;
+                         }else{
+                             $now =$weizhi;
+                         }
+                         $now = $roomInfo['weizhi'][$now];//取出下一个人的mid
+                         $nextsp  =  $gameInfo['users'][$now]['shoupai'];//下一个人的手牌
+                         $tishi =  shoupai($nextsp,$pai,$leix) ;
+                         if($tishi){
+                             $data = [
+                                 'route'=>'dachu',
+                                 'now'=> $now,
+                                 'tishi'=>$tishi,
+                                 'type'=> true
+                             ];
+                             $gameInfo['now'] = $now;//存该谁打牌
+                             $gameInfo['tishi'][$now] = $tishi;
+                             yield $this->redis_pool->hset($room_id, 'gameInfo',serialize($gameInfo));
+                             $this->sendToUids($this->uids,$data,false);
+                         }else{
+                             $data = [
+                                 'route'=>'dachu',
+                                 'now'=> $this->mid
+                             ];
+                             $this->sendToUids($this->uids,$data,false);
+                         }
+                     }
+
+
+
+
+
+
+                     /**
+                      * 如果打入的牌型通不过
+                      *
+                      *
+                      *
+                      */
+                 }else{
+                     $this->send('牌型有误');
+                 }
+                 }else{
+                     //如果打完
+                     $this->jieshu($this->mid,$gameInfo);
+                 }
+
+
+
+        $this->destroy();
+    }
+
+    /**
+     * 每局结束.
+     * User: shijunyi
+     * Date: 3/22
+     *
+     */
+    private function jieshu($mid,$gameInfo)
+    {
+       $roomInfo =  $this->roomInfo;
+
+       if($roomInfo['nowjushu'] == $roomInfo['guize']['jushu']){
+                $data = [
+                  'roomInfo'=> $this->roomInfo,
+                   'userInfo'=> $this->userInfo,
+                    'gameInfo'=>$gameInfo,
+                    'route'=>'game_over'
+                ];
+           yield $this->redis_pool->del($this->room_id);
+           yield $this->redis_pool->del('uids_'.$this->room_id);
+
+                $this->sendToUids($this->uids,$data,false);
+       }else{
+           $users = $gameInfo['users'];
+           $jusers = $users;
+           $zongjifen = '';
+         foreach($users as $k=>$v){
+                if($k == $gameInfo['niaoid'] && $mid == $k){ // 赢的人
+                    unset($jusers[$k]);
+                    foreach($jusers as $kk => $vv){
+                        if(count($vv['shoupai']) == 1){
+                            $vv['sjifen'] = 0;
+//                            $gameInfo['users'][$kk]['sjifen'] = $vv['sjifen'];
+                            $gameInfo['users'][$kk]['fenshu'] -= $vv['sjifen'];
+                            $gameInfo['users'][$k]['fenshu'] += $gameInfo['users'][$kk]['sjifen'];
+                        }else{
+                            if(count($vv['shoupai']) == 48/$roomInfo['guize']['renshu'] ){
+                                $vv['sjifen'] = (count($v['shoupai'])*2 + $v['zhadan']*10)*2;
+                                $gameInfo['users'][$kk]['fenshu'] -= $vv['sjifen'];
+                                $gameInfo['users'][$k]['fenshu'] += $gameInfo['users'][$kk]['sjifen'];
+                            }else{
+                                $vv['sjifen'] = count($v['shoupai']) * 2 ;
+                                $gameInfo['users'][$kk]['fenshu'] -= $vv['sjifen'];
+                                $gameInfo['users'][$k]['fenshu'] += $gameInfo['users'][$kk]['sjifen'];
+                            }
+                        }
+
+                    }
+                }else{
+                    if($k == $mid){
+                        unset($jusers[$k]);
+                        foreach($jusers as $kk => $vv){
+                            if(count($vv['shoupai']) == 1){
+                                $vv['sjifen'] = 0;
+                                $gameInfo['users'][$kk]['fenshu'] -= $vv['sjifen'];
+                                $gameInfo['users'][$k]['fenshu'] += $gameInfo['users'][$kk]['sjifen'];
+                            }else{
+                                if(count($vv['shoupai']) == 48/$roomInfo['guize']['renshu'] && $kk == $gameInfo['niaoid'] ){
+                                    $vv['sjifen'] = (count($v['shoupai'])*2 + $v['zhadan']*10)*2;
+                                    $gameInfo['users'][$kk]['fenshu'] -= $vv['sjifen'];
+                                    $gameInfo['users'][$k]['fenshu'] += $gameInfo['users'][$kk]['sjifen'];
+                                }elseif(count($vv['shoupai']) == 48/$roomInfo['guize']['renshu']){
+                                    $vv['sjifen'] = count($v['shoupai'])*2 + $v['zhadan']*10;
+                                    $gameInfo['users'][$kk]['fenshu'] -= $vv['sjifen'];
+                                    $gameInfo['users'][$k]['fenshu'] += $gameInfo['users'][$kk]['sjifen'];
+                                }else{
+                                    $vv['sjifen'] = count($v['shoupai'])  ;
+                                    $gameInfo['users'][$kk]['fenshu'] -= $vv['sjifen'];
+                                    $gameInfo['users'][$k]['fenshu'] += $gameInfo['users'][$kk]['sjifen'];
+                                }
+                            }
+
+                        }
+                    }
+                }
+             $gameInfo['users'][$k]['shoupai'] = [];
+             $gameInfo['users'][$k]['dachu'] = [];
+
+         }
+           $roomInfo['nowjushu'] +=1;
+            $gameInfo['now'] = $mid;
+           yield $this->redis_pool->hset($this->room_id, 'gameInfo',serialize($gameInfo),'roomInfo',serialize($roomInfo));
+           $data = [
+               'roomInfo'=> $this->roomInfo,
+               'userInfo'=> $this->userInfo,
+               'gameInfo'=>$gameInfo,
+               'route'=>'game_over'
+           ];
+           $this->sendToUids($this->uids,$data,false);
        }
-       $req =  array_diff($gameInfo['users'][$this->mid]['shoupai'],$pai)  ;
-          sort($req);
-          $gameInfo['users'][$this->mid]['shoupai'] = $req;
-          var_dump($now);
 
     }
 
-    //离开
-    public function exit()
+    /**
+     * 离开房间.
+     * User: shijunyi
+     * Date: 3/22
+     *
+     */
+    public function game_exit()
     {
          if ($this->is_destroy) {
             return;

@@ -126,6 +126,7 @@ class IndexController extends Controller
                 'gid'=>51 //游戏种类
             ],
             'fangzhu' => $mid,
+            'nowjushu'=>'1',
             'status' => 0,//0代表未开始
             'users' => []//玩家
                                 //投票
