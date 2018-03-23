@@ -341,7 +341,7 @@
     function type1($pai, $dachu, $numb) {
         for ($i = 0;$i < count($pai);$i++) {
             for ($j = 0;$j < count($dachu);$j++) {
-                if ($pai[$i] > $dachu[$j]) {
+                if ($pai[$i] > $dachu[$j] + 10) {
                     return $pai[$i];
                 }
             }
