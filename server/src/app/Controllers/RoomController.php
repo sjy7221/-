@@ -263,7 +263,7 @@ class RoomController extends Controller
                              }elseif($weizhi+$i == 4){
                                  $next =1;//下下个人
                              }else{
-                                 $next = $weizhi+1;
+                                 $next = $weizhi+$i;
                              }
 
                              $now = $roomInfo['weizhi'][$next];//取出下一个人的mid
