@@ -249,8 +249,7 @@ class RoomController extends Controller
 
                  if(!empty($req)){//如果没打完
                      sort($req);
-                     var_dump($req);
-                     echo '<br>';
+                
 
                      $gameInfo['users'][$this->mid]['shoupai'] = $req;//把剩余的手牌存起来
                      var_dump($gameInfo['users'][$this->mid]['shoupai']);
