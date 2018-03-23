@@ -102,7 +102,8 @@ class RoomController extends Controller
          // $this->fapai($re['roomInfo']['guize']['renshu'],$re['roomInfo']['guize']['room_id']);
 
          $this->sendToUids($this->uids,['game_go','游戏开始'],false);
-
+           $room = yield $this->redis_pool->getCoroutine()->hgetall($this->room_id);
+            $this->fapai($room['gameInfo'],$room['roomInfo'],$userInfo);
        }
        $this->destroy();
 
@@ -115,9 +116,9 @@ class RoomController extends Controller
      * Date: 3/22
      *
      */
-    public function fapai()
+    private function fapai($gameInfo,$roomInfo,$userInfo)
     {
-             echo  "【fapai】".json_encode($this->data). "\n";
+//             echo  "【fapai】".json_encode($this->data). "\n";
       if ($this->is_destroy) {
             return;
         }
@@ -193,7 +194,7 @@ class RoomController extends Controller
 
              $this->sendToUid($us,$data,false);
           }
-          $this->destroy();
+//          $this->destroy();
     }
     /**
      * 打出流程.
