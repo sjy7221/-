@@ -86,24 +86,24 @@ class RoomController extends Controller
 
 
         $re = yield $this->CommModel->jinru($this->mid, $this->room_id, $this->roomInfo,$this->userInfo,$this->gameInfo);
-var_dump($re);
-//       if(!$re['game_start']){
-//         $data = [
-//            'route'=>'jinru',
-//            'roomInfo'=>$this->roomInfo,
-//            'userInfo'=> $this->userInfo
-//
-//        ];
-//
-//         $this->sendToUids($this->uids, $data, false);
-//
-//       }else{
-//
-//         // $this->fapai($re['roomInfo']['guize']['renshu'],$re['roomInfo']['guize']['room_id']);
-//
-//         $this->sendToUids($this->uids,['game_go','游戏开始'],false);
-//
-//       }
+
+       if(!$re['game_start']){
+         $data = [
+            'route'=>'jinru',
+            'roomInfo'=>$this->roomInfo,
+            'userInfo'=> $this->userInfo
+
+        ];
+
+         $this->sendToUids($this->uids, $data, false);
+
+       }else{
+
+         // $this->fapai($re['roomInfo']['guize']['renshu'],$re['roomInfo']['guize']['room_id']);
+
+         $this->sendToUids($this->uids,['game_go','游戏开始'],false);
+
+       }
        $this->destroy();
 
     }
