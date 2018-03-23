@@ -48,7 +48,7 @@ class RoomController extends Controller
                 $this->userInfo = unserialize($room['userInfo']);
             }
                if(isset($room['gameInfo']) && $room['gameInfo']){
-                   $this->userInfo = unserialize($room['gameInfo']);
+                   $this->gameInfo = unserialize($room['gameInfo']);
                }
 
         } else {
@@ -71,7 +71,7 @@ class RoomController extends Controller
      */
     public function jinru()
     {
-        var_dump($this->uids);
+        var_dump($this->roomInfo);
 //        echo  "【jinru】".json_encode($this->data). "\n";
 //      if ($this->is_destroy) {
 //            return;
