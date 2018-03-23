@@ -48,8 +48,9 @@ class CommModel extends Model
             //新玩家加入weihzi
          if(!in_array($mid,$roomInfo['weizhi'])  && count($roomInfo['weizhi']) < $roomInfo['guize']['renshu']+1){
             $roomInfo['weizhi'][] = $mid;
+             $roomInfo['users'][] = [$mid];
          } 
-          		 $roomInfo['users'][] = [$mid];
+
                 $roomInfo['nowjushu'] = 1;//为开局第一局
                  $userInfo['users'][$mid] = [
                 'id' => $mid,
