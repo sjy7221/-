@@ -302,13 +302,7 @@ class RoomController extends Controller
                                      ];
                                      $this->sendToUids($this->uids,$data,false);
 //                                 }
-                                 if($i == 2){
-                                     $data = [
-                                         'route'=>'ziji',
-                                         'now'=> $this->mid
-                                     ];
-                                     $this->sendToUids($this->uids,$data,false);
-                                 }
+                                
                              }
                          }
                      }elseif($roomInfo['guize']['renshu'] == 2){        //如果是两人房
