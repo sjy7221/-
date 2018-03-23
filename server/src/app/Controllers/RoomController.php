@@ -286,11 +286,9 @@ class RoomController extends Controller
                                  break;
                              }else{
 
-                                 if($next+1 == 2) {
+                                 if($next+1 == 3) {
                                      $nextid = 0;//下一个人
 
-                                 }elseif($next+1 == 1){
-                                     $nextid =1;//下下个人
                                  }else{
                                      $nextid = $next+1;
                                  }
