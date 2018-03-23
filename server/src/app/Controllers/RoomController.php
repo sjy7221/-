@@ -353,10 +353,7 @@ class RoomController extends Controller
 
 
 
-                 }else{
-                     //如果打完
-                     $this->jieshu($this->mid,$gameInfo);
-                 }
+
                      /**
                       * 如果打入的牌型通不过
                       *
@@ -364,10 +361,13 @@ class RoomController extends Controller
                       *
                       */
                  }else{
-                     $this->send('牌型有误');
+                     $this->send('牌型有误',false);
                  }
                  yield $this->redis_pool->hset($room_id, 'gameInfo',serialize($gameInfo));
-
+                 }else{
+                     //如果打完
+                     $this->jieshu($this->mid,$gameInfo);
+                 }
 
 
 
