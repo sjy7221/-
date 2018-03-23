@@ -385,6 +385,7 @@ class RoomController extends Controller
      */
     private function jieshu($mid,$gameInfo)
     {
+        var_dump(3222);
        $roomInfo =  $this->roomInfo;
 
        if($roomInfo['nowjushu'] == $roomInfo['guize']['jushu']){
