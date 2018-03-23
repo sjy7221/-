@@ -363,12 +363,12 @@ class RoomController extends Controller
 //                 }else{
 //                     $this->send('牌型有误',false);
 //                 }
-//                 yield $this->redis_pool->hset($room_id, 'gameInfo',serialize($gameInfo));
+                 yield $this->redis_pool->hset($room_id, 'gameInfo',serialize($gameInfo));
                  }else{
-                     var_dump(111111);
+
                      yield  $this->jieshu($this->mid,$gameInfo);
                  }
-                     yield $this->redis_pool->hset($room_id, 'gameInfo',serialize($gameInfo));
+//                     yield $this->redis_pool->hset($room_id, 'gameInfo',serialize($gameInfo));
                       }else{
                     $this->send('牌型有误',false);
                         }
@@ -385,7 +385,7 @@ class RoomController extends Controller
      */
     private function jieshu($mid,$gameInfo)
     {
-        var_dump(3222);
+
        $roomInfo =  $this->roomInfo;
 
        if($roomInfo['nowjushu'] == $roomInfo['guize']['jushu']){
