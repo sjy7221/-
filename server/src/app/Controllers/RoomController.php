@@ -237,16 +237,16 @@ class RoomController extends Controller
         // $roomInfo['weizhi'] = [1,2,3];
                  $gameInfo['users'][$this->mid]['zhadan'] = 0;
             $weizhi =  array_search($this->mid,$roomInfo['weizhi']);//当前位置;
-                var_dump($pai);
+               
                 echo '<br>';
-                var_dump($shoupai);
+                var_dump($req);
                  //从手牌中去除打出的牌
               $req =  array_diff($shoupai,$pai);
                     if($leix['type'] == 10){ //炸弹数
                         $gameInfo['users'][$this->mid]['zhadan'] +=1;
                     }
 
-                 if($req){//如果没打完
+                 if(!empty($req)){//如果没打完
                      sort($req);
                      $gameInfo['users'][$this->mid]['shoupai'] = $req;//把剩余的手牌存起来
                      if($roomInfo['guize']['renshu'] == 3){
