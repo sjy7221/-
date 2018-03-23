@@ -268,7 +268,7 @@ class RoomController extends Controller
                              }
 
                              $now = $roomInfo['weizhi'][$next];//取出下一个人的mid
-                             $next = $roomInfo['weizhi'][$next+1];
+                             $nextid = $roomInfo['weizhi'][$next+1];
                              $nextsp  =  $gameInfo['users'][$now]['shoupai'];//下一个人的手牌
                              $tishi =  shoupai($nextsp,$pai,$leix) ;
                              if($tishi){
@@ -286,11 +286,18 @@ class RoomController extends Controller
                                  break;
                              }else{
 
+                                 if($next+1 == 3) {
+                                     $nextid = 0;//下一个人
 
+                                 }elseif($next+1 == 4){
+                                     $nextid =1;//下下个人
+                                 }else{
+                                     $nextid = $next+1;
+                                 }
                                      $data = [
                                          'route'=>'guo',
                                          'now'=>$now,
-                                         'next'=>$next,
+                                         'next'=>$nextid,
                                          'type'=> false,
                                          'mg'=> '要不起'
                                      ];
