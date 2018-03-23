@@ -103,7 +103,7 @@ class RoomController extends Controller
 
          $this->sendToUids($this->uids,['game_go','游戏开始'],false);
            $room = yield $this->redis_pool->getCoroutine()->hgetall($this->room_id);
-            $this->fapai($room['gameInfo'],$room['roomInfo'],$userInfo);
+            $this->fapai($room['gameInfo'],$room['roomInfo'],$room['userInfo']);
        }
        $this->destroy();
 
