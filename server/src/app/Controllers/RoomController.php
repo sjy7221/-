@@ -279,8 +279,8 @@ class RoomController extends Controller
                                      'tishi'=>$tishi,
                                      'pai'=>$pai,
                                      'nowshoupai'=>$nextsp,
-                                     'type'=>$leix['type'],
-                                     'type'=> true
+                                     'type'=>$leix['type']
+
                                  ];
                                  $gameInfo['now'] = $now;//存该谁打牌
                                  $gameInfo['tishi'][$now] = $tishi;
