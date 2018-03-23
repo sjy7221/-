@@ -71,7 +71,7 @@ class RoomController extends Controller
      */
     public function jinru()
     {
-        var_dump($this->roomInfo);
+        var_dump($this->userInfo);
 //        echo  "【jinru】".json_encode($this->data). "\n";
 //      if ($this->is_destroy) {
 //            return;
