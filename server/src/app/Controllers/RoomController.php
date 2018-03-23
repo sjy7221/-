@@ -294,7 +294,7 @@ class RoomController extends Controller
                                      $data = [
                                          'route'=>'guo',
                                          'now'=> $now,
-                                        
+
                                          'type'=> false,
                                          'mg'=> '要不起'
                                      ];
