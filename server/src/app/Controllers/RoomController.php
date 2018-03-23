@@ -249,7 +249,7 @@ class RoomController extends Controller
 
                  if(!empty($req)){//如果没打完
                      sort($req);
-                
+
 
                      $gameInfo['users'][$this->mid]['shoupai'] = $req;//把剩余的手牌存起来
                      var_dump($gameInfo['users'][$this->mid]['shoupai']);
@@ -261,7 +261,10 @@ class RoomController extends Controller
                                  $next = 0;//下一个人
                              }elseif($weizhi+$i == 4){
                                  $next =1;//下下个人
+                             }else{
+                                 $next = $i;
                              }
+
                              $now = $roomInfo['weizhi'][$next];//取出下一个人的mid
                              $nextsp  =  $gameInfo['users'][$now]['shoupai'];//下一个人的手牌
                              $tishi =  shoupai($nextsp,$pai,$leix) ;
