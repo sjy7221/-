@@ -240,17 +240,17 @@ class RoomController extends Controller
 
 
 
-                 //从手牌中去除打出的牌
-              $req =  array_diff($shoupai,$pai);
+
 
                     if($leix['type'] == 10){ //炸弹数
                         $gameInfo['users'][$this->mid]['zhadan'] +=1;
                     }
-
+                 //从手牌中去除打出的牌
+                 $req =  array_diff($shoupai,$pai);
                  if(!empty($req)){//如果没打完
                      sort($req);
 
-                        var_dump($req);
+
                      $gameInfo['users'][$this->mid]['shoupai'] = $req;//把剩余的手牌存起来
                     var_dump($gameInfo['users'][$this->mid]['shoupai']);
                         echo '<br>';
@@ -360,18 +360,21 @@ class RoomController extends Controller
                       *
                       *
                       */
-                 }else{
-                     $this->send('牌型有误',false);
-                 }
-                 yield $this->redis_pool->hset($room_id, 'gameInfo',serialize($gameInfo));
+//                 }else{
+//                     $this->send('牌型有误',false);
+//                 }
+//                 yield $this->redis_pool->hset($room_id, 'gameInfo',serialize($gameInfo));
                  }else{
                      //如果打完
                      $this->jieshu($this->mid,$gameInfo);
                  }
+                 yield $this->redis_pool->hset($room_id, 'gameInfo',serialize($gameInfo));
+                      }else{
+                    $this->send('牌型有误',false);
+                        }
 
 
-
-        $this->destroy();
+                     $this->destroy();
     }
 
     /**
