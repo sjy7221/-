@@ -44,7 +44,7 @@ class CommModel extends Model
            		return false; 
            }
            $member = $member['result'][0];
-           var_dump($member);echo '<br>'.'数据库用户信息';
+
            //新玩家加入weihzi
          if(array_search($mid,$roomInfo['weizhi']) == null && count($roomInfo['weizhi']) == $roomInfo['guize']['renshu']){
             $roomInfo['weizhi'][] = $mid;
@@ -75,7 +75,7 @@ class CommModel extends Model
             yield $this->redis_pool->getCoroutine()->hset('uids_'.$room_id,$mid,1);
               // yield $this->redis_pool->getCoroutine()->hset($room_id,'userInfo',serialize($userInfo),'gameInfo',serialize($gameInfo));
     	 // }
-        var_dump($userInfo['users']);echo '<br>'.'user';
+        
             if(count($userInfo['users']) ==  $roomInfo['guize']['renshu']){
             	  yield $this->mysql_pool->dbQueryBuilder
                 ->update('gs_rooms')
@@ -87,7 +87,7 @@ class CommModel extends Model
             	$game_start = 0;
             }
 
-            yield $this->redis_pool->hset($room_id, 'roomInfo', serialize($roomInfo), 'userInfo', serialize($userInfo),'gameInfo',serialize($gameInfo));
+            yield $this->redis_pool->hmset($room_id, 'roomInfo', serialize($roomInfo), 'userInfo', serialize($userInfo),'gameInfo',serialize($gameInfo));
          // $userinfo =  yield $this->redis_pool->hget($room_id,  'userInfo', serialize($userinfo),'gameInfo',serialize($gameinfo));
              return [ 'game_start' => $game_start, 'roomInfo' => $roomInfo,'userInfo'=>$userInfo];
     }
