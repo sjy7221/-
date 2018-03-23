@@ -252,8 +252,8 @@ class RoomController extends Controller
 
                         var_dump($req);
                      $gameInfo['users'][$this->mid]['shoupai'] = $req;//把剩余的手牌存起来
-//                     var_dump($gameInfo['users'][$this->mid]['shoupai']);
-//                         echo '<br>';
+                    var_dump($gameInfo['users'][$this->mid]['shoupai']);
+                        echo '<br>';
                      if($roomInfo['guize']['renshu'] == 3){
 
                          for($i=1;$i<count($gameInfo['users']);$i++){
@@ -284,7 +284,7 @@ class RoomController extends Controller
                                  ];
                                  $gameInfo['now'] = $now;//存该谁打牌
                                  $gameInfo['dachu']['tishi'] = $tishi;
-                                 yield $this->redis_pool->hset($room_id, 'gameInfo',serialize($gameInfo));
+
                                  $this->sendToUids($this->uids,$data,false);
 
                                  break;
@@ -305,6 +305,7 @@ class RoomController extends Controller
                                          'type'=> false,
                                          'mg'=> '要不起'
                                      ];
+
                                      $this->sendToUids($this->uids,$data,false);
 //                                 }
 
@@ -329,13 +330,14 @@ class RoomController extends Controller
                              ];
                              $gameInfo['now'] = $now;//存该谁打牌
                              $gameInfo['tishi'][$now] = $tishi;
-                             yield $this->redis_pool->hset($room_id, 'gameInfo',serialize($gameInfo));
+
                              $this->sendToUids($this->uids,$data,false);
                          }else{
                              $data = [
                                  'route'=>'ziji',
                                  'now'=> $this->mid
                              ];
+
                              $this->sendToUids($this->uids,$data,false);
                          }
                      }
@@ -354,6 +356,7 @@ class RoomController extends Controller
                  }else{
                      $this->send('牌型有误');
                  }
+                 yield $this->redis_pool->hset($room_id, 'gameInfo',serialize($gameInfo));
                  }else{
                      //如果打完
                      $this->jieshu($this->mid,$gameInfo);
