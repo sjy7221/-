@@ -208,9 +208,9 @@ class RoomController extends Controller
             if ($this->is_destroy) {
             return;
         }
-                echo 111;
+
             $pai = $this->data->pai; //打出的牌
-var_dump($pai);
+
             $room_id = $this->room_id;
             $roomInfo = $this->roomInfo;
             $gameInfo = $this->gameInfo;
@@ -227,6 +227,7 @@ var_dump($pai);
    
                $leix =  liandui($pai,$shoupai);
              }
+             var_dump($leix);
              //如果返回的类型
              if($leix){
 
