@@ -323,10 +323,13 @@ class RoomController extends Controller
                          $tishi =  shoupai($nextsp,$pai,$leix) ;
                          if($tishi){
                              $data = [
-                                 'route'=>'dachu',
-                                 'now'=> $now,
-                                 'tishi'=>$tishi,
-                                 'type'=> true
+                                   'route'=>'dachu',
+                                     'now'=> $now,
+                                     'mid'=>$this->mid,
+                                     'tishi'=>$tishi,
+                                     'pai'=>$pai,
+                                     'nowshoupai'=>$nextsp,
+                                     'type'=>$leix['type']
                              ];
                              $gameInfo['now'] = $now;//存该谁打牌
                              $gameInfo['tishi'][$now] = $tishi;
@@ -334,8 +337,12 @@ class RoomController extends Controller
                              $this->sendToUids($this->uids,$data,false);
                          }else{
                              $data = [
-                                 'route'=>'ziji',
-                                 'now'=> $this->mid
+                                 'route'=>'guo',
+                                 'now'=>$now,
+                                 'nowshoupai'=>$nextsp,
+                                 'mid'=>$this->mid,
+                                 'type'=> false,
+                                 'mg'=> '要不起'
                              ];
 
                              $this->sendToUids($this->uids,$data,false);
@@ -346,7 +353,10 @@ class RoomController extends Controller
 
 
 
-
+                 }else{
+                     //如果打完
+                     $this->jieshu($this->mid,$gameInfo);
+                 }
                      /**
                       * 如果打入的牌型通不过
                       *
@@ -357,10 +367,7 @@ class RoomController extends Controller
                      $this->send('牌型有误');
                  }
                  yield $this->redis_pool->hset($room_id, 'gameInfo',serialize($gameInfo));
-                 }else{
-                     //如果打完
-                     $this->jieshu($this->mid,$gameInfo);
-                 }
+
 
 
 
