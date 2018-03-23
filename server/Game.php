@@ -346,6 +346,7 @@
                 }
             }
         }
+
         return  zha($numb, $pai);
     }
     function type2($pai, $dachu, $numb, $leix) {

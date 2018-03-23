@@ -285,7 +285,7 @@ class RoomController extends Controller
 
                                  if($i == 2){
                                      $data = [
-                                         'route'=>'dachu',
+                                         'route'=>'ziji',
                                          'now'=> $this->mid
                                      ];
                                      $this->sendToUids($this->uids,$data,false);
@@ -324,7 +324,7 @@ class RoomController extends Controller
                              $this->sendToUids($this->uids,$data,false);
                          }else{
                              $data = [
-                                 'route'=>'dachu',
+                                 'route'=>'ziji',
                                  'now'=> $this->mid
                              ];
                              $this->sendToUids($this->uids,$data,false);
@@ -367,10 +367,11 @@ class RoomController extends Controller
 
        if($roomInfo['nowjushu'] == $roomInfo['guize']['jushu']){
                 $data = [
+                    'route'=>'jieshu',
                   'roomInfo'=> $this->roomInfo,
                    'userInfo'=> $this->userInfo,
-                    'gameInfo'=>$gameInfo,
-                    'route'=>'game_over'
+                    'gameInfo'=>$gameInfo
+
                 ];
            yield $this->redis_pool->del($this->room_id);
            yield $this->redis_pool->del('uids_'.$this->room_id);
@@ -437,10 +438,11 @@ class RoomController extends Controller
             $gameInfo['now'] = $mid;
            yield $this->redis_pool->hset($this->room_id, 'gameInfo',serialize($gameInfo),'roomInfo',serialize($roomInfo));
            $data = [
+               'route'=>'xjieshu',
                'roomInfo'=> $this->roomInfo,
                'userInfo'=> $this->userInfo,
-               'gameInfo'=>$gameInfo,
-               'route'=>'game_over'
+               'gameInfo'=>$gameInfo
+
            ];
            $this->sendToUids($this->uids,$data,false);
        }

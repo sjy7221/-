@@ -82,6 +82,7 @@ class CommModel extends Model
                 ->set('status',1)
                 ->where('room_id',$room_id)
                 ->coroutineSend();
+            	  $roomInfo['status'] = 1;
             	$game_start = 1;
             }else{
             	$game_start = 0;
