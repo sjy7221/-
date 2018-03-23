@@ -128,7 +128,8 @@ class IndexController extends Controller
             'fangzhu' => $mid,
             'nowjushu'=>'1',
             'status' => 0,//0代表未开始
-            'users' => []//玩家
+            'users' => [],//
+            'weizhi'=>[] //位置
                                 //投票
         ];
         $userInfo = [];
