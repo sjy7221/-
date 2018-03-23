@@ -283,7 +283,7 @@ class RoomController extends Controller
 
                                  ];
                                  $gameInfo['now'] = $now;//存该谁打牌
-                                 $gameInfo['tishi'][$now] = $tishi;
+                                 $gameInfo['dachu']['tishi'] = $tishi;
                                  yield $this->redis_pool->hset($room_id, 'gameInfo',serialize($gameInfo));
                                  $this->sendToUids($this->uids,$data,false);
 
