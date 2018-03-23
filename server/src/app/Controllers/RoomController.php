@@ -278,6 +278,7 @@ class RoomController extends Controller
                                      'mid'=>$this->mid,
                                      'tishi'=>$tishi,
                                      'pai'=>$pai,
+                                     'nowshoupai'=>$nextsp,
                                      'type'=> true
                                  ];
                                  $gameInfo['now'] = $now;//存该谁打牌
