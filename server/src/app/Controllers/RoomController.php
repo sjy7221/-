@@ -365,7 +365,7 @@ class RoomController extends Controller
 //                 }
 //                 yield $this->redis_pool->hset($room_id, 'gameInfo',serialize($gameInfo));
                  }else{
-                     //如果打完
+                     var_dump(111111);
                      $this->jieshu($this->mid,$gameInfo);
                  }
                  yield $this->redis_pool->hset($room_id, 'gameInfo',serialize($gameInfo));
