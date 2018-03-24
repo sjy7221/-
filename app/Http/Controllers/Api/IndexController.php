@@ -44,7 +44,7 @@ class IndexController extends Controller
             if($aa){
                 $a['users_status'] = $aa;
             }
-
+            var_dump($a);
         }
     }
 
@@ -166,7 +166,7 @@ class IndexController extends Controller
         $room_id = Input::get('room_id');
         //如果有房间 就连之前的
         $roo = DB::table('member')->where('id',$mid)->value('room_id');
-      
+
         if($roo){
             $room_id = $roo;
             return json_encode(['status' => 1, 'room_id' => $room_id]);
