@@ -1,30 +1,5 @@
 <?php
-//echo打印
-function E($str, $flag=true){
-    if(DEBUG) {
-        if($flag){
-            echo str_repeat('-', 16) . '【' . $str . '】' .
-                date('Y-m-d H:i:s', time()) . str_repeat('-', 16) . "\n";
-        }else{
-            if(!is_array($str)){
-                echo '【' . $str . '】' . "\n";
-            }else{
-                echo  json_encode($str,JSON_UNESCAPED_UNICODE)."\n";
-            }
-        }
-    }
-}
-//数组打印
-function D($str, $data=''){
-    if(DEBUG) {
-        if (!is_string($data) && !is_int($data)) {
-            echo '【' . $str . '】：' . "\n";
-            echo json_encode($data,JSON_UNESCAPED_UNICODE)."\n";
-        } else {
-            echo '【' . $str . '】:' . $data . "\n";
-        }
-    }
-}
+
 
 //返回数据格式
 function reData($route,$data){
