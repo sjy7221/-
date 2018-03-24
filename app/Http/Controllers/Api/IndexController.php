@@ -44,7 +44,7 @@ class IndexController extends Controller
             if($aa){
                 $a['users_status'] = $aa;
             }
-            dd($a);
+            dd($aa);
         }
     }
 
@@ -194,7 +194,7 @@ class IndexController extends Controller
      $renshu =   unserialize($roominfo);
 
         //判断房间人数
-        var_dump($users);die;
+
         if(count($users)>= $renshu['guize']['renshu']){
             return json_encode(['status' => 0, 'msg' => '房间人数已满！']);
         }
