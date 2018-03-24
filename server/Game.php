@@ -1,5 +1,39 @@
 <?php
-   
+//echo打印
+function E($str, $flag=true){
+    if(DEBUG) {
+        if($flag){
+            echo str_repeat('-', 16) . '【' . $str . '】' .
+                date('Y-m-d H:i:s', time()) . str_repeat('-', 16) . "\n";
+        }else{
+            if(!is_array($str)){
+                echo '【' . $str . '】' . "\n";
+            }else{
+                echo  json_encode($str,JSON_UNESCAPED_UNICODE)."\n";
+            }
+        }
+    }
+}
+//数组打印
+function D($str, $data=''){
+    if(DEBUG) {
+        if (!is_string($data) && !is_int($data)) {
+            echo '【' . $str . '】：' . "\n";
+            echo json_encode($data,JSON_UNESCAPED_UNICODE)."\n";
+        } else {
+            echo '【' . $str . '】:' . $data . "\n";
+        }
+    }
+}
+
+//返回数据格式
+function reData($route,$data){
+    $dd = [
+        'route'=>$route,
+        'data'=>$data
+    ];
+    return $dd;
+}
     //单
     function dan($pai)
     {
@@ -42,11 +76,99 @@
              return false;
         }
     }
+/// 判断打出牌在不在手牌里
+    function panduan($pai,$shoupai)
+    {
+        if ($pai == array_intersect($pai, $shoupai)) {
+            $flag = 1;
+        }else {
+            $flag = 0;
+        }
+
+        if ($flag) {
+            if(count($pai)== 1){
+
+                $leix =   dan($pai);
+            }elseif(count($pai) == 2){
+                $leix =  duizi($pai);
+            }elseif(count($pai) == 3){
+                $leix =  hou3($pai,$shoupai);
+            }elseif(count($pai)>=4){
+
+                $leix =  liandui($pai,$shoupai);
+            }
+            return $leix;
+        }else {
+            return false;
+        }
+    }
+
+    //发牌
+    function fapai($gameInfo,$roomInfo,$userInfo)
+    {
+
+        $gameInfo =  $this->gameInfo;
+        $roomInfo = $this->roomInfo;
+        $userInfo = $this->userInfo;
+        $renshu = $roomInfo['guize']['renshu'];
+        $roomid = $roomInfo['guize']['room_id'];
+        $pai = [31,32,33,34,41,42,43,44,51,52,53,54,61,62,63,64,71,72,73,74,81,82,83,84,91,92,93,94,101,102,103,104,111,112,113,114,121,122,123,124,131,132,133,134,144,142,143,160];
+        shuffle($pai);
+
+        $numb = count($pai)/$renshu;
+        $pais = [];
+
+
+        for($i = 0;$i<$renshu;$i++){
+            for($j=0;$j<$numb;$j++){
+                $pais[$i][] =  array_pop($pai);
+            }
+            sort($pais[$i]);
+
+        }
+
+        $o = -1;
+        $h3id = '';
+        $niaoid = '';
+        foreach ( $gameInfo['users'] as $k=>$v) {
+
+            $o++;
+            $gameInfo['users'][$k]['shoupai'] = $pais[$o];
+
+        }
+
+        //找出牌中黑桃三先出的mid 和鸟牌 mid
+        foreach($gameInfo['users'] as $kk=>$vv){
+            //黑桃三先出的mid
+            if(!(array_search(31,$gameInfo['users'][$kk]['shoupai']) === false)){
+                $h3id = $kk;
+            }
+            // 鸟牌 mid
+            if(!(array_search(102,$gameInfo['users'][$kk]['shoupai']) === false)){
+                $niaoid = $kk;
+            }
+        }
+
+        if($roomInfo['guize']['suanfa'][0] && $roomInfo['nowjushu'] == 1){
+            $gameInfo['now'] = $h3id;
+        }elseif($roomInfo['nowjushu'] == 1){
+            $gameInfo['now'] = array_rand( $gameInfo['users'], 1 );
+            $gameInfo['now'] = $gameInfo['now']['id'];
+        }
+        if(isset($roomInfo['guize']['suanfa'][1]) && $roomInfo['guize']['suanfa'][1]){
+            $gameInfo['niaoid'] = $niaoid;
+        }
+        if(isset($roomInfo['guize']['suanfa'][2]) && $roomInfo['guize']['suanfa'][2]){
+            $roomInfo['xianshi'] = 1;
+        }
+        return ['roomInfo'=>$roomInfo,'gameInfo'=>$gameInfo];
+
+    }
     //对子
     function duizi($pai)
     {
 
-            $numb =  zhuanhuan($pai);
+       $numb =  zhuanhuan($pai);
        //单对，两位相等
       if($numb[0] == $numb[1]){
     
@@ -625,18 +747,5 @@
         }
     }
 
-
-
-
-
-// if(count($pai)== 1){
-//     $game->dan($pai);
-// }elseif(count($pai) == 2){
-//     $game->duizi($pai);
-// }elseif(count($pai) == 3){
-//     $game->hou3($pai);
-// }elseif(count($pai)>=4){
-   
-//          $game->liandui($pai); 
 
 

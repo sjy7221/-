@@ -26,72 +26,68 @@ class CommModel extends Model
     }
     public function jinru($mid,$room_id,$roomInfo,$userInfo,$gameInfo)
     {
-    
-    	 // if (in_array($mid, $roominfo['weizhi']) && isset($roominfo['weizhi'])){
-    	 // 	$i =1 ;
-    	 // }else{ 
-    	 	 $member = yield $this->mysql_pool->dbQueryBuilder
-                ->select('headimgurl')
-                ->select('nickname')
-                ->select('num')
-                ->select('ip')
-                ->select('sex')
-                ->where('id', $mid)
-                ->from('gs_member')
-                ->coroutineSend();
-           if(empty($member)){
-            echo '无信息';
-           		return false; 
-           }
-           $member = $member['result'][0];
+             //判断是重连玩家 还是新进入的玩家
+            if(in_array($mid,$roomInfo['weizhi'])){
+                $is_user= 1;
+            }else{
+                //获取玩家信息
+                $member = yield $this->mysql_pool->dbQueryBuilder
+                    ->select('headimgurl')
+                    ->select('nickname')
+                    ->select('num')
+                    ->select('ip')
+                    ->select('sex')
+                    ->where('id', $mid)
+                    ->from('gs_member')
+                    ->coroutineSend();
+                if(empty($member)){
+                    E('无信息');
+                    return false;
+                }
+                $member = $member['result'][0];
 
-            //新玩家加入weihzi
-         if(!in_array($mid,$roomInfo['weizhi'])  && count($roomInfo['weizhi']) < $roomInfo['guize']['renshu']+1){
-            $roomInfo['weizhi'][] = $mid;
-             $roomInfo['users'][] = $mid;
-         } 
+                //新玩家加入weihzi
 
-                $roomInfo['nowjushu'] = 1;//为开局第一局
-                 $userInfo['users'][$mid] = [
-                'id' => $mid,
-                'headimgurl' => $member['headimgurl'],
-                'nickname' => $member['nickname'],
-                'num' => $member['num'],
-                'ip' => $member['ip'],
-                'sex'=>$member['sex'],
-               
-            ];
-//              $gameInfo['now'] = 0;//存该谁出牌 用户id
-              $gameInfo['users'][$mid] = [
-                'id'=>$mid,
-                'shoupai' =>[],
-                'dachu'=>[],
-                'fenshu'=>1000
-              ];
-           yield $this->mysql_pool->dbQueryBuilder
+                $roomInfo['weizhi'][] = $mid;
+                $roomInfo['users'][] = $mid;
+
+                $userInfo['users'][$mid] = [
+                    'id' => $mid,     //用户id
+                    'headimgurl' => $member['headimgurl'], //用户头像
+                    'nickname' => $member['nickname'],  //用户名称
+                    'num' => $member['num'],    //用户砖石
+                    'ip' => $member['ip'],      //用户ip
+                    'sex'=>$member['sex'],       //性别
+
+                ];
+                $gameInfo['users'][$mid] = [
+                    'id'=>$mid,
+                    'shoupai' =>[],  //手牌
+                    'dachu'=>[],    //打出的牌
+                    'fenshu'=>1000  //分数
+                ];
+                yield $this->mysql_pool->dbQueryBuilder ////用户表绑定房间号
                 ->update('gs_member')
-                ->set('room_id', $room_id)
-                ->where('id', $mid)
-                ->coroutineSend();
-//            yield $this->redis_pool->getCoroutine()->hset('uids_'.$room_id,$mid,1);
-              // yield $this->redis_pool->getCoroutine()->hset($room_id,'userInfo',serialize($userInfo),'gameInfo',serialize($gameInfo));
-    	 // }
+                    ->set('room_id', $room_id)
+                    ->where('id', $mid)
+                    ->coroutineSend();
+                 $is_user = 0; //用来判断是否重连
+            }
 
-            if(count($userInfo['users']) ==  $roomInfo['guize']['renshu']){
+            if(count($userInfo['users']) ==  $roomInfo['guize']['renshu'] && $roomInfo['status'] == 0){ //如果房间人数等于规则人数
             	  yield $this->mysql_pool->dbQueryBuilder
                 ->update('gs_rooms')
-                ->set('status',1)
+                ->set('status',1)                   //房间状态改为1;
                 ->where('room_id',$room_id)
                 ->coroutineSend();
-            	  $roomInfo['status'] = 1;
-            	$game_start = 1;
+            	  $roomInfo['status'] = 1;         // 房间状态为1；
+            	   $game_start = 1;
             }else{
-            	$game_start = 0;
+                    $game_start = 0;
             }
 
             yield $this->redis_pool->hset($room_id, 'roomInfo', serialize($roomInfo), 'userInfo', serialize($userInfo),'gameInfo',serialize($gameInfo));
-         // $userinfo =  yield $this->redis_pool->hget($room_id,  'userInfo', serialize($userinfo),'gameInfo',serialize($gameinfo));
-             return [ 'game_start' => $game_start, 'roomInfo' => $roomInfo,'userInfo'=>$userInfo];
+             return [ 'is_user' => $is_user,'game_start' => $game_start, 'roomInfo' => $roomInfo,'userInfo'=>$userInfo];
     }
     public function likai($mid, $room_id, $roomInfo)
     {

@@ -8,6 +8,7 @@
 
 define("BIN_DIR", __DIR__);
 define('MYROOT',BIN_DIR."/..");
+define('DEBUG',true);
 
 require_once MYROOT . '/vendor/autoload.php';
 require_once MYROOT . '/Game.php';
