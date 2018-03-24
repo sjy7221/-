@@ -85,7 +85,7 @@ class RoomController extends Controller
 
         }
 
-        yield $this->redis_pool->getCoroutine()->hset('uids_'.$room_id,$mid,1);
+        yield $this->redis_pool->getCoroutine()->hset('uids_'.$this->room_id,$this->mid,1);
 
         $re = yield $this->CommModel->jinru($this->mid, $this->room_id, $this->roomInfo,$this->userInfo,$this->gameInfo);
 
@@ -353,19 +353,6 @@ class RoomController extends Controller
                      }
 
 
-
-
-
-
-                     /**
-                      * 如果打入的牌型通不过
-                      *
-                      *
-                      *
-                      */
-//                 }else{
-//                     $this->send('牌型有误',false);
-//                 }
                  yield $this->redis_pool->hset($room_id, 'gameInfo',serialize($gameInfo));
                  }else{
 
