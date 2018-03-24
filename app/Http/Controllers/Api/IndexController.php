@@ -44,7 +44,7 @@ class IndexController extends Controller
             if($aa){
                 $a['users_status'] = $aa;
             }
-            dd($aa);
+
         }
     }
 
@@ -79,7 +79,7 @@ class IndexController extends Controller
     {
      
         $mid = Input::get('mid');//用户ID
-    
+
         $jushu = Input::get('jushu'); //局数 10/20？砖石1个、2
         $renshu = Input::get('renshu');//人数
         $suanfa = Input::get('suanfa');//31为黑桃3 102//红桃十 //1为显示0为不显示
@@ -130,7 +130,7 @@ class IndexController extends Controller
             'status' => 0,//0代表未开始
             'users' => [],//
             'weizhi'=>[] //位置
-                                //投票
+
         ];
         $userInfo = [];
         $re = Redis::hmset($fang, 'roomInfo', serialize($roomInfo), 'userInfo', serialize($userInfo));
@@ -142,7 +142,7 @@ class IndexController extends Controller
                 'users' => 0,
                 'fangzhu' => $member->nickname,
                 'f_id'=>$mid,
-                'gid' => 51
+                'gid' => 4
             ]);
             DB::table('rooms_user')->insert([
                 'rid'=>$rid,
@@ -166,7 +166,7 @@ class IndexController extends Controller
         $room_id = Input::get('room_id');
         //如果有房间 就连之前的
         $roo = DB::table('member')->where('id',$mid)->value('room_id');
-
+      
         if($roo){
             $room_id = $roo;
             return json_encode(['status' => 1, 'room_id' => $room_id]);
@@ -187,6 +187,7 @@ class IndexController extends Controller
         }
         //判断是否是重新进入房间
         $users = Redis::sort('fang_'.$room_id);
+
         if(in_array($mid,$users)){
             return json_encode(['status' => 1, 'room_id' => $room_id]);
         }
