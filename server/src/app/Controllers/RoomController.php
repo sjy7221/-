@@ -120,7 +120,10 @@ class RoomController extends Controller
               E('开始游戏');
               $this->sendToUids($this->uids, reData('game_go', '开始游戏'), false);
               $room = yield $this->redis_pool->getCoroutine()->hgetall($this->room_id);
-              yield $this->fapai($room['gameInfo'],$room['roomInfo'],$room['userInfo']);
+              $userInfo =   unserialize($room['userInfo']);
+              $gameInfo =   unserialize($room['gameInfo']);
+              $roomInfo =   unserialize($room['roomInfo']);
+              yield $this->fapai($gameInfo,$roomInfo,$userInfo);
           }
       }
 
