@@ -54,12 +54,16 @@ function reData($route,$data){
 /// 判断打出牌在不在手牌里
     function panduan($pai,$shoupai)
     {
-        if ($pai == array_intersect($pai, $shoupai)) {
-            $flag = 1;
-        }else {
-            $flag = 0;
-        }
+        $flag =1;
+        foreach($pai as $va){
+            if(in_array($va,$shoupai)){
+                continue;
+            }else{
+                $flag = 0 ;
+                break;
+            }
 
+        }
         if ($flag) {
             if(count($pai)== 1){
 

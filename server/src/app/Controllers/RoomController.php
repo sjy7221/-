@@ -184,9 +184,11 @@ class RoomController extends Controller
 
             $room_id = $this->room_id;
             $roomInfo = $this->roomInfo;
+
             $gameInfo = $this->gameInfo;
             $shoupai = $gameInfo['users'][$this->mid]['shoupai'];
             $leix = panduan($pai,$shoupai);//判断打出牌是否在手牌中
+
              //如果返回的类型
              if($leix){
 
@@ -357,7 +359,6 @@ class RoomController extends Controller
 
        if($roomInfo['nowjushu'] == $roomInfo['guize']['jushu']){
                 $data = [
-                    'route'=>'jieshu',
                   'roomInfo'=> $this->roomInfo,
                    'userInfo'=> $this->userInfo,
                     'gameInfo'=>$gameInfo
@@ -366,7 +367,7 @@ class RoomController extends Controller
            yield $this->redis_pool->del($this->room_id);
            yield $this->redis_pool->del('uids_'.$this->room_id);
 
-                $this->sendToUids($this->uids,$data,false);
+                $this->sendToUids($this->uids,reData('game_over', $data),false);
        }else{
            $users = $gameInfo['users'];
            $jusers = $users;
@@ -434,7 +435,7 @@ class RoomController extends Controller
                'gameInfo'=>$gameInfo
 
            ];
-           $this->sendToUids($this->uids,$data,false);
+           $this->sendToUids($this->uids,reData('over', $data),false);
        }
 
     }
