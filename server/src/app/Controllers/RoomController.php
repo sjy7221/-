@@ -268,7 +268,7 @@ class RoomController extends Controller
                 $gameInfo['dachu']['tishi'] = $tishi;
 
                 $this->sendToUids($this->uids,reData('dachu',$data),false);
-
+                yield $this->redis_pool->hset($room_id, 'gameInfo',serialize($gameInfo));
                 break;
             }else{
 
@@ -287,7 +287,7 @@ class RoomController extends Controller
                     'type'=> false,
                     'mg'=> '要不起'
                 ];
-
+                yield $this->redis_pool->hset($room_id, 'gameInfo',serialize($gameInfo));
                 $this->sendToUids($this->uids,reData('guo',$data),false);
 
             }
@@ -322,7 +322,7 @@ class RoomController extends Controller
             ];
             $gameInfo['now'] = $now;//存该谁打牌
             $gameInfo['tishi'][$now] = $tishi;
-
+            yield $this->redis_pool->hset($room_id, 'gameInfo',serialize($gameInfo));
             $this->sendToUids($this->uids,reData('dachu',$data),false);
         }else{
             $data = [
@@ -333,7 +333,7 @@ class RoomController extends Controller
                 'type'=> false,
                 'mg'=> '要不起'
             ];
-
+            yield $this->redis_pool->hset($room_id, 'gameInfo',serialize($gameInfo));
             $this->sendToUids($this->uids,reData('guo',$data),false);
         }
         return $gameInfo;
