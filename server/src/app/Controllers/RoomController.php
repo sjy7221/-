@@ -213,9 +213,9 @@ class RoomController extends Controller
                      $gameInfo['users'][$this->mid]['shoupai'] = $req;//把剩余的手牌存起来
                      if($roomInfo['guize']['renshu'] == 3){
 
-                        $gameInfo =  yield $this->sanren($gameInfo,$weizhi,$roomInfo,$pai,$leix); //三个人的玩法
+                        $gameInfo =  yield $this->sanren($gameInfo,$weizhi,$roomInfo,$pai,$leix,$room_id); //三个人的玩法
                      }elseif($roomInfo['guize']['renshu'] == 2){        //如果是两人房
-                         $gameInfo =    yield $this->erren($gameInfo,$weizhi,$roomInfo,$pai,$leix); //2个人的玩法
+                         $gameInfo =    yield $this->erren($gameInfo,$weizhi,$roomInfo,$pai,$leix,$room_id); //2个人的玩法
                      }
 
 
@@ -237,7 +237,7 @@ class RoomController extends Controller
      * Date: 3/22
      *
      */
-    private function sanren($gameInfo,$weizhi,$roomInfo,$pai,$leix)
+    private function sanren($gameInfo,$weizhi,$roomInfo,$pai,$leix,$room_id)
     {
         for($i=1;$i<count($gameInfo['users']);$i++){
 
@@ -300,7 +300,7 @@ class RoomController extends Controller
      * Date: 3/22
      *
      */
-    private function erren($gameInfo,$weizhi,$roomInfo,$pai,$leix)
+    private function erren($gameInfo,$weizhi,$roomInfo,$pai,$leix,$room_id)
     {
         $weizhi += 1;
         if($weizhi > 1){
