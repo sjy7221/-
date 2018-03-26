@@ -188,8 +188,10 @@ class RoomController extends Controller
 
              //如果返回的类型
              if($leix){
+                 $dc = zhuanhuan($pai);
+                 $sjp = zhuanhuan($gameInfo['dachu']['pai']);
                  if(isset($gameInfo['dachu']) || $gameInfo['dachu']){
-                     if($gameInfo['dachu']['mid'] != $gameInfo['now'] && $gameInfo['dachu']['pai'][0] > $pai[0] && $leix['type'] == $gameInfo['dachu']['leix']['type']){
+                     if($gameInfo['dachu']['mid'] != $gameInfo['now'] && $sjp[0] > $dc[0] && $leix['type'] == $gameInfo['dachu']['leix']['type']){
                          $this->send('牌太小',false);
                          return;
                      }
