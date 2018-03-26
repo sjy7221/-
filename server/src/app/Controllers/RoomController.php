@@ -287,6 +287,9 @@ class RoomController extends Controller
                     'type'=> false,
                     'mg'=> '要不起'
                 ];
+                if($i == 2){
+                    $gameInfo['now'] = $this->mid;//存该谁打牌
+                }
                 yield $this->redis_pool->hset($room_id, 'gameInfo',serialize($gameInfo));
                 $this->sendToUids($this->uids,reData('guo',$data),false);
 
