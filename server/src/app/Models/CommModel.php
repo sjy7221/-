@@ -87,7 +87,7 @@ class CommModel extends Model
             }
 
             yield $this->redis_pool->hset($room_id, 'roomInfo', serialize($roomInfo), 'userInfo', serialize($userInfo),'gameInfo',serialize($gameInfo));
-             return [ 'is_user' => $is_user,'game_start' => $game_start, 'roomInfo' => $roomInfo,'userInfo'=>$userInfo];
+             return [ 'is_user' => $is_user,'game_start' => $game_start, 'roomInfo' => $roomInfo,'userInfo'=>$userInfo,'gameInfo'=>$gameInfo];
     }
     public function likai($mid, $room_id, $roomInfo)
     {

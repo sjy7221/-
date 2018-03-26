@@ -119,11 +119,8 @@ class RoomController extends Controller
           if($re['game_start'] == 1){
               E('开始游戏');
               $this->sendToUids($this->uids, reData('game_go', '开始游戏'), false);
-              $room = yield $this->redis_pool->getCoroutine()->hgetall($this->room_id);
-              $userInfo =   unserialize($room['userInfo']);
-              $gameInfo =   unserialize($room['gameInfo']);
-              $roomInfo =   unserialize($room['roomInfo']);
-              yield $this->fapai($gameInfo,$roomInfo,$userInfo);
+
+              yield $this->fapai($re('gameInfo'),$re('roomInfo'),$re('userInfo'));
           }
       }
 
@@ -191,7 +188,13 @@ class RoomController extends Controller
 
              //如果返回的类型
              if($leix){
+                 if(isset($gameInfo['dachu']) || $gameInfo['dachu']){
+                     if($gameInfo['dachu']['mid'] !== $this->mid && $gameInfo['dachu']['pai'][0] > $pai[0]){
+                         $this->send('牌太小',false);
+                         return;
+                     }
 
+            }
             $gameInfo['dachu']['mid'] = $this->mid;//打出牌人的id
             $gameInfo['dachu']['pai'] = $pai;//打出的牌
             $gameInfo['dachu']['leix'] = $leix;//打出的类型
@@ -200,6 +203,7 @@ class RoomController extends Controller
                     if($leix['type'] == 10){ //炸弹数
                         $gameInfo['users'][$this->mid]['zhadan'] +=1;
                     }
+
                  //从手牌中去除打出的牌
                  $req =  array_diff($shoupai,$pai);
                  if(!empty($req)){//如果没打完
