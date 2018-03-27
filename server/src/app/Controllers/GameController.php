@@ -382,6 +382,16 @@ class GameController extends Controller
             $now = $roomInfo['weizhi'][$next];//取出下一个人的mid
 
             $nextsp  =  $gameInfo['users'][$now]['shoupai'];//下一个人的手牌
+            $data = [
+                'now'=> $now, //现在改谁出牌
+                'mid'=>$this->mid, //出牌人的mid
+//                'tishi'=>$tishi,
+                'pai'=>$pai,
+                'shoupai'=>$msp,
+                'type'=>$leix['type']
+
+            ];
+            $this->sendToUids($this->uids,reData('dachu',$data),false);
             $tishi =  shoupai($nextsp,$pai,$leix) ;
             if($tishi){
                 $msp = $gameInfo['users'][$this->mid]['shoupai'];
@@ -411,7 +421,7 @@ class GameController extends Controller
                 }
                 $nextid = $roomInfo['weizhi'][$nextid];
                 $data = [
- 
+
                     'now'=>$nextid,
 
                     'mid'=>$now,
@@ -426,6 +436,7 @@ class GameController extends Controller
                 $this->sendToUids($this->uids,reData('guo',$data),false);
 
             }
+
         }
         return $gameInfo ;
     }
