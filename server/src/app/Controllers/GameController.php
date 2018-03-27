@@ -97,10 +97,10 @@ class GameController extends Controller
 
 
             }
-            D('leix',$leix);
 
             $dc = zhuanhuan($pai); //去掉打出花色
-
+                D('打出：',$pai);
+                D('上次打出的牌：',$gameInfo['dachu']['pai']);
             //判断打出的牌大小
             if(isset($gameInfo['dachu']) || $gameInfo['dachu']){
                 $sjp = zhuanhuan($gameInfo['dachu']['pai']);//去上家打出花色
@@ -397,7 +397,7 @@ class GameController extends Controller
                 ];
                 $gameInfo['now'] = $now;//存该谁打牌
                 $gameInfo['dachu']['tishi'] = $tishi;
-                // yield $this->saveLogs(reData('dachu',$data)); //存游戏记录
+
                 $gameInfo['one'] = 0;
                 $this->sendToUids($this->uids,reData('dachu',$data),false);
                 yield $this->redis_pool->hset($room_id, 'gameInfo',serialize($gameInfo));
