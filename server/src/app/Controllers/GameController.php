@@ -105,11 +105,6 @@ class GameController extends Controller
             if(isset($gameInfo['dachu']) || $gameInfo['dachu']){
                 $sjp = zhuanhuan($gameInfo['dachu']['pai']);//去上家打出花色
 
-                D('打出的牌:',$dc);
-                D('上一家打出：',$sjp);
-                D('打出类型：',$leix['type']);
-                D('上一家类型：',$gameInfo['dachu']['leix']['type']);
-
                 if($gameInfo['dachu']['mid'] != $gameInfo['now'] && $sjp[0] > $dc[0] && $leix['type'] == $gameInfo['dachu']['leix']['type']){
                     $this->send(reData('error', ['msg'=>'牌型不对']),false);
                     return;
@@ -374,7 +369,7 @@ class GameController extends Controller
      */
     private function sanren($gameInfo,$weizhi,$roomInfo,$pai,$leix,$room_id)
     {
-
+        $guo = 0;
         $msp = $gameInfo['users'][$this->mid]['shoupai'];
         for($i=1;$i<count($gameInfo['users']);$i++){
 
@@ -427,23 +422,16 @@ class GameController extends Controller
                     'type'=> false,
                     'mg'=> '要不起'
                 ];
-
+                $guo +=1;
                 if($i == 2){
                     $gameInfo['now'] = $this->mid;//存该谁打牌
+
+                }
+                if($guo == 2){
                     $gameInfo['dachu']['pai'] = [];
                     $gameInfo['dachu']['leix'] = [];
-                    $gameInfo['dachu']['tishi'] = [];
-                    $data = [
-                        'now'=> $nextid, //现在改谁出牌
-                        'mid'=>$now, //出牌人的mid
-                        'pai'=>$pai,
-                        'shoupai'=>$msp,
-                        'type'=>$leix['type']
-
-                    ];
-                    $this->sendToUids($this->uids,reData('dachu',$data),false);
+                    $gameInfo[dachu]['tishi'] = [];
                 }
-
                 yield $this->redis_pool->hset($room_id, 'gameInfo',serialize($gameInfo));
                 // yield $this->saveLogs(reData('dachu',$data));  //存游戏记录
                 $this->sendToUids($this->uids,reData('guo',$data),false);
