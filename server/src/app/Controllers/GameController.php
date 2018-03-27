@@ -390,7 +390,7 @@ class GameController extends Controller
                     'mid'=>$this->mid,
                     'tishi'=>$tishi,
                     'pai'=>$pai,
-                    'shoupai'=>$nextsp,
+                    'shoupai'=>$gameInfo['users'][$this->mid]['shoupai'],
                     'type'=>$leix['type']
 
                 ];
@@ -412,7 +412,7 @@ class GameController extends Controller
                 $data = [
 
                     'now'=>$now,
-                    'nowshoupai'=>$nextsp,
+          
                     'mid'=>$nextid,
                     'type'=> false,
                     'mg'=> '要不起'
