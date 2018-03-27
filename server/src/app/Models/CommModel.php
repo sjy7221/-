@@ -51,7 +51,7 @@ class CommModel extends Model
                 $roomInfo['weizhi'][] = $mid;
                 $roomInfo['users'][] = $mid;
 
-                $userInfo[$mid] = [
+                $userInfo[$mid] = [ 
                     'id' => $mid,     //用户id
                     'headimgurl' => $member['headimgurl'], //用户头像
                     'nickname' => $member['nickname'],  //用户名称
