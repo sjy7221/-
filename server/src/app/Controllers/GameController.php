@@ -374,7 +374,7 @@ class GameController extends Controller
      */
     private function sanren($gameInfo,$weizhi,$roomInfo,$pai,$leix,$room_id)
     {
-        $guo = 0;
+
         $msp = $gameInfo['users'][$this->mid]['shoupai'];
         for($i=1;$i<count($gameInfo['users']);$i++){
 
@@ -427,16 +427,23 @@ class GameController extends Controller
                     'type'=> false,
                     'mg'=> '要不起'
                 ];
-                $guo +=1;
+
                 if($i == 2){
                     $gameInfo['now'] = $this->mid;//存该谁打牌
-
-                }
-                if($guo == 2){
                     $gameInfo['dachu']['pai'] = [];
                     $gameInfo['dachu']['leix'] = [];
-                    $gameInfo[dachu]['tishi'] = [];
+                    $gameInfo['dachu']['tishi'] = [];
+                    $data = [
+                        'now'=> $nextid, //现在改谁出牌
+                        'mid'=>$now, //出牌人的mid
+                        'pai'=>$pai,
+                        'shoupai'=>$msp,
+                        'type'=>$leix['type']
+
+                    ];
+                    $this->sendToUids($this->uids,reData('dachu',$data),false);
                 }
+
                 yield $this->redis_pool->hset($room_id, 'gameInfo',serialize($gameInfo));
                 // yield $this->saveLogs(reData('dachu',$data));  //存游戏记录
                 $this->sendToUids($this->uids,reData('guo',$data),false);
