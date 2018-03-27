@@ -86,7 +86,7 @@ class GameController extends Controller
         $gameInfo = $this->gameInfo;
         $shoupai = $gameInfo['users'][$this->mid]['shoupai'];
         $leix = panduan($pai,$shoupai);//判断打出牌是否在手牌中
-        var_dump($pai);
+
         //如果返回的类型
         if($leix){
             if($roomInfo['guize']['suanfa'][0]  && $roomInfo['nowjushu'] == 1 && count($shoupai) == 48/$roomInfo['guize']['renshu']){
