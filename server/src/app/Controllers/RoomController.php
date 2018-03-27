@@ -36,28 +36,28 @@ class RoomController extends Controller
         $this->room_id = $this->data->room_id;
         $res =  yield $this->CommModel->exit($this->data);//判断传过来的类型;
 
-       if($res){
-             $this->send('nonono,数据错误',false);
+        if($res){
+            $this->send('nonono,数据错误',false);
             $this->close();
             return;
-         }
-          $room = yield $this->redis_pool->getCoroutine()->hgetall($this->room_id);
-           if (isset($room['roomInfo']) && $room['roomInfo']){
+        }
+        $room = yield $this->redis_pool->getCoroutine()->hgetall($this->room_id);
+        if (isset($room['roomInfo']) && $room['roomInfo']){
             $this->roomInfo = unserialize($room['roomInfo']);
             if(isset($room['userInfo']) && $room['userInfo']){
                 $this->userInfo = unserialize($room['userInfo']);
             }
-               if(isset($room['gameInfo']) && $room['gameInfo']){
-                   $this->gameInfo = unserialize($room['gameInfo']);
-               }
+            if(isset($room['gameInfo']) && $room['gameInfo']){
+                $this->gameInfo = unserialize($room['gameInfo']);
+            }
 
         } else {
             $this->send('找不到房间信息', false);
             $this->close();
             return false;
         }
-          //获取房间所有人
-        $this->uids = yield $this->redis_pool->getCoroutine()->hkeys('uids_' . $this->room_id); 
+        //获取房间所有人
+        $this->uids = yield $this->redis_pool->getCoroutine()->hkeys('uids_' . $this->room_id);
         if(!$this->uid){
 
             $this->bindUid($this->mid);
@@ -73,12 +73,12 @@ class RoomController extends Controller
     {
         D('jinru',$this->data);
 
-      if ($this->is_destroy) {
+        if ($this->is_destroy) {
 
             return;
         }
         //判断房间人数
-          if (!in_array($this->mid,$this->uids)  && count($this->uids) >= $this->roomInfo['guize']['renshu']) {
+        if (!in_array($this->mid,$this->uids)  && count($this->uids) >= $this->roomInfo['guize']['renshu']) {
             $this->send(reData('out', '房间人数已满'),false);
             $this->close();
             return;
@@ -86,83 +86,49 @@ class RoomController extends Controller
         }
         //模型处理数据
         $re = yield $this->CommModel->jinru($this->mid, $this->room_id, $this->roomInfo,$this->userInfo,$this->gameInfo);
-      if($re){
-          yield $this->redis_pool->getCoroutine()->hset('uids_'.$this->room_id,$this->mid,1); //设置用户状态
-          //所有玩家状态
-          $re['roomInfo']['users_status'] = yield $this->redis_pool->getCoroutine()->Hgetall('uids_'.$this->room_id);
-          if($this->roomInfo['status'] == 0){
-              if(!in_array($this->mid,$this->uids)){
-                  $this->uids[] = $this->mid;
-              }
-              $data = [
-                  'roomInfo'=>$re['roomInfo'],
-                  'userInfo'=> $re['userInfo'],
-                  'mid'=>$this->mid
-              ];
-              $users =  yield $this->redis_pool->getCoroutine()->hkeys('uids_' . $this->room_id);
-              $this->sendToUids($users, reData('jinru', $data), false);
-          }else{
-              $data = [
-                  'roomInfo'=>$re['roomInfo'],
-                  'userInfo'=> $re['userInfo'],
-                  'mid'=>$this->mid
-              ];
-              $this->send(reData('jinru', $data),false);
-          }
+        if($re){
+            yield $this->redis_pool->getCoroutine()->hset('uids_'.$this->room_id,$this->mid,1); //设置用户状态
+            //所有玩家状态
+            $re['roomInfo']['users_status'] = yield $this->redis_pool->getCoroutine()->Hgetall('uids_'.$this->room_id);
+            if($this->roomInfo['status'] == 0){
+                if(!in_array($this->mid,$this->uids)){
+                    $this->uids[] = $this->mid;
+                }
+                $data = [
+                    'roomInfo'=>$re['roomInfo'],
+                    'userInfo'=> $re['userInfo'],
+                    'mid'=>$this->mid
+                ];
+                $users =  yield $this->redis_pool->getCoroutine()->hkeys('uids_' . $this->room_id);
+//              yield $this->saveLogs(reData('jinru',$data));          //存游戏记录
+                $this->sendToUids($users, reData('jinru', $data), false);
+            }else{
+                $data = [
+                    'roomInfo'=>$re['roomInfo'],
+                    'userInfo'=> $re['userInfo'],
+                    'mid'=>$this->mid
+                ];
+                $this->send(reData('jinru', $data),false);
+            }
 
-          if($re['is_user'] == 1){
-              //自己不用发
-              $uids = array_diff($this->uids, [$this->mid]);
-              $this->sendToUids($uids, reData('chonglian', $this->mid), false);
-          }
+            if($re['is_user'] == 1){
+                //自己不用发
+                $uids = array_diff($this->uids, [$this->mid]);
+                $this->sendToUids($uids, reData('chonglian', $this->mid), false);
+            }
 
-          if($re['game_start'] == 1){
-              E('开始游戏');
-              $this->sendToUids($this->uids, reData('game_go', '开始游戏'), false);
+            if($re['game_start'] == 1){
+                E('开始游戏');
+//              $this->sendToUids($this->uids, reData('game_go', '开始游戏'), false);
 
-              yield $this->fapai($re('gameInfo'),$re('roomInfo'),$re('userInfo'));
-          }
-      }
-
-       $this->destroy();
-
-    }
-
-
-    /**
-     * 发牌流程.
-     * User: shijunyi
-     * Date: 3/22
-     *
-     */
-    private function fapai($gameInfo,$roomInfo,$userInfo)
-    {
-        D('【fapai】',$this->data);
-             echo  "【fapai】".json_encode($this->data). "\n";
-      if ($this->is_destroy) {
-            return;
+                yield $this->fapai($re('gameInfo'),$re('roomInfo'),$re('userInfo'));
+            }
         }
 
-        $re = fapai($gameInfo,$roomInfo,$userInfo);
-        $roomInfo = $re['roomInfo'];
-        $gameInfo = $re['gameInfo'];
-        $roomid = $roomInfo['guize']['room_id'];
-          yield $this->redis_pool->hset($roomid, 'roomInfo', serialize($roomInfo),'gameInfo',serialize($gameInfo));
+        $this->destroy();
 
-          foreach($gameInfo['users'] as $us => $u){
-
-            $data = [
-                'roomInfo'=>$roomInfo,//
-                'userInfo'=>$userInfo,//
-                'now'=>$gameInfo['now'],
-                'pai'=>$u['shoupai']
-                
-        ];
-
-             $this->sendToUid($us,reData('fapai',$data),false);
-          }
-          $this->destroy();
     }
+
     /**
      * 打出流程.
      * User: shijunyi
@@ -173,28 +139,29 @@ class RoomController extends Controller
     {
 
         echo  "【dachu】".json_encode($this->data). "\n";
-            if ($this->is_destroy) {
+        if ($this->is_destroy) {
             return;
         }
 
-            $pai = $this->data->pai; //打出的牌
+        $pai = $this->data->pai; //打出的牌
 
-            $room_id = $this->room_id;
-            $roomInfo = $this->roomInfo;
+        $room_id = $this->room_id;
+        $roomInfo = $this->roomInfo;
 
-            $gameInfo = $this->gameInfo;
-            $shoupai = $gameInfo['users'][$this->mid]['shoupai'];
-            $leix = panduan($pai,$shoupai);//判断打出牌是否在手牌中
+        $gameInfo = $this->gameInfo;
+        $shoupai = $gameInfo['users'][$this->mid]['shoupai'];
+        $leix = panduan($pai,$shoupai);//判断打出牌是否在手牌中
 
-             //如果返回的类型
-             if($leix){
-                 $dc = zhuanhuan($pai);
-                 $sjp = zhuanhuan($gameInfo['dachu']['pai']);
-                 if(isset($gameInfo['dachu']) || $gameInfo['dachu']){
-                     if($gameInfo['dachu']['mid'] != $gameInfo['now'] && $sjp[0] > $dc[0] && $leix['type'] == $gameInfo['dachu']['leix']['type']){
-                         $this->send('牌太小',false);
-                         return;
-                     }
+        //如果返回的类型
+        if($leix){
+            $dc = zhuanhuan($pai); //去掉打出花色
+            $sjp = zhuanhuan($gameInfo['dachu']['pai']);//去上家打出花色
+            //判断打出的牌大小
+            if(isset($gameInfo['dachu']) || $gameInfo['dachu']){
+                if($gameInfo['dachu']['mid'] != $gameInfo['now'] && $sjp[0] > $dc[0] && $leix['type'] == $gameInfo['dachu']['leix']['type']){
+                    $this->send('牌太小',false);
+                    return;
+                }
 
             }
             $gameInfo['dachu']['mid'] = $this->mid;//打出牌人的id
@@ -202,34 +169,306 @@ class RoomController extends Controller
             $gameInfo['dachu']['leix'] = $leix;//打出的类型
             $gameInfo['users'][$this->mid]['zhadan'] = 0;
             $weizhi =  array_search($this->mid,$roomInfo['weizhi']);//当前位置;
-                    if($leix['type'] == 10){ //炸弹数
-                        $gameInfo['users'][$this->mid]['zhadan'] +=1;
-                    }
+            if($leix['type'] == 10){ //炸弹数
+                $gameInfo['users'][$this->mid]['zhadan'] +=1;
+            }
 
-                 //从手牌中去除打出的牌
-                 $req =  array_diff($shoupai,$pai);
-                 if(!empty($req)){//如果没打完
-                     sort($req);
-                     $gameInfo['users'][$this->mid]['shoupai'] = $req;//把剩余的手牌存起来
-                     if($roomInfo['guize']['renshu'] == 3){
+            //从手牌中去除打出的牌
+            $req =  array_diff($shoupai,$pai);
+            if(!empty($req)){//如果没打完
+                sort($req);
+                $gameInfo['users'][$this->mid]['shoupai'] = $req;//把剩余的手牌存起来
+                if($roomInfo['guize']['renshu'] == 3){
 
-                        $gameInfo =  yield $this->sanren($gameInfo,$weizhi,$roomInfo,$pai,$leix,$room_id); //三个人的玩法
-                     }elseif($roomInfo['guize']['renshu'] == 2){        //如果是两人房
-                         $gameInfo =    yield $this->erren($gameInfo,$weizhi,$roomInfo,$pai,$leix,$room_id); //2个人的玩法
-                     }
-
-
-                        yield $this->redis_pool->hset($room_id, 'gameInfo',serialize($gameInfo)); //存数据
-                 }else{
-                        //如果打完
-                     yield  $this->jieshu($this->mid,$gameInfo);
-                 }
-                      }else{
-                    $this->send('牌型有误',false);
-                        }
+                    $gameInfo =  yield $this->sanren($gameInfo,$weizhi,$roomInfo,$pai,$leix,$room_id); //三个人的玩法
+                }elseif($roomInfo['guize']['renshu'] == 2){        //如果是两人房
+                    $gameInfo =    yield $this->erren($gameInfo,$weizhi,$roomInfo,$pai,$leix,$room_id); //2个人的玩法
+                }
 
 
-                     $this->destroy();
+                yield $this->redis_pool->hset($room_id, 'gameInfo',serialize($gameInfo)); //存数据
+            }else{
+                //如果打完
+                yield  $this->jieshu($this->mid,$gameInfo);
+            }
+        }else{
+            $this->send('牌型有误',false);
+        }
+
+
+        $this->destroy();
+    }
+    /**
+     * 消息.
+     * User: shijunyi
+     * Date: 3/22
+     *
+     */
+    public function xiaoxi()
+    {
+        if ($this->is_destroy) {
+            return;
+        }
+        D('消息', ['mid' => $this->mid, 'room_id' => $this->room_id]);
+        $this->sendToUids($this->uids, reData('xiaoxi', $this->data));
+    }
+
+    /**
+     * 离开房间.
+     * User: shijunyi
+     * Date: 3/22
+     *
+     */
+    public function game_exit()
+    {
+        if ($this->is_destroy) {
+            return;
+        }
+        //模型处理数据
+        $re = yield $this->CommModel->likai($this->mid, $this->room_id, $this->roomInfo);
+        if($re){
+            $re['likai'] = $this->mid;
+            $this->sendToUids($this->uids, reData('likai',$re), false);
+            //解绑房间信息
+            yield $this->redis_pool->getCoroutine()->HDEL('uids_'.$this->room_id,$this->mid);
+        }
+        $this->destroy();
+    }
+    /**
+     * 一局结束后 继续开始新游戏
+     */
+    public  function  jixu(){
+        if ($this->is_destroy) {
+            return;
+        }
+        if($this->roomInfo['status'] == 1){
+            $this->destroy();
+            return;
+        }
+        yield  $this->redis_pool->getCoroutine()->sAdd("jx_".$this->room_id,$this->mid);
+        $num =   yield  $this->redis_pool->getCoroutine()->sSize("jx_".$this->room_id);
+        $this->sendToUids($this->uids,reData('jixu',['mid'=>$this->mid]),false);
+        if($num == $this->roomInfo['guize']['renshu']){
+            yield  $this->redis_pool->getCoroutine()->delete("jx_".$this->room_id);
+            yield $this->fapai($this->gameInfo,$this->roomInfo,$this->userInfo);
+        }
+        $this->destroy();
+    }
+    /**
+     * 申请解散房间
+     */
+    public function jiesan(){
+        if ($this->is_destroy) {
+            return;
+        }
+        $status = $this->data->status;  //申请解散的给2  其余 0 拒绝 1同意
+        $this->sendToUids($this->uids,reData('jiesan',['mid'=>$this->mid,'status'=>$status]),false);
+
+        //如果是2个人玩 那么直接就可以解散
+        if($this->roomInfo['guize']['renshu'] == 2){
+            yield $this->q_jiesan();
+            $this->destroy();
+            return;
+        }
+
+        //先判断解散存不存在
+        if(yield  $this->redis_pool->getCoroutine()->exists("js_".$this->room_id)){
+            if($status == 1){
+                $this->sendToUids($this->uids,reData('jiesan_result',['status'=>1,'result'=>[]]),false);
+                yield  $this->redis_pool->getCoroutine()->delete($this->room_id);
+                yield  $this->redis_pool->getCoroutine()->delete('uids_'.$this->room_id);
+                yield  $this->redis_pool->getCoroutine()->delete('jx_'.$this->room_id);
+                yield  $this->redis_pool->getCoroutine()->delete('js_'.$this->room_id);
+                yield  $this->redis_pool->getCoroutine()->delete('logs_'.$this->room_id);
+                yield  $this->mysql_pool->dbQueryBuilder
+                    ->update('gs_member')
+                    ->set('room_id',0)
+                    ->where('room_id',$this->room_id)
+                    ->coroutineSend();
+                if($this->roomInfo['nowjushu'] == 1){
+                    yield $this->mysql_pool->dbQueryBuilder
+                        ->delete()
+                        ->from('gs_rooms')
+                        ->where('room_id',$this->room_id)
+                        ->coroutineSend();
+                }else{
+                    yield $this->mysql_pool->dbQueryBuilder
+                        ->update('gs_rooms')
+                        ->set('status',3)
+                        ->where('room_id',$this->room_id)
+                        ->where('status',2) // type
+                        ->coroutineSend();
+                }
+
+            }else{
+                yield  $this->redis_pool->getCoroutine()->hset("js_".$this->room_id,$this->mid,$status);
+            }
+            $re = yield  $this->redis_pool->getCoroutine()->hGetAll("js_".$this->room_id);
+            //如果当前投票人数 == 房间人数 那么就返回失败结果
+            if(count($re) == $this->roomInfo['guize']['renshu']){
+                $this->sendToUids($this->uids,reData('jiesan_result',['status'=>0,'result'=>$re]),false);
+                yield  $this->redis_pool->getCoroutine()->del('js_'.$this->room_id);
+            }
+        }else{
+            yield  $this->redis_pool->getCoroutine()->hset("js_".$this->room_id,$this->mid,$status);
+        }
+        $this->destroy();
+    }
+    /**
+     * 强制解散
+     */
+    public function q_jiesan(){
+        if ($this->is_destroy) {
+            return;
+        }
+        yield  $this->redis_pool->getCoroutine()->delete($this->room_id);  //房间所有数据
+        yield  $this->redis_pool->getCoroutine()->delete('uids_'.$this->room_id);  //玩家id
+        yield  $this->redis_pool->getCoroutine()->delete('jx_'.$this->room_id);    //继续
+        yield  $this->redis_pool->getCoroutine()->delete('js_'.$this->room_id);    //解散
+        yield  $this->redis_pool->getCoroutine()->delete('logs_'.$this->room_id);   //游戏记录
+        yield  $this->mysql_pool->dbQueryBuilder
+            ->update('gs_member')
+            ->set('room_id',0)
+            ->where('room_id',$this->room_id)
+            ->coroutineSend();
+        if($this->roomInfo['nowjushu'] == 1){
+            yield $this->mysql_pool->dbQueryBuilder
+                ->delete()
+                ->from('gs_rooms')
+                ->where('room_id',$this->room_id)
+                ->coroutineSend();
+        }else{
+            yield $this->mysql_pool->dbQueryBuilder
+                ->update('gs_rooms')
+                ->set('status',3) // type  如果为三说明房间解散状态
+                ->where('room_id',$this->room_id)
+                ->where('status',2) // type
+                ->coroutineSend();
+        }
+        $this->sendToUids($this->uids,reData('jiesan_result',['status'=>1,'result'=>[]]),false);
+        return;
+    }
+    /**
+     * 断线重连.
+     * User: shijunyi
+     * Date: 3/22
+     *
+     */
+    public function getGame(){
+        if ($this->is_destroy) {
+            return;
+        }
+        //房间内准备状态  并且游戏数据有
+        if($this->roomInfo['status'] == 0 || empty($this->gameInfo)){
+            $this->send(reData('out', '游戏未开始无法获取'), false);
+            $this->close();
+            return;
+        }
+        $roomInfo =  $this->roomInfo;
+        $weizhi =  $roomInfo['weizhi'];
+        $gameInfo =  $this->gameInfo;
+        //如果当前正在发起解散
+        if( yield  $this->redis_pool->getCoroutine()->exists("js_".$this->room_id)){
+            $re = yield  $this->redis_pool->getCoroutine()->hGetAll("js_".$this->room_id);
+            //先发发起结算的人
+            foreach ($re as $kk=>$vv){
+                if($vv  == 2){
+                    $this->sendToUids($this->uids,reData('jiesan',['mid'=>$kk,'status'=>$vv]),false);
+                }
+            }
+            //再发选择状态的人
+            foreach ($re as $kk2=>$vv2){
+                if($vv != 2){
+                    $this->sendToUids($this->uids,reData('jiesan',['mid'=>$kk2,'status'=>$vv2]),false);
+                }
+            }
+            return;
+        }
+        //如果当前正在发继续
+        if( yield  $this->redis_pool->getCoroutine()->exists("jx_".$this->room_id)){
+            yield $this->jixu();
+            return;
+        }
+        $upais = [];
+        foreach ($weizhi as $v){
+            if($v == $this->mid){
+                $upais[$v]['s'] = spias($gameInfo['users'][$v]['shoupai']);
+            }else{
+                $upais[$v]['s'] = [];
+            }
+
+        }
+        $data = [
+            'ju'=>$roomInfo['nowjushu'],                   //当前局数
+            'pais'=>$upais,                          //手牌
+            'dachu'=>$gameInfo['dachu'],           //打出的所有信息
+            'now'=>$gameInfo['now']                    //当前操作玩家
+        ];
+        $this->send(reData('getGame',$data));
+    }
+    /**
+     * 心跳.
+     * User: shijunyi
+     * Date: 3/22
+     *
+     */
+    public function heartbeat()
+    {
+        if ($this->is_destroy) {
+            return;
+        }
+        if(yield $this->redis_pool->getCoroutine()->get('del_'.$this->data->room_id)){
+            $this->send(reData('out', '房主解散房间'), false);
+        }
+        $redis_key = 'heartbeat_' . $this->room_id;
+        if (yield $this->redis_pool->getCoroutine()->setnx($redis_key, time())) {
+            yield $this->redis_pool->expireAt($redis_key, time() + 10);
+            $this->sendToUids($this->uids,reData($this->room_id, 'heartbeat'));
+        } else {
+            $this->destroy();
+        }
+    }
+    /**
+     * 发牌流程.
+     * User: shijunyi
+     * Date: 3/22
+     *
+     */
+    private function fapai($gameInfo,$roomInfo,$userInfo)
+    {
+        D('【fapai】',$this->data);
+        echo  "【fapai】".json_encode($this->data). "\n";
+        if ($this->is_destroy) {
+            return;
+        }
+
+        $re = fapai($gameInfo,$roomInfo,$userInfo);
+        $roomInfo = $re['roomInfo'];
+        $gameInfo = $re['gameInfo'];
+        $roomid = $roomInfo['guize']['room_id'];
+        yield $this->redis_pool->hset($roomid, 'roomInfo', serialize($roomInfo),'gameInfo',serialize($gameInfo));
+
+        foreach($gameInfo['users'] as $us => $u){
+
+            $data = [
+                'roomInfo'=>$roomInfo,//
+                'userInfo'=>$userInfo,//
+                'now'=>$gameInfo['now'],
+                'pai'=>$u['shoupai']
+
+            ];
+
+            $this->sendToUid($us,reData('fapai',$data),false);
+        }
+//        $data = [
+//            'roomInfo'=>$roomInfo,//
+//            'userInfo'=>$userInfo,//
+//            'now'=>$gameInfo['now'],
+//            'gameInfo'=>$gameInfo
+//
+//        ];
+        // yield $this->saveLogs(reData('fapai',$data)); 存游戏记录
+        $this->destroy();
     }
     /**
      * 三人玩.
@@ -266,7 +505,7 @@ class RoomController extends Controller
                 ];
                 $gameInfo['now'] = $now;//存该谁打牌
                 $gameInfo['dachu']['tishi'] = $tishi;
-
+                // yield $this->saveLogs(reData('dachu',$data)); //存游戏记录
                 $this->sendToUids($this->uids,reData('dachu',$data),false);
                 yield $this->redis_pool->hset($room_id, 'gameInfo',serialize($gameInfo));
                 break;
@@ -291,11 +530,12 @@ class RoomController extends Controller
                     $gameInfo['now'] = $this->mid;//存该谁打牌
                 }
                 yield $this->redis_pool->hset($room_id, 'gameInfo',serialize($gameInfo));
+                // yield $this->saveLogs(reData('dachu',$data));  //存游戏记录
                 $this->sendToUids($this->uids,reData('guo',$data),false);
 
             }
         }
-            return $gameInfo ;
+        return $gameInfo ;
     }
     /**
      * 二人玩.
@@ -326,6 +566,7 @@ class RoomController extends Controller
             $gameInfo['now'] = $now;//存该谁打牌
             $gameInfo['tishi'][$now] = $tishi;
             yield $this->redis_pool->hset($room_id, 'gameInfo',serialize($gameInfo));
+            // yield $this->saveLogs(reData('dachu',$data));//游戏记录
             $this->sendToUids($this->uids,reData('dachu',$data),false);
         }else{
             $data = [
@@ -337,23 +578,10 @@ class RoomController extends Controller
                 'mg'=> '要不起'
             ];
             yield $this->redis_pool->hset($room_id, 'gameInfo',serialize($gameInfo));
+            // yield $this->saveLogs(reData('dachu',$data));//游戏记录
             $this->sendToUids($this->uids,reData('guo',$data),false);
         }
         return $gameInfo;
-    }
-    /**
-     * 消息.
-     * User: shijunyi
-     * Date: 3/22
-     *
-     */
-    public function xiaoxi()
-    {
-        if ($this->is_destroy) {
-            return;
-        }
-        D('消息', ['mid' => $this->mid, 'room_id' => $this->room_id]);
-        $this->sendToUids($this->uids, reData('xiaoxi', $this->data));
     }
     /**
      * 每局结束.
@@ -364,40 +592,42 @@ class RoomController extends Controller
     private function jieshu($mid,$gameInfo)
     {
 
-       $roomInfo =  $this->roomInfo;
+        $roomInfo =  $this->roomInfo;
 
-       if($roomInfo['nowjushu'] == $roomInfo['guize']['jushu']){
-                $data = [
-                  'roomInfo'=> $this->roomInfo,
-                   'userInfo'=> $this->userInfo,
-                    'gameInfo'=>$gameInfo
+        if($roomInfo['nowjushu'] == $roomInfo['guize']['jushu']){
+            $data = [
+                'roomInfo'=> $this->roomInfo,
+                'userInfo'=> $this->userInfo,
+                'gameInfo'=>$gameInfo
 
-                ];
-           yield $this->redis_pool->del($this->room_id);
-           yield $this->redis_pool->del('uids_'.$this->room_id);
-
-                $this->sendToUids($this->uids,reData('game_over', $data),false);
-       }else{
-           $users = $gameInfo['users'];
-           $jusers = $users;
-           $zongjifen = '';
-         foreach($users as $k=>$v){
-                if($k == $gameInfo['niaoid'] && $mid == $k){ // 赢的人
+            ];
+            yield $this->redis_pool->del($this->room_id);
+            yield $this->redis_pool->del('uids_'.$this->room_id);
+            // yield $this->saveLogs(reData('game_over',$data));//游戏记录
+            $this->sendToUids($this->uids,reData('game_over', $data),false);
+        }else{
+            $users = $gameInfo['users'];
+            $jusers = $users; //所有用户
+            $zongjifen = ''; //总积分
+            foreach($users as $k=>$v){
+                if($k == $gameInfo['niaoid'] && $mid == $k){ // 拿到鸟牌的人赢
                     unset($jusers[$k]);
                     foreach($jusers as $kk => $vv){
-                        if(count($vv['shoupai']) == 1){
-                            $vv['sjifen'] = 0;
-//                            $gameInfo['users'][$kk]['sjifen'] = $vv['sjifen'];
+                        if(count($vv['shoupai']) == 1){ //手牌剩1张不扣分
+                            $vv['sjifen'] = 0;      //输的积分
                             $gameInfo['users'][$kk]['fenshu'] -= $vv['sjifen'];
                             $gameInfo['users'][$k]['fenshu'] += $gameInfo['users'][$kk]['sjifen'];
                         }else{
-                            if(count($vv['shoupai']) == 48/$roomInfo['guize']['renshu'] ){
+                            if(count($vv['shoupai']) == 48/$roomInfo['guize']['renshu'] ){ //全关算法 带鸟牌
                                 $vv['sjifen'] = (count($v['shoupai'])*2 + $v['zhadan']*10)*2;
                                 $gameInfo['users'][$kk]['fenshu'] -= $vv['sjifen'];
                                 $gameInfo['users'][$k]['fenshu'] += $gameInfo['users'][$kk]['sjifen'];
-                            }else{
+                                E('鸟牌赢的分数:'.$gameInfo['users'][$k]['fenshu']);
+                            }else{  //鸟牌算法
                                 $vv['sjifen'] = count($v['shoupai']) * 2 ;
+                                E('输的人扣的分数:'.$vv['sjifen']);
                                 $gameInfo['users'][$kk]['fenshu'] -= $vv['sjifen'];
+
                                 $gameInfo['users'][$k]['fenshu'] += $gameInfo['users'][$kk]['sjifen'];
                             }
                         }
@@ -426,50 +656,113 @@ class RoomController extends Controller
                                     $gameInfo['users'][$k]['fenshu'] += $gameInfo['users'][$kk]['sjifen'];
                                 }
                             }
-
+                            E('输的人的分数:'.$vv['sjifen']);
                         }
                     }
                 }
-             $gameInfo['users'][$k]['shoupai'] = [];
-             $gameInfo['users'][$k]['dachu'] = [];
+                E('赢的人的分数:'.$gameInfo['users'][$k]['fenshu']);
 
-         }
-           $roomInfo['nowjushu'] +=1;
+            }
+
+
+            $data = [
+
+                'roomInfo'=> $this->roomInfo,
+                'userInfo'=> $this->userInfo,
+                'gameInfo'=>$gameInfo
+
+            ];
+            // yield $this->saveLogs(reData('over',$data));//游戏记录
+            $this->sendToUids($this->uids,reData('over', $data),false);
+            $gameInfo['users'][$k]['shoupai'] = [];
+            $gameInfo['users'][$k]['dachu'] = [];
+            $roomInfo['nowjushu'] +=1;
             $gameInfo['now'] = $mid;
-           yield $this->redis_pool->hset($this->room_id, 'gameInfo',serialize($gameInfo),'roomInfo',serialize($roomInfo));
-           $data = [
-               'route'=>'xjieshu',
-               'roomInfo'=> $this->roomInfo,
-               'userInfo'=> $this->userInfo,
-               'gameInfo'=>$gameInfo
+            yield $this->redis_pool->hset($this->room_id, 'gameInfo',serialize($gameInfo),'roomInfo',serialize($roomInfo));
+        }
 
-           ];
-           $this->sendToUids($this->uids,reData('over', $data),false);
-       }
-
-    }
-
+    } //!!!!!!!!!!!!!!!!!
     /**
-     * 离开房间.
-     * User: shijunyi
-     * Date: 3/22
-     *
+     * 保存记录
      */
-    public function game_exit()
-    {
-         if ($this->is_destroy) {
-            return;
+    private function saveLogs($log,$result=false){
+        //添加游戏记录
+        $log = json_encode($log,JSON_UNESCAPED_UNICODE);
+        $key = yield  $this->redis_pool->getCoroutine()->Scard("logs_".$this->room_id);
+        $re = $key.'--'.$log;
+        $roomInfo = $this->roomInfo;
+        yield  $this->redis_pool->getCoroutine()->sAdd("logs_".$this->room_id,$re);
+        if($result){
+            //保存游戏记录
+            $re =  yield  $this->redis_pool->getCoroutine()->sMembers("logs_".$this->room_id);
+            $data = json_encode($re,JSON_UNESCAPED_UNICODE);
+            yield $this->mysql_pool->dbQueryBuilder
+                ->insert('gs_logs_info')
+                ->set('ju',$roomInfo['nowjushu'])
+                ->set('info',$data)
+                ->set('room_id',$this->room_id)
+                ->coroutineSend();
+            //如果当前局数==1 并且打完了 那么开始扣砖石
+            if($roomInfo['nowjushu'] == 1){
+                $rooms = yield $this->mysql_pool->dbQueryBuilder
+                    ->select('status')
+                    ->select('num')
+                    ->select('f_id')
+                    ->where('room_id', $this->room_id)
+                    ->from('gs_rooms')
+                    ->coroutineSend();
+                $rooms = $rooms['result'][0];
+                if($rooms['status'] == 2 ){
+                    yield $this->mysql_pool->dbQueryBuilder
+                        ->update('gs_am')
+                        ->set('num',"num-{$rooms['num']}",false)
+                        ->where('mid',$rooms['mid'])
+                        ->coroutineSend();
+                }else{
+                    if($rooms['type'] == 0){
+                        $title = '创建房间';
+                    }else{
+                        $title = '代开房间';
+                    }
+                yield $this->mysql_pool->dbQueryBuilder
+                    ->update('gs_member')
+                    ->set('roomnums',"roomnums+1",false)
+                    ->set('num',"num-{$rooms['num']}",false)
+                    ->where('id',$rooms['mid'])
+                    ->coroutineSend();
+                yield $this->mysql_pool->dbQueryBuilder
+                    ->insert('gs_mnum_info')
+                    ->set('mid',$rooms['mid'])
+                    ->set('num',$rooms['num'] * -1)
+                    ->set('gid',51)
+                    ->set('room_id',$this->room_id)
+                    ->set('title',$title)
+                    ->coroutineSend();
+            }
+            //加入room_user
+            foreach ($this->uids as  $v){
+                yield $this->mysql_pool->dbQueryBuilder
+                    ->insert('gs_rooms_user')
+                    ->set('room_id',$this->room_id)
+                    ->set('mid',$v)
+                    ->coroutineSend();
+            }
+            //修改状态
+            yield $this->mysql_pool->dbQueryBuilder
+                ->update('gs_rooms')
+                ->set('status',2)
+                ->where('room_id',$this->room_id)
+                ->coroutineSend();
         }
-        //模型处理数据
-        $re = yield $this->CommModel->likai($this->mid, $this->room_id, $this->roomInfo);
-        if($re){
-            $re['likai'] = $this->mid;
-            $this->sendToUids($this->uids, reData('likai',$re), false);
-            //解绑房间信息
-            yield $this->redis_pool->getCoroutine()->HDEL('uids_'.$this->room_id,$this->mid);
-        }
-        $this->destroy();
+        //修改战绩总记录
+        yield $this->mysql_pool->dbQueryBuilder
+            ->update('gs_rooms')
+            ->set('result',$result)
+            ->where('room_id',$this->room_id)
+            ->coroutineSend();
+
+        //删除redis
+        yield  $this->redis_pool->getCoroutine()->del("logs_".$this->room_id);
     }
-
-
+}//!!!!!!!!!!!!!!
 }
