@@ -411,7 +411,7 @@ class GameController extends Controller
                 }
                 $nextid = $roomInfo['weizhi'][$nextid];
                 $data = [
-
+ 
                     'now'=>$nextid,
 
                     'mid'=>$now,
