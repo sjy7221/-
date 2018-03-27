@@ -89,6 +89,12 @@ class GameController extends Controller
 
         //如果返回的类型
         if($leix){
+            if($roomInfo['guize']['suanfa'][0] && $roomInfo['nowjushu'] == 1){
+                if($pai != 31){
+                    $this->send(reData('error', ['msg'=>'首句先出黑桃3']),false);
+                    return;
+                }
+            }
             D('leix',$leix);
             $dc = zhuanhuan($pai); //去掉打出花色
             $sjp = zhuanhuan($gameInfo['dachu']['pai']);//去上家打出花色
