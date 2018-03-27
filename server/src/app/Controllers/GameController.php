@@ -388,7 +388,7 @@ class GameController extends Controller
 
             $tishi =  shoupai($nextsp,$pai,$leix) ;
             if($tishi){
-
+                var_dump($tishi);
                 $data = [
                     'now'=> $now, //现在改谁出牌
                     'mid'=>$this->mid, //出牌人的mid
