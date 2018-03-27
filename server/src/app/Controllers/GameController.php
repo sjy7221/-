@@ -453,41 +453,37 @@ class GameController extends Controller
      */
     private function jieshu($mid,$gameInfo)
     {    return false;
-        $roomInfo = $this->roomInfo;
-        //判断游戏是否结束
-        if($roomInfo['nowjushu'] >= $roomInfo['guize']['jushu']){
-            $game_status = 0;
-        }else{
-            $game_status = 1;
-        }
-        $data = [
-            'win'=>$mid,
-            'upais'=>$gameInfo['users'],  //所有人的手牌 和信息
-            'users'=>$this->userInfo,
-            'jifen'=>
-
-        ];
-        $users = $gameInfo['users'];
-        $shu = array_diff($users,$mid);
-        $ying = '';
-        foreach($shu as $k => $v){
-            if($v == $gameInfo['niaoid'] && $gameInfo['niaoid']){
-              $shu =  count($v['shoupai'])*2;
-            }else{
-                $shu = count($v['shoupai']);
-            }
-            if(count($v['shoupai']) == 1){
-                $shu = 0;
-            }
-
-            $ying += $shu;
-            yield $this->mysql_pool->dbQueryBuilder->insert('gs_room_js')
-                ->set('mid',$v)
-                ->set('roomid', $this->room_id)
-                ->set('shu', '25')
-                ->set('townid', '10000')
-                ->coroutineSend();
-        }
+//        $roomInfo = $this->roomInfo;
+//        //判断游戏是否结束
+//        if($roomInfo['nowjushu'] >= $roomInfo['guize']['jushu']){
+//            $game_status = 0;
+//        }else{
+//            $game_status = 1;
+//        }
+//        $data = [
+//            'win'=>$mid,
+//            'upais'=>$gameInfo['users'],  //所有人的手牌 和信息
+//            'users'=>$this->userInfo,
+//            'jifen'=>
+//
+//        ];
+//        $users = $gameInfo['users'];
+//        $shu = array_diff($users,$mid);
+//        $ying = '';
+//        foreach($shu as $k => $v){
+//            if($v == $gameInfo['niaoid'] && $gameInfo['niaoid']){
+//              $shu =  count($v['shoupai'])*2;
+//            }else{
+//                $shu = count($v['shoupai']);
+//            }
+//            if(count($v['shoupai']) == 1){
+//                $shu = 0;
+//            }
+//
+//            $ying += $shu;
+//            $gameInfo['user'][$v]['fen'] =  '-'.$shu;
+//        }
+//        $gameInfo['user'][$mid]['fen'] = '+'.$ying;
     } //!!!!!!!!!!!!!!!!!
     /**
      * 保存记录
