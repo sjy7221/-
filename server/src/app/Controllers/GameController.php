@@ -390,7 +390,7 @@ class GameController extends Controller
                     'mid'=>$this->mid,
                     'tishi'=>$tishi,
                     'pai'=>$pai,
-                    'shoupai'=>$gameInfo['users'][$this->mid]['shoupai'],
+                    'shoupai'=>$msp,
                     'type'=>$leix['type']
 
                 ];
