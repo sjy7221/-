@@ -436,21 +436,21 @@ class GameController extends Controller
                 $this->sendToUids($this->uids,reData('guo',$data),false);
 
             }
-            if($guo = 2){
-                $data = [
-                    'now'=> $this->mid, //现在改谁出牌
-                    'mid'=>$this->mid, //出牌人的mid
-                    'pai'=>$pai,
-                    'shoupai'=>$msp,
 
-
-                ];
-                $this->sendToUids($this->uids,reData('dachu',$data),false);
-            }
 
 
         }
+        if($guo = 2){
+            $data = [
+                'now'=> $this->mid, //现在改谁出牌
+                'mid'=>$this->mid, //出牌人的mid
+                'pai'=>$pai,
+                'shoupai'=>$msp,
 
+
+            ];
+            $this->sendToUids($this->uids,reData('dachu',$data),false);
+        }
         return $gameInfo ;
     }
     /**
