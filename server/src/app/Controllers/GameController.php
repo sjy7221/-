@@ -354,12 +354,13 @@ class GameController extends Controller
             $nextsp  =  $gameInfo['users'][$now]['shoupai'];//下一个人的手牌
             $tishi =  shoupai($nextsp,$pai,$leix) ;
             if($tishi){
+                $msp = $gameInfo['users'][$this->mid]['shoupai'];
                 $data = [
                     'now'=> $now,
                     'mid'=>$this->mid,
-                    'tishi'=>$tishi,
+                    'tishi'=>[$tishi],
                     'pai'=>$pai,
-                    'nowshoupai'=>$nextsp,
+                    'shoupai'=>$nextsp,
                     'type'=>$leix['type']
 
                 ];
@@ -460,9 +461,10 @@ class GameController extends Controller
         }
         $data = [
             'win'=>$mid,
-            'upais'=>$gameInfo['users'],  //所有人的手牌
-            'time'=>date("Y-m-d H:i:s"),   //时间
-            'game_status'=>$game_status,   //游戏状态 0 结束 1 继续
+            'upais'=>$gameInfo['users'],  //所有人的手牌 和信息
+            'users'=>$this->userInfo,
+            'time'=>date("Y-m-d H:i:s"), //时间
+            'jifen'=>
             'users'=>$roomInfo['users'],     //玩家总记录
             'zm'=>''
         ];
