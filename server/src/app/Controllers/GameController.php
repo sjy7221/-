@@ -382,16 +382,7 @@ class GameController extends Controller
             $now = $roomInfo['weizhi'][$next];//取出下一个人的mid
 
             $nextsp  =  $gameInfo['users'][$now]['shoupai'];//下一个人的手牌
-            $data = [
-                'now'=> $now, //现在改谁出牌
-                'mid'=>$this->mid, //出牌人的mid
-//                'tishi'=>$tishi,
-                'pai'=>$pai,
-                'shoupai'=>$msp,
-                'type'=>$leix['type']
 
-            ];
-            $this->sendToUids($this->uids,reData('dachu',$data),false);
             $tishi =  shoupai($nextsp,$pai,$leix) ;
             if($tishi){
                 $msp = $gameInfo['users'][$this->mid]['shoupai'];
@@ -430,6 +421,9 @@ class GameController extends Controller
                 ];
                 if($i == 2){
                     $gameInfo['now'] = $this->mid;//存该谁打牌
+                    $gameInfo['dachu']['pai'] = [];
+                    $gameInfo['dachu']['leix'] = [];
+                    $gameInfo[dachu]['tishi'] = [];
                 }
                 yield $this->redis_pool->hset($room_id, 'gameInfo',serialize($gameInfo));
                 // yield $this->saveLogs(reData('dachu',$data));  //存游戏记录
@@ -438,6 +432,7 @@ class GameController extends Controller
             }
 
         }
+        
         return $gameInfo ;
     }
     /**
