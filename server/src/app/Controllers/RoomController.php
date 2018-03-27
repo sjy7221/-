@@ -199,6 +199,7 @@ class RoomController extends Controller
         $re = fapai($gameInfo,$roomInfo,$userInfo);
         $roomInfo = $re['roomInfo'];
         $gameInfo = $re['gameInfo'];
+        $gameInfo['one'] = 1;
         $roomid = $roomInfo['guize']['room_id'];
         yield $this->redis_pool->hset($roomid, 'roomInfo', serialize($roomInfo),'gameInfo',serialize($gameInfo));
 
