@@ -89,7 +89,7 @@ class GameController extends Controller
 
         //如果返回的类型
         if($leix){
-            if($roomInfo['guize']['suanfa'][0] && $roomInfo['nowjushu'] == 1 && $pai != 31){
+            if($roomInfo['guize']['suanfa'][0] && $roomInfo['nowjushu'] == 1  && $pai[0] != 31 && count($shoupai) == 48/$roomInfo['guize']['renshu']){
 
                     $this->send(reData('error', ['msg'=>'首句先出黑桃3']),false);
                     return ;
