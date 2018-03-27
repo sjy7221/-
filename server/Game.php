@@ -583,6 +583,7 @@
             }
        }
        $dk = '';
+       $ob = '';
        if(empty($k) || !$k){
            return  zha($numb, $pai);
        }else{
