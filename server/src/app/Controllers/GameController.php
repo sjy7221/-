@@ -89,10 +89,12 @@ class GameController extends Controller
 
         //如果返回的类型
         if($leix){
-            if($roomInfo['guize']['suanfa'][0] && $roomInfo['nowjushu'] == 1  && $pai[0] != 31 && count($shoupai) == 48/$roomInfo['guize']['renshu']){
-                    var_dump($pai);
-                    $this->send(reData('error', ['msg'=>'首句先出黑桃3']),false);
-                    return ;
+            if($roomInfo['guize']['suanfa'][0]  && $roomInfo['nowjushu'] == 1 && count($shoupai) == 48/$roomInfo['guize']['renshu']){
+                        if(!is_array(31,$pai)){
+                            $this->send(reData('error', ['msg'=>'首句先出黑桃3']),false);
+                            return ;
+                        }
+
 
             }
             D('leix',$leix);
