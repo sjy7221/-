@@ -369,6 +369,7 @@ class GameController extends Controller
     private function sanren($gameInfo,$weizhi,$roomInfo,$pai,$leix,$room_id)
     {
         $guo = 0;
+        $msp = $gameInfo['users'][$this->mid]['shoupai'];
         for($i=1;$i<count($gameInfo['users']);$i++){
 
             if($weizhi+$i == 3) {
@@ -386,7 +387,7 @@ class GameController extends Controller
 
             $tishi =  shoupai($nextsp,$pai,$leix) ;
             if($tishi){
-                $msp = $gameInfo['users'][$this->mid]['shoupai'];
+
                 $data = [
                     'now'=> $now, //现在改谁出牌
                     'mid'=>$this->mid, //出牌人的mid
@@ -441,7 +442,7 @@ class GameController extends Controller
                     'mid'=>$this->mid, //出牌人的mid
                     'pai'=>$pai,
                     'shoupai'=>$msp,
-                    'type'=>$leix['type']
+
 
                 ];
                 $this->sendToUids($this->uids,reData('dachu',$data),false);
