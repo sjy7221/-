@@ -489,7 +489,7 @@ class GameController extends Controller
 //                ->set('shu', '25')
 //                ->set('townid', '10000')
 //                ->coroutineSend();
-        }
+       // }
     } //!!!!!!!!!!!!!!!!!
     /**
      * 保存记录
