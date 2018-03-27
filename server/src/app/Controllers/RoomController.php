@@ -591,12 +591,21 @@ class RoomController extends Controller
      */
     private function jieshu($mid,$gameInfo)
     {
-
-        $value = yield $this->mysql_pool->dbQueryBuilder->Select('*')
-            ->from('gs_room_js')
-            ->where('roomid', $this->room_id)
-            ->coroutineSend();
-        if(count($value) == 10){}
+        $roomInfo = $this->roomInfo;
+        //判断游戏是否结束
+        if($roomInfo['nowjushu'] >= $roomInfo['guize']['jushu']){
+            $game_status = 0;
+        }else{
+            $game_status = 1;
+        }
+        $data = [
+            'win'=>$mid,
+            'upais'=>$gameInfo['users'],  //所有人的手牌
+            'time'=>date("Y-m-d H:i:s"),   //时间
+            'game_status'=>$game_status,   //游戏状态 0 结束 1 继续
+            'users'=>$roomInfo['users'],     //玩家总记录
+            'zm'=>''
+        ];
         $users = $gameInfo['users'];
         $shu = array_diff($users,$mid);
         $ying = '';
