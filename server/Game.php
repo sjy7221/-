@@ -2,7 +2,7 @@
 
 
 //返回数据格式
-function reData($route,$data){
+    function reData($route,$data){
     $dd = [
         'route'=>$route,
         'data'=>$data

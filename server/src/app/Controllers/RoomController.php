@@ -121,7 +121,7 @@ class RoomController extends Controller
                 E('开始游戏');
 //              $this->sendToUids($this->uids, reData('game_go', '开始游戏'), false);
 
-                yield $this->fapai($re('gameInfo'),$re('roomInfo'),$re('userInfo'));
+                yield $this->fapai($re['gameInfo'],$re['roomInfo'],$re['userInfo']);
             }
         }
 
@@ -592,95 +592,32 @@ class RoomController extends Controller
     private function jieshu($mid,$gameInfo)
     {
 
-        $roomInfo =  $this->roomInfo;
-
-        if($roomInfo['nowjushu'] == $roomInfo['guize']['jushu']){
-            $data = [
-                'roomInfo'=> $this->roomInfo,
-                'userInfo'=> $this->userInfo,
-                'gameInfo'=>$gameInfo
-
-            ];
-            yield $this->redis_pool->del($this->room_id);
-            yield $this->redis_pool->del('uids_'.$this->room_id);
-            // yield $this->saveLogs(reData('game_over',$data));//游戏记录
-            $this->sendToUids($this->uids,reData('game_over', $data),false);
-        }else{
-            $users = $gameInfo['users'];
-            $jusers = $users; //所有用户
-            $zongjifen = ''; //总积分
-            foreach($users as $k=>$v){
-                if($k == $gameInfo['niaoid'] && $mid == $k){ // 拿到鸟牌的人赢
-                    unset($jusers[$k]);
-                    foreach($jusers as $kk => $vv){
-                        if(count($vv['shoupai']) == 1){ //手牌剩1张不扣分
-                            $vv['sjifen'] = 0;      //输的积分
-                            $gameInfo['users'][$kk]['fenshu'] -= $vv['sjifen'];
-                            $gameInfo['users'][$k]['fenshu'] += $gameInfo['users'][$kk]['sjifen'];
-                        }else{
-                            if(count($vv['shoupai']) == 48/$roomInfo['guize']['renshu'] ){ //全关算法 带鸟牌
-                                $vv['sjifen'] = (count($v['shoupai'])*2 + $v['zhadan']*10)*2;
-                                $gameInfo['users'][$kk]['fenshu'] -= $vv['sjifen'];
-                                $gameInfo['users'][$k]['fenshu'] += $gameInfo['users'][$kk]['sjifen'];
-                                E('鸟牌赢的分数:'.$gameInfo['users'][$k]['fenshu']);
-                            }else{  //鸟牌算法
-                                $vv['sjifen'] = count($v['shoupai']) * 2 ;
-                                E('输的人扣的分数:'.$vv['sjifen']);
-                                $gameInfo['users'][$kk]['fenshu'] -= $vv['sjifen'];
-
-                                $gameInfo['users'][$k]['fenshu'] += $gameInfo['users'][$kk]['sjifen'];
-                            }
-                        }
-
-                    }
-                }else{
-                    if($k == $mid){
-                        unset($jusers[$k]);
-                        foreach($jusers as $kk => $vv){
-                            if(count($vv['shoupai']) == 1){
-                                $vv['sjifen'] = 0;
-                                $gameInfo['users'][$kk]['fenshu'] -= $vv['sjifen'];
-                                $gameInfo['users'][$k]['fenshu'] += $gameInfo['users'][$kk]['sjifen'];
-                            }else{
-                                if(count($vv['shoupai']) == 48/$roomInfo['guize']['renshu'] && $kk == $gameInfo['niaoid'] ){
-                                    $vv['sjifen'] = (count($v['shoupai'])*2 + $v['zhadan']*10)*2;
-                                    $gameInfo['users'][$kk]['fenshu'] -= $vv['sjifen'];
-                                    $gameInfo['users'][$k]['fenshu'] += $gameInfo['users'][$kk]['sjifen'];
-                                }elseif(count($vv['shoupai']) == 48/$roomInfo['guize']['renshu']){
-                                    $vv['sjifen'] = count($v['shoupai'])*2 + $v['zhadan']*10;
-                                    $gameInfo['users'][$kk]['fenshu'] -= $vv['sjifen'];
-                                    $gameInfo['users'][$k]['fenshu'] += $gameInfo['users'][$kk]['sjifen'];
-                                }else{
-                                    $vv['sjifen'] = count($v['shoupai'])  ;
-                                    $gameInfo['users'][$kk]['fenshu'] -= $vv['sjifen'];
-                                    $gameInfo['users'][$k]['fenshu'] += $gameInfo['users'][$kk]['sjifen'];
-                                }
-                            }
-                            E('输的人的分数:'.$vv['sjifen']);
-                        }
-                    }
-                }
-                E('赢的人的分数:'.$gameInfo['users'][$k]['fenshu']);
-
+        $value = yield $this->mysql_pool->dbQueryBuilder->Select('*')
+            ->from('gs_room_js')
+            ->where('roomid', $this->room_id)
+            ->coroutineSend();
+        if(count($value) == 10){}
+        $users = $gameInfo['users'];
+        $shu = array_diff($users,$mid);
+        $ying = '';
+        foreach($shu as $k => $v){
+            if($v == $gameInfo['niaoid'] && $gameInfo['niaoid']){
+              $shu =  count($v['shoupai'])*2;
+            }else{
+                $shu = count($v['shoupai']);
+            }
+            if(count($v['shoupai']) == 1){
+                $shu = 0;
             }
 
-
-            $data = [
-
-                'roomInfo'=> $this->roomInfo,
-                'userInfo'=> $this->userInfo,
-                'gameInfo'=>$gameInfo
-
-            ];
-            // yield $this->saveLogs(reData('over',$data));//游戏记录
-            $this->sendToUids($this->uids,reData('over', $data),false);
-            $gameInfo['users'][$k]['shoupai'] = [];
-            $gameInfo['users'][$k]['dachu'] = [];
-            $roomInfo['nowjushu'] +=1;
-            $gameInfo['now'] = $mid;
-            yield $this->redis_pool->hset($this->room_id, 'gameInfo',serialize($gameInfo),'roomInfo',serialize($roomInfo));
+            $ying += $shu;
+            yield $this->mysql_pool->dbQueryBuilder->insert('gs_room_js')
+                ->set('mid',$v)
+                ->set('roomid', $this->room_id)
+                ->set('shu', '25')
+                ->set('townid', '10000')
+                ->coroutineSend();
         }
-
     } //!!!!!!!!!!!!!!!!!
     /**
      * 保存记录
