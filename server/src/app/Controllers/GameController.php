@@ -427,11 +427,7 @@ class GameController extends Controller
                     $gameInfo['now'] = $this->mid;//存该谁打牌
 
                 }
-                if($guo == 2){
-                    $gameInfo['dachu']['pai'] = [];
-                    $gameInfo['dachu']['leix'] = [];
-                    $gameInfo[dachu]['tishi'] = [];
-                }
+
                 yield $this->redis_pool->hset($room_id, 'gameInfo',serialize($gameInfo));
                 // yield $this->saveLogs(reData('dachu',$data));  //存游戏记录
                 $this->sendToUids($this->uids,reData('guo',$data),false);
