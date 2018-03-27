@@ -106,8 +106,9 @@ class GameController extends Controller
            $stype = $gameInfo['dachu']['leix']['type'];
             if(isset($gameInfo['dachu']) || $gameInfo['dachu']){
                 $sjp = zhuanhuan($gameInfo['dachu']['pai']);//去上家打出花色
-                if($gameInfo['dachu']['mid'] != $gameInfo['now'] && $sjp[0] > $dc[0] && $dtype != $stype){
+                if($gameInfo['dachu']['mid'] != $gameInfo['now'] ){
                     $this->send(reData('error', ['msg'=>'牌型不对']),false);
+//                    && $sjp[0] > $dc[0] && $dtype != $stype
                     return;
                 }
 
