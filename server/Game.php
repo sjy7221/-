@@ -12,7 +12,7 @@
     //单
     function dan($pai)
     {
-        var_dump('dan');
+
         if(count($pai) == 1){
          return ['type'=>1,'len'=>1] ; 
         }else{

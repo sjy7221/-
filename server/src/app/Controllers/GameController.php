@@ -98,17 +98,18 @@ class GameController extends Controller
 
             }
             D('leix',$leix);
+
             $dc = zhuanhuan($pai); //去掉打出花色
-            $sjp = zhuanhuan($gameInfo['dachu']['pai']);//去上家打出花色
+
             //判断打出的牌大小
             if(isset($gameInfo['dachu']) || $gameInfo['dachu']){
+                $sjp = zhuanhuan($gameInfo['dachu']['pai']);//去上家打出花色
                 if($gameInfo['dachu']['mid'] != $gameInfo['now'] && $sjp[0] > $dc[0] && $leix['type'] == $gameInfo['dachu']['leix']['type']){
                     $this->send(reData('error', ['msg'=>'牌型不对']),false);
                     return;
                 }
 
             }
-            echo 'OK';
             $gameInfo['dachu']['mid'] = $this->mid;//打出牌人的id
             $gameInfo['dachu']['pai'] = $pai;//打出的牌
             $gameInfo['dachu']['leix'] = $leix;//打出的类型
