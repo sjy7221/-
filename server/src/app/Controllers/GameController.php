@@ -368,6 +368,7 @@ class GameController extends Controller
      */
     private function sanren($gameInfo,$weizhi,$roomInfo,$pai,$leix,$room_id)
     {
+        $guo = 0;
         for($i=1;$i<count($gameInfo['users']);$i++){
 
             if($weizhi+$i == 3) {
@@ -419,8 +420,12 @@ class GameController extends Controller
                     'type'=> false,
                     'mg'=> '要不起'
                 ];
+                $guo +=1;
                 if($i == 2){
                     $gameInfo['now'] = $this->mid;//存该谁打牌
+
+                }
+                if($guo == 2){
                     $gameInfo['dachu']['pai'] = [];
                     $gameInfo['dachu']['leix'] = [];
                     $gameInfo[dachu]['tishi'] = [];
@@ -431,8 +436,9 @@ class GameController extends Controller
 
             }
 
+
         }
-        
+
         return $gameInfo ;
     }
     /**
