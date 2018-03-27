@@ -369,7 +369,7 @@ class GameController extends Controller
      */
     private function sanren($gameInfo,$weizhi,$roomInfo,$pai,$leix,$room_id)
     {
-        $guo = 0;
+
         $msp = $gameInfo['users'][$this->mid]['shoupai'];
         for($i=1;$i<count($gameInfo['users']);$i++){
 
@@ -422,7 +422,7 @@ class GameController extends Controller
                     'type'=> false,
                     'mg'=> '要不起'
                 ];
-                $guo +=1;
+
                 if($i == 2){
                     $gameInfo['now'] = $this->mid;//存该谁打牌
 
