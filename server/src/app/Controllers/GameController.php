@@ -104,7 +104,6 @@ class GameController extends Controller
             //判断打出的牌大小
             if(isset($gameInfo['dachu']) || $gameInfo['dachu']){
                 $sjp = zhuanhuan($gameInfo['dachu']['pai']);//去上家打出花色
-
                 if($gameInfo['dachu']['mid'] != $gameInfo['now'] && $sjp[0] > $dc[0] && $leix['type'] == $gameInfo['dachu']['leix']['type']){
                     $this->send(reData('error', ['msg'=>'牌型不对']),false);
                     return;
@@ -369,8 +368,6 @@ class GameController extends Controller
      */
     private function sanren($gameInfo,$weizhi,$roomInfo,$pai,$leix,$room_id)
     {
-
-        $msp = $gameInfo['users'][$this->mid]['shoupai'];
         for($i=1;$i<count($gameInfo['users']);$i++){
 
             if($weizhi+$i == 3) {
@@ -388,7 +385,7 @@ class GameController extends Controller
 
             $tishi =  shoupai($nextsp,$pai,$leix) ;
             if($tishi){
-                var_dump($tishi);
+                $msp = $gameInfo['users'][$this->mid]['shoupai'];
                 $data = [
                     'now'=> $now, //现在改谁出牌
                     'mid'=>$this->mid, //出牌人的mid
@@ -435,19 +432,8 @@ class GameController extends Controller
             }
 
 
-
         }
-        if($guo = 2){
-            $data = [
-                'now'=> $this->mid, //现在改谁出牌
-                'mid'=>$this->mid, //出牌人的mid
-                'pai'=>$pai,
-                'shoupai'=>$msp,
 
-
-            ];
-            $this->sendToUids($this->uids,reData('dachu',$data),false);
-        }
         return $gameInfo ;
     }
     /**
