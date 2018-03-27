@@ -201,6 +201,7 @@ class RoomController extends Controller
         $gameInfo = $re['gameInfo'];
         $gameInfo['one'] = 1;
         $roomid = $roomInfo['guize']['room_id'];
+        $gameInfo['one'] = 1;
         yield $this->redis_pool->hset($roomid, 'roomInfo', serialize($roomInfo),'gameInfo',serialize($gameInfo));
 
         foreach($gameInfo['users'] as $us => $u){
