@@ -133,20 +133,6 @@ class GameController extends Controller
 
         $this->destroy();
     }
-    /**
-     * 消息.
-     * User: shijunyi
-     * Date: 3/22
-     *
-     */
-    public function xiaoxi()
-    {
-        if ($this->is_destroy) {
-            return;
-        }
-        D('消息', ['mid' => $this->mid, 'room_id' => $this->room_id]);
-        $this->sendToUids($this->uids, reData('xiaoxi', $this->data));
-    }
 
 
     /**
@@ -301,28 +287,7 @@ class GameController extends Controller
         ];
         $this->send(reData('getGame',$data));
     }
-    /**
-     * 心跳.
-     * User: shijunyi
-     * Date: 3/22
-     *
-     */
-    public function heartbeat()
-    {
-        if ($this->is_destroy) {
-            return;
-        }
-        if(yield $this->redis_pool->getCoroutine()->get('del_'.$this->data->room_id)){
-            $this->send(reData('out', '房主解散房间'), false);
-        }
-        $redis_key = 'heartbeat_' . $this->room_id;
-        if (yield $this->redis_pool->getCoroutine()->setnx($redis_key, time())) {
-            yield $this->redis_pool->expireAt($redis_key, time() + 10);
-            $this->sendToUids($this->uids,reData($this->room_id, 'heartbeat'));
-        } else {
-            $this->destroy();
-        }
-    }
+
     /**
      * 发牌流程.
      * User: shijunyi
