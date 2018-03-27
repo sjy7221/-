@@ -102,6 +102,8 @@ class GameController extends Controller
                 D('打出：',$pai);
                 D('上次打出的牌：',$gameInfo['dachu']['pai']);
             //判断打出的牌大小
+            D('dtype:',$leix['type']);
+            D('stype',$gameInfo['dachu']['leix']['type']);
             if(isset($gameInfo['dachu']) || $gameInfo['dachu']){
                 $sjp = zhuanhuan($gameInfo['dachu']['pai']);//去上家打出花色
                 if($gameInfo['dachu']['mid'] != $gameInfo['now'] && $sjp[0] > $dc[0] && $leix['type'] == $gameInfo['dachu']['leix']['type']){
