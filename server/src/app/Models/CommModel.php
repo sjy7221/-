@@ -74,7 +74,7 @@ class CommModel extends Model
                  $is_user = 0; //用来判断是否重连
             }
 
-            if(count($userInfo['users']) ==  $roomInfo['guize']['renshu'] && $roomInfo['status'] == 0){ //如果房间人数等于规则人数
+            if(count($userInfo) ==  $roomInfo['guize']['renshu'] && $roomInfo['status'] == 0){ //如果房间人数等于规则人数
             	  yield $this->mysql_pool->dbQueryBuilder
                 ->update('gs_rooms')
                 ->set('status',1)                   //房间状态改为1;
