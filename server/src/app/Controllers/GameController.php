@@ -108,6 +108,7 @@ class GameController extends Controller
                 }
 
             }
+            echo 'OK';
             $gameInfo['dachu']['mid'] = $this->mid;//打出牌人的id
             $gameInfo['dachu']['pai'] = $pai;//打出的牌
             $gameInfo['dachu']['leix'] = $leix;//打出的类型
