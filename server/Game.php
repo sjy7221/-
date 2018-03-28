@@ -453,6 +453,7 @@
         }
     }
     function type1($pai, $dachu, $numb) {
+            D('type1.单张 tishi:',1)
         for ($i = 0;$i < count($pai);$i++) {
             for ($j = 0;$j < count($dachu);$j++) {
                 if ($pai[$i] > $dachu[$j] + 10) {
@@ -487,6 +488,7 @@
         sort($tishi);
         if ($u >= $leix['len']) {
             $tishi = array_slice($tishi, 0, count($dachu));
+            D('type2.顺子 tishi:',$tishi);
             return $tishi; // 返回可以打出的数据
             
         } else {
@@ -523,6 +525,7 @@
             return  zha($numb, $pai);
         } else {
             $tishi = array_slice($tishi, 0, count($dachu));
+            D('type3.对子 tishi:',$tishi);
             return $tishi;
         }
     }
@@ -578,6 +581,7 @@
             }
             if (count($tishi) >= count($dachu)) {
                 $tishi = array_slice($tishi, 0, count($dachu));
+                D('type4.连对 tishi:',$tishi);
                 return $tishi;
             } else {
                 return false;
@@ -631,7 +635,7 @@
            $arr = array($ti[0],$ti[1]);
            var_dump($arr);
            $tishi =  array_merge($arr,$tishi);
-         var_dump($tishi);
+           D('type5.3dai2 tishi:',$tishi);
            return $tishi;
        }
 
@@ -694,6 +698,7 @@
             $ts = array_slice($pai, 0, 4);
            $tishi =  array_merge($ts,$ttshi);
            sort($tishi);
+            D('type8.飞机 tishi:',$tishi);
            return $tishi;
 
 
@@ -725,6 +730,7 @@
 
                 }
             }
+            D('type10.炸弹 tishi:',$tishi);
             return $tishi;
 
         }
@@ -734,6 +740,7 @@
         $k = array_search(4, $cishu);
         if ($k) {
             $k = array_search($k, $numb);
+            D('typezha.炸弹 tishi:',2);
             return array($pai[$k], $pai[$k + 1], $pai[$k + 2], $pai[$k + 3]); //返回可以打出的豹子；
             
         } else {
