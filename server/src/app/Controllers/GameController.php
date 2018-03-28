@@ -135,9 +135,9 @@ class GameController extends Controller
                     $gameInfo['dachu']['pai'] = $pai;//打出的牌
                     $gameInfo['dachu']['leix'] = $leix;//打出的类型
                     $now = sweizhi($weizhi,$roomInfo);
-                    $now = $now['now'];
+
                     $msp =  $gameInfo['users'][$this->mid]['shoupai'];
-                    $nextsp  =  $now['nsp'];//下一个人的手牌
+                    $nextsp  =  $gameInfo['users'][$now]['shoupai'];//下一个人的手牌;
                     $tishi =  shoupai($nextsp,$pai,$leix) ;
                     $data = [
                         'now'=> $now, //现在改谁出牌
