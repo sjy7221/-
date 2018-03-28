@@ -201,10 +201,11 @@ class GameController extends Controller
 
                     ];
                     $this->sendToUids($this->uids,reData('dachu',$data),false);
-                    $gameInfo['one'] == 0;
+
                     foreach ($guo as $k=>$v){
                         $this->sendToUids($this->uids,reData('guo',$v),false);
                     }
+                    $gameInfo['one'] == 0;
                yield $this->redis_pool->hset($room_id, 'gameInfo',serialize($gameInfo));
 
 //                    $gameInfo =   yield $this->sanren($gameInfo,$weizhi,$roomInfo,$pai,$leix,$room_id);
