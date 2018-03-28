@@ -63,7 +63,7 @@ class CommModel extends Model
                 $gameInfo['users'][$mid] = [
                     'id'=>$mid,
                     'shoupai' =>[],  //手牌
-                    'dachu'=>[],    //打出的牌
+                    // 'dachu'=>[],    //打出的牌
                     'fenshu'=>1000  //分数
                 ];
                 $gameInfo['dachu'] = [];
