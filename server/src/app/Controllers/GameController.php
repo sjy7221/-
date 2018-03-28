@@ -205,17 +205,14 @@ class GameController extends Controller
                     foreach ($guo as $k=>$v){
                         $this->sendToUids($this->uids,reData('guo',$v),false);
                     }
-                    $gameInfo['one'] == 0;
+
                yield $this->redis_pool->hset($room_id, 'gameInfo',serialize($gameInfo));
-
-//                    $gameInfo =   yield $this->sanren($gameInfo,$weizhi,$roomInfo,$pai,$leix,$room_id);
-
 
                 }elseif($roomInfo['guize']['renshu'] == 2){        //如果是两人房
                     $gameInfo =    yield $this->erren($gameInfo,$weizhi,$roomInfo,$pai,$leix,$room_id); //2个人的玩法
                 }
 
-
+                $gameInfo['one'] == 0;
                 yield $this->redis_pool->hset($room_id, 'gameInfo',serialize($gameInfo)); //存数据
             }else{
                 //如果打完
