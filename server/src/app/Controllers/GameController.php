@@ -203,6 +203,7 @@ class GameController extends Controller
                     $this->sendToUids($this->uids,reData('dachu',$data),false);
 
                     foreach ($guo as $k=>$v){
+                        yield sleepCoroutine(500);
                         $this->sendToUids($this->uids,reData('guo',$v),false);
                     }
                     $gameInfo['one'] = 0;
