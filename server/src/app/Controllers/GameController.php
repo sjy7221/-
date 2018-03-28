@@ -143,7 +143,7 @@ class GameController extends Controller
 
                     $gameInfo['dachu']['tishi'] = $tishi;
                     $gameInfo['now'] = $now;
-                    $gameInfo['one'] == 0;
+
                     $data = [
                         'now' => $gameInfo['now'],
                         'tishi' => $gameInfo['dachu']['tishi'],
@@ -207,6 +207,7 @@ class GameController extends Controller
                     $gameInfo['dachu']['leix'] = [];
                     $gameInfo['dachu']['pai'] = [];
                 }
+                    $gameInfo['one'] == 0;
                yield $this->redis_pool->hset($room_id, 'gameInfo',serialize($gameInfo));
 
 //                    $gameInfo =   yield $this->sanren($gameInfo,$weizhi,$roomInfo,$pai,$leix,$room_id);
