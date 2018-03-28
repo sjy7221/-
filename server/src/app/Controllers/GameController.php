@@ -89,7 +89,7 @@ class GameController extends Controller
 
         //如果返回的类型
         if($leix){
-            if($roomInfo['guize']['suanfa'][0]  && $roomInfo['nowjushu'] == 1 && count($shoupai) == 48/$roomInfo['guize']['renshu'] && $gameInfo['one'] == 1){
+            if($roomInfo['guize']['suanfa'][0]  && $roomInfo['nowjushu'] == 1  && $gameInfo['one'] == 1){
                         if(!in_array(31,$pai)) {
                             $this->send(reData('error', ['msg' => '首局先出黑桃3']), false);
                             return;
@@ -452,7 +452,7 @@ class GameController extends Controller
                         'type'=>$leix['type']
                     ];
                 }
-
+                $gameInfo['one'] = 0;
                 yield $this->redis_pool->hset($room_id, 'gameInfo',serialize($gameInfo));
                 // yield $this->saveLogs(reData('dachu',$data));  //存游戏记录
                 $this->sendToUids($this->uids,reData('guo',$data),false);
