@@ -140,13 +140,22 @@ class GameController extends Controller
                     $msp =  $gameInfo['users'][$this->mid]['shoupai'];
                     $nextsp  =  $gameInfo['users'][$now]['shoupai'];//下一个人的手牌;
                     $tishi =  shoupai($nextsp,$pai,$leix) ;
-                    if($tishi){
 
-                        $gameInfo['dachu']['tishi'] = $tishi;
-                        $gameInfo['now'] = $now;
-                        $gameInfo['one'] == 0;
-//                        $this->sendToUids($this->uids,reData('dachu',$data),false);
-                    }else{
+                    $gameInfo['dachu']['tishi'] = $tishi;
+                    $gameInfo['now'] = $now;
+                    $gameInfo['one'] == 0;
+                    $data = [
+                        'now' => $gameInfo['now'],
+                        'tishi' => $gameInfo['dachu']['tishi'],
+                        'mid'=>$this->mid,
+                        'pai'=>$pai,
+
+                        'type'=>$leix['type'],
+                        'shoupai'=>$req,
+
+                    ];
+                    $this->sendToUids($this->uids,reData('dachu',$data),false);
+                    if(!$tishi){
                         $weizhi =  array_search($now,$roomInfo['weizhi']);//当前位置;
                         $nextid = sweizhi($weizhi,$roomInfo);
                         $data = [
@@ -183,23 +192,23 @@ class GameController extends Controller
                             $this->sendToUids($this->uids,reData('guo',$data),false);
                         }
                     }
-                    $data = [
-                        'now' => $gameInfo['now'],
-                        'tishi' => $gameInfo['dachu']['tishi'],
-                        'mid'=>$this->mid,
-                        'pai'=>$pai,
+//                    $data = [
+//                        'now' => $gameInfo['now'],
+//                        'tishi' => $gameInfo['dachu']['tishi'],
+//                        'mid'=>$this->mid,
+//                        'pai'=>$pai,
+//
+//                        'type'=>$leix['type'],
+//                        'shoupai'=>$req,
+//
+//                    ];
 
-                        'type'=>$leix['type'],
-                        'shoupai'=>$req,
-
-                    ];
-                $gameInfo['one'] = 0;
                 if($gameInfo['now'] == $this->mid){
                     $gameInfo['dachu']['leix'] = [];
                     $gameInfo['dachu']['pai'] = [];
                 }
                yield $this->redis_pool->hset($room_id, 'gameInfo',serialize($gameInfo));
-                    $this->sendToUids($this->uids,reData('dachu',$data),false);
+
 //                    $gameInfo =   yield $this->sanren($gameInfo,$weizhi,$roomInfo,$pai,$leix,$room_id);
 
 
