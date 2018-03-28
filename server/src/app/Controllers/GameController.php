@@ -422,7 +422,7 @@ class GameController extends Controller
 
 //
 //                yield $this->redis_pool->hset($room_id, 'gameInfo',serialize($gameInfo));
-                break;
+//                break;
             }else{
 
                 if($next+1 == 3) {
