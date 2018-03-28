@@ -139,19 +139,61 @@ class GameController extends Controller
                     $msp =  $gameInfo['users'][$this->mid]['shoupai'];
                     $nextsp  =  $gameInfo['users'][$now]['shoupai'];//下一个人的手牌;
                     $tishi =  shoupai($nextsp,$pai,$leix) ;
+                    if($tishi){
+
+                        $gameInfo['dachu']['tishi'] = $tishi;
+                        $gameInfo['now'] = $now;
+                        $gameInfo['one'] == 0;
+//                        $this->sendToUids($this->uids,reData('dachu',$data),false);
+                    }else{
+                        $weizhi =  array_search($now,$roomInfo['weizhi']);//当前位置;
+                        $nextid = sweizhi($weizhi,$roomInfo);
+                        $data = [
+
+                            'now'=>$nextid,
+                            'nowpai'=>$pai,
+                            'mid'=>$now,
+                            'type'=> false,
+                            'mg'=> '要不起'
+                        ];
+                        $gameInfo['dachu']['tishi'] = [];
+                        $gameInfo['now'] = $nextid;
+                        $gameInfo['one'] == 0;
+                        $this->sendToUids($this->uids,reData('guo',$data),false);
+                        $tishi2 =  shoupai($nextsp,$pai,$leix) ;
+                        if($tishi2){
+                            $gameInfo['dachu']['tishi'] = $tishi2;
+                            $gameInfo['now'] = $nextid;
+                            $gameInfo['one'] == 0;
+//                            $this->sendToUids($this->uids,reData('dachu',$data),false);
+                        }else{
+
+                            $data = [
+
+                                'now'=>$this->mid,
+                                'nowpai'=>$pai,
+                                'mid'=>$nextid,
+                                'type'=> false,
+                                'mg'=> '要不起'
+                            ];
+                            $gameInfo['dachu']['tishi'] = [];
+                            $gameInfo['now'] = $this->mid;
+                            $gameInfo['one'] == 0;
+                            $this->sendToUids($this->uids,reData('guo',$data),false);
+                        }
+                    }
                     $data = [
-                        'now'=> $now, //现在改谁出牌
-                        'mid'=>$this->mid, //出牌人的mid
-                        'tishi'=>$tishi,
-                        'pai'=>$pai,
-                        'nowpai'=>$pai,
-                        'shoupai'=>$msp,
-                        'type'=>$leix['type']
+                        'now' => $gameInfo['now'],
+                        'tishi' => $gameInfo['dachu']['tishi'],
+                        'mid'=>$this->mid,
+                        'type'=>$leix['type'],
+                        'shoupai'=>$req,
 
                     ];
-                    $gameInfo['one'] == 0;
+
+               yield $this->redis_pool->hset($room_id, 'gameInfo',serialize($gameInfo));
                     $this->sendToUids($this->uids,reData('dachu',$data),false);
-                    $gameInfo =   yield $this->sanren($gameInfo,$weizhi,$roomInfo,$pai,$leix,$room_id);
+//                    $gameInfo =   yield $this->sanren($gameInfo,$weizhi,$roomInfo,$pai,$leix,$room_id);
 
 
                 }elseif($roomInfo['guize']['renshu'] == 2){        //如果是两人房
@@ -420,9 +462,9 @@ class GameController extends Controller
                 $gameInfo['now'] = $now;//存该谁打牌
                 $gameInfo['dachu']['tishi'] = $tishi;
 
-//
-//                yield $this->redis_pool->hset($room_id, 'gameInfo',serialize($gameInfo));
-//                break;
+
+                yield $this->redis_pool->hset($room_id, 'gameInfo',serialize($gameInfo));
+                break;
             }else{
 
                 if($next+1 == 3) {
@@ -453,7 +495,7 @@ class GameController extends Controller
                     ];
                 }
 
-//                yield $this->redis_pool->hset($room_id, 'gameInfo',serialize($gameInfo));
+                yield $this->redis_pool->hset($room_id, 'gameInfo',serialize($gameInfo));
                 // yield $this->saveLogs(reData('dachu',$data));  //存游戏记录
                 $this->sendToUids($this->uids,reData('guo',$data),false);
 
