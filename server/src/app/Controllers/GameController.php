@@ -130,7 +130,7 @@ class GameController extends Controller
 
             //从手牌中去除打出的牌
             $req =  array_diff($shoupai,$pai);
-            D('剩余牌',333);
+            D('剩余牌',$pai);
             if(!empty($req)){//如果没打完
                 sort($req);
                 $gameInfo['users'][$this->mid]['shoupai'] = $req;//把剩余的手牌存起来
