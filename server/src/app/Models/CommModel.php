@@ -66,6 +66,7 @@ class CommModel extends Model
                     'dachu'=>[],    //打出的牌
                     'fenshu'=>1000  //分数
                 ];
+
                 yield $this->mysql_pool->dbQueryBuilder ////用户表绑定房间号
                 ->update('gs_member')
                     ->set('room_id', $room_id)

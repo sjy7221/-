@@ -29,48 +29,33 @@ class AppController extends Controller
         $this->bindUid($uid);
         $this->send("ok.$uid");
     }
-    public function sub($sub)
-    {
-        $this->addSub($sub);
-        $this->send("ok.$this->fd");
-    }
-
-    public function http_remove()
-    {
-        $sub = $this->http_input->get('sub');
-        $fd = (int)$this->http_input->get('fd');
-        get_instance()->removeSub($sub, $fd);
-        $this->http_output->end("ok");
-    }
-
-    public function pub($sub, $data)
-    {
-        var_dump($sub);
-        $this->sendPub($sub, $data);
-    }
-
-    public function http_pub()
-    {
-        $this->sendPub('test', 1);
-    }
-
-    public function sendAll($data)
-    {
-        $this->sendToAll($data);
-    }
-
     public function onClose()
     {
+        E($this->uid.'下线');
+        //获取玩家基本信息
+        $member = yield $this->mysql_pool->dbQueryBuilder
+            ->select('room_id')
+            ->where('id', $this->uid)
+            ->from('gs_member')
+            ->coroutineSend();
+        if (empty($member['result'])) {
+            E('错误：查询不到用户信息');
+            return false;
+        }
+        //获取房间号
+        $room_id = $member['result'][0]['room_id'];
+        if($room_id){
+            $uids = yield $this->redis_pool->getCoroutine()->HKEYS('uids_' . $room_id);
+            $this->sendToUids($uids, reData('duanxian', $this->uid), false);
+        }
         $this->destroy();
     }
+
 
     public function onConnect()
     {
         $this->destroy();
     }
 
-    public function http_test()
-    {
-        $this->http_output->end(1123);
-    }
+
 }

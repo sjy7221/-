@@ -119,9 +119,6 @@ class GameController extends Controller
                 }
             }
 
-            $gameInfo['dachu']['mid'] = $this->mid;//打出牌人的id
-            $gameInfo['dachu']['pai'] = $pai;//打出的牌
-            $gameInfo['dachu']['leix'] = $leix;//打出的类型
             $gameInfo['users'][$this->mid]['zhadan'] = 0;
             $weizhi =  array_search($this->mid,$roomInfo['weizhi']);//当前位置;
             if($leix['type'] == 10){ //炸弹数
@@ -134,6 +131,9 @@ class GameController extends Controller
                 sort($req);
                 $gameInfo['users'][$this->mid]['shoupai'] = $req;//把剩余的手牌存起来
                 if($roomInfo['guize']['renshu'] == 3){
+                    $gameInfo['dachu']['mid'] = $this->mid;//打出牌人的id
+                    $gameInfo['dachu']['pai'] = $pai;//打出的牌
+                    $gameInfo['dachu']['leix'] = $leix;//打出的类型
 
                     $gameInfo =  yield $this->sanren($gameInfo,$weizhi,$roomInfo,$pai,$leix,$room_id); //三个人的玩法
                 }elseif($roomInfo['guize']['renshu'] == 2){        //如果是两人房
