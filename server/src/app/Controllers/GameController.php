@@ -34,7 +34,7 @@ class GameController extends Controller
         $this->data = $this->client_data->data;
         $this->mid = $this->data->mid;
         $this->room_id = $this->data->room_id;
-        $res =  yield $this->CommModel->exit($this->data);//判断传过来的类型;
+        $res =  yield $this->CommModel->exiit($this->data);//判断传过来的类型;
 
         if($res){
             $this->send('nonono,数据错误',false);
@@ -104,7 +104,7 @@ class GameController extends Controller
             //判断打出的牌大小
            $dtype = $leix['type'];
 
-            if(!empty($gameInfo['dachu']['pai']) || $gameInfo['dachu']){
+            if(!empty($gameInfo['dachu']) || $gameInfo['dachu']){
                 $stype = $gameInfo['dachu']['leix']['type'];
                 $sjp = zhuanhuan($gameInfo['dachu']['pai']);//去上家打出花色
                 //类型不同
