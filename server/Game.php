@@ -612,7 +612,7 @@
            $ti =  array_diff($pai,$tishi);
            $arr = array($ti[0],$ti[1]);
            $tishi =  array_merge($arr,$tishi);
-//           var_dump($tishi);
+         var_dump($tishi);
            return $tishi;
        }
 

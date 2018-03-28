@@ -91,7 +91,7 @@ class GameController extends Controller
         if($leix){
             if($roomInfo['guize']['suanfa'][0]  && $roomInfo['nowjushu'] == 1 && count($shoupai) == 48/$roomInfo['guize']['renshu'] && $gameInfo['one'] == 1){
                         if(!in_array(31,$pai)) {
-                            $this->send(reData('error', ['msg' => '首句先出黑桃3']), false);
+                            $this->send(reData('error', ['msg' => '首局先出黑桃3']), false);
                             return;
                         }
 
@@ -103,16 +103,22 @@ class GameController extends Controller
                 D('上次打出的牌：',$gameInfo['dachu']['pai']);
             //判断打出的牌大小
            $dtype = $leix['type'];
-           $stype = $gameInfo['dachu']['leix']['type'];
+
             if(isset($gameInfo['dachu']) || $gameInfo['dachu']){
+                $stype = $gameInfo['dachu']['leix']['type'];
                 $sjp = zhuanhuan($gameInfo['dachu']['pai']);//去上家打出花色
-                if($gameInfo['dachu']['mid'] != $gameInfo['now'] ){
+                //类型不同
+                if($dtype != $stype){
                     $this->send(reData('error', ['msg'=>'牌型不对']),false);
-//                    && $sjp[0] > $dc[0] && $dtype != $stype
                     return;
                 }
-
+                // 类型同 大小不同
+                if($dtype == $stype && $sjp[0] > $dc[0]){
+                    $this->send(reData('error', ['msg'=>'大小不对']),false);
+                    return;
+                }
             }
+
             $gameInfo['dachu']['mid'] = $this->mid;//打出牌人的id
             $gameInfo['dachu']['pai'] = $pai;//打出的牌
             $gameInfo['dachu']['leix'] = $leix;//打出的类型
