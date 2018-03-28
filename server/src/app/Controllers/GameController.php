@@ -194,6 +194,10 @@ class GameController extends Controller
 
                     ];
                 $gameInfo['one'] = 0;
+                if($gameInfo['now'] == $this->mid){
+                    $gameInfo['dachu']['leix'] = [];
+                    $gameInfo['dachu']['pai'] = [];
+                }
                yield $this->redis_pool->hset($room_id, 'gameInfo',serialize($gameInfo));
                     $this->sendToUids($this->uids,reData('dachu',$data),false);
 //                    $gameInfo =   yield $this->sanren($gameInfo,$weizhi,$roomInfo,$pai,$leix,$room_id);
@@ -383,7 +387,7 @@ class GameController extends Controller
         }
         $data = [
             'ju'=>$roomInfo['nowjushu'],                   //当前局数
-            'pais'=>$upais,                          //手牌
+            'pais'=>$gameInfo['user'][$this->mid]['pai'],                          //手牌
             'dachu'=>$gameInfo['dachu'],           //打出的所有信息
             'now'=>$gameInfo['now']                    //当前操作玩家
         ];
@@ -432,83 +436,7 @@ class GameController extends Controller
         // yield $this->saveLogs(reData('fapai',$data)); 存游戏记录
         $this->destroy();
     }
-    /**
-     * 三人玩.
-     * User: shijunyi
-     * Date: 3/22
-     *
-     */
 
-    private function sanren($gameInfo,$weizhi,$roomInfo,$pai,$leix,$room_id)//,$room_id
-    {       $gameInfo['one'] = 0;
-        for($i=1;$i<count($gameInfo['users']);$i++){
-
-            if($weizhi+$i == 3) {
-                $next = 0;//下一个人
-
-            }elseif($weizhi+$i == 4){
-                $next =1;//下下个人
-            }else{
-                $next = $weizhi+$i;
-            }
-
-            $now = $roomInfo['weizhi'][$next];//取出下一个人的mid
-
-            $nextsp  =  $gameInfo['users'][$now]['shoupai'];//下一个人的手牌
-
-            $tishi =  shoupai($nextsp,$pai,$leix) ;
-            $gameInfo['tishi'][$now] = $tishi;
-            $msp = $gameInfo['users'][$this->mid]['shoupai'];
-
-            if($tishi){
-
-                $gameInfo['now'] = $now;//存该谁打牌
-                $gameInfo['dachu']['tishi'] = $tishi;
-
-
-                yield $this->redis_pool->hset($room_id, 'gameInfo',serialize($gameInfo));
-                break;
-            }else{
-
-                if($next+1 == 3) {
-                    $nextid = 0;//下一个人
-
-                }else{
-                    $nextid = $next+1;
-                }
-                $nextid = $roomInfo['weizhi'][$nextid];
-                $data = [
-
-                    'now'=>$nextid,
-                    'nowpai'=>$pai,
-                    'mid'=>$now,
-                    'type'=> false,
-                    'mg'=> '要不起'
-                ];
-
-                if($i == 2){
-                    $gameInfo['now'] = $this->mid;//存该谁打牌
-                    $data = [
-                        'now'=> $now, //现在改谁出牌
-                        'mid'=>$this->mid, //出牌人的mid
-                        'pai'=>$pai,
-                        'nowpai'=>$pai,
-                        'shoupai'=>$msp,
-                        'type'=>$leix['type']
-                    ];
-                }
-
-                yield $this->redis_pool->hset($room_id, 'gameInfo',serialize($gameInfo));
-                // yield $this->saveLogs(reData('dachu',$data));  //存游戏记录
-                $this->sendToUids($this->uids,reData('guo',$data),false);
-
-            }
-
-
-        }
-
-        return $gameInfo ;
-    }
     /**
      * 二人玩.
      * User: shijunyi
