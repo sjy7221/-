@@ -89,6 +89,7 @@ class GameController extends Controller
 
         //如果返回的类型
         if($leix){
+            D('通过牌型');
             if($roomInfo['guize']['suanfa'][0]  && $roomInfo['nowjushu'] == 1  && $gameInfo['one'] == 1){
                         if(!in_array(31,$pai)) {
                             $this->send(reData('error', ['msg' => '首局先出黑桃3']), false);
@@ -110,6 +111,7 @@ class GameController extends Controller
                 $sjp = zhuanhuan($gameInfo['dachu']['pai']);//去上家打出花色
                 //类型不同
                 if($dtype != $stype && $leix['type'] != 10){
+                    D('牌型不对');
                     $this->send(reData('error', ['msg'=>'牌型不对']),false);
                     return;
                 }
