@@ -104,7 +104,7 @@ class GameController extends Controller
             //判断打出的牌大小
            $dtype = $leix['type'];
 
-            if(isset($gameInfo['dachu']) || $gameInfo['dachu']){
+            if(isset($gameInfo['dachu']) || $gameInfo['dachu'] || !empty($game['dachu'])){
                 $stype = $gameInfo['dachu']['leix']['type'];
                 $sjp = zhuanhuan($gameInfo['dachu']['pai']);//去上家打出花色
                 //类型不同
