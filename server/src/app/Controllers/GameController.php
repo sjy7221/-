@@ -104,11 +104,11 @@ class GameController extends Controller
             //判断打出的牌大小
            $dtype = $leix['type'];
 
-            if(!empty($gameInfo['dachu']) || $gameInfo['dachu']){
+            if(isset($gameInfo['dachu']) || $gameInfo['dachu']){
                 $stype = $gameInfo['dachu']['leix']['type'];
                 $sjp = zhuanhuan($gameInfo['dachu']['pai']);//去上家打出花色
                 //类型不同
-                if($dtype != $stype){
+                if($dtype != $stype && $leix['type'] != 10){
                     $this->send(reData('error', ['msg'=>'牌型不对']),false);
                     return;
                 }
