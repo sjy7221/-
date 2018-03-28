@@ -421,7 +421,6 @@ class GameController extends Controller
                 $gameInfo['dachu']['tishi'] = $tishi;
 
                 $gameInfo['one'] = 0;
-                $this->sendToUids($this->uids,reData('dachu',$data),false);
                 yield $this->redis_pool->hset($room_id, 'gameInfo',serialize($gameInfo));
                 break;
             }else{
