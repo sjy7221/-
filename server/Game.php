@@ -453,7 +453,7 @@
         }
     }
     function type1($pai, $dachu, $numb) {
-            D('type1.单张 tishi:',1)
+            D('type1.单张 tishi:',1);
         for ($i = 0;$i < count($pai);$i++) {
             for ($j = 0;$j < count($dachu);$j++) {
                 if ($pai[$i] > $dachu[$j] + 10) {
