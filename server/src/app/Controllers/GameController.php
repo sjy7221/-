@@ -152,7 +152,7 @@ class GameController extends Controller
                         $data = [
 
                             'now'=>$nextid,
-                            'nowpai'=>$pai,
+                            'pai'=>$pai,
                             'mid'=>$now,
                             'type'=> false,
                             'mg'=> '要不起'
@@ -172,7 +172,7 @@ class GameController extends Controller
                             $data = [
 
                                 'now'=>$this->mid,
-                                'nowpai'=>$pai,
+                                'pai'=>$pai,
                                 'mid'=>$nextid,
                                 'type'=> false,
                                 'mg'=> '要不起'
@@ -187,6 +187,8 @@ class GameController extends Controller
                         'now' => $gameInfo['now'],
                         'tishi' => $gameInfo['dachu']['tishi'],
                         'mid'=>$this->mid,
+                        'pai'=>$pai,
+
                         'type'=>$leix['type'],
                         'shoupai'=>$req,
 
