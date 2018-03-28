@@ -393,13 +393,15 @@ class GameController extends Controller
             $nextsp  =  $gameInfo['users'][$now]['shoupai'];//下一个人的手牌
 
             $tishi =  shoupai($nextsp,$pai,$leix) ;
+            $msp = $gameInfo['users'][$this->mid]['shoupai'];
             if($tishi){
-                $msp = $gameInfo['users'][$this->mid]['shoupai'];
+
                 $data = [
                     'now'=> $now, //现在改谁出牌
                     'mid'=>$this->mid, //出牌人的mid
                     'tishi'=>$tishi,
                     'pai'=>$pai,
+                    'nowpai'=>$pai,
                     'shoupai'=>$msp,
                     'type'=>$leix['type']
 
@@ -423,7 +425,7 @@ class GameController extends Controller
                 $data = [
 
                     'now'=>$nextid,
-
+                    'nowpai'=>$pai,
                     'mid'=>$now,
                     'type'=> false,
                     'mg'=> '要不起'
@@ -431,7 +433,14 @@ class GameController extends Controller
 
                 if($i == 2){
                     $gameInfo['now'] = $this->mid;//存该谁打牌
-
+                    $data = [
+                        'now'=> $now, //现在改谁出牌
+                        'mid'=>$this->mid, //出牌人的mid
+                        'pai'=>$pai,
+                        'nowpai'=>$pai,
+                        'shoupai'=>$msp,
+                        'type'=>$leix['type']
+                    ];
                 }
 
                 yield $this->redis_pool->hset($room_id, 'gameInfo',serialize($gameInfo));
