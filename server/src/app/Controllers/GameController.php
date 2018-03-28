@@ -149,7 +149,7 @@ class GameController extends Controller
                         'type'=>$leix['type']
 
                     ];
-
+                    $gameInfo['one'] == 0;
                     $this->sendToUids($this->uids,reData('dachu',$data),false);
                     yield $this->sanren($gameInfo,$weizhi,$roomInfo,$pai,$leix,$room_id);
 
@@ -420,7 +420,7 @@ class GameController extends Controller
                 $gameInfo['now'] = $now;//存该谁打牌
                 $gameInfo['dachu']['tishi'] = $tishi;
 
-                $gameInfo['one'] = 0;
+
                 yield $this->redis_pool->hset($room_id, 'gameInfo',serialize($gameInfo));
                 break;
             }else{
@@ -452,7 +452,7 @@ class GameController extends Controller
                         'type'=>$leix['type']
                     ];
                 }
-                $gameInfo['one'] = 0;
+            
                 yield $this->redis_pool->hset($room_id, 'gameInfo',serialize($gameInfo));
                 // yield $this->saveLogs(reData('dachu',$data));  //存游戏记录
                 $this->sendToUids($this->uids,reData('guo',$data),false);
