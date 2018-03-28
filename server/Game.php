@@ -1,5 +1,23 @@
 <?php
 
+//三个人时找出下一个玩家mid
+//    function sweizhi($weizhi,$roomInfo){
+//        for($i=1;$i<3;$i++){
+//
+//            if($weizhi+$i == 3) {
+//                $next = 0;//下一个人
+//
+//            }elseif($weizhi+$i == 4){
+//                $next =1;//下下个人
+//            }else{
+//                $next = $weizhi+$i;
+//            }
+//        }
+//        $now = $roomInfo['weizhi'][$next];//取出下一个人的mid
+//       $nsp =  $gameInfo['users'][$now]['shoupai'];//下一个人的手牌
+//        return ['now'=>$now,'nsp'=>$nsp];
+//    }
+
 
 //返回数据格式
     function reData($route,$data){

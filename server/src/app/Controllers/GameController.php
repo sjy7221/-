@@ -134,8 +134,26 @@ class GameController extends Controller
                     $gameInfo['dachu']['mid'] = $this->mid;//打出牌人的id
                     $gameInfo['dachu']['pai'] = $pai;//打出的牌
                     $gameInfo['dachu']['leix'] = $leix;//打出的类型
+                    $now = sweizhi($weizhi,$roomInfo);
+                    $now = $now['now'];
+                    $msp =  $gameInfo['users'][$this->mid]['shoupai'];
+                    $nextsp  =  $now['nsp'];//下一个人的手牌
+                    $tishi =  shoupai($nextsp,$pai,$leix) ;
+                    $data = [
+                        'now'=> $now, //现在改谁出牌
+                        'mid'=>$this->mid, //出牌人的mid
+                        'tishi'=>$tishi,
+                        'pai'=>$pai,
+                        'nowpai'=>$pai,
+                        'shoupai'=>$msp,
+                        'type'=>$leix['type']
 
-                    $gameInfo =  yield $this->sanren($gameInfo,$weizhi,$roomInfo,$pai,$leix,$room_id); //三个人的玩法
+                    ];
+
+                    $this->sendToUids($this->uids,reData('dachu',$data),false);
+                    yield $this->sanren($gameInfo,$weizhi,$roomInfo,$pai,$leix,$room_id);
+
+
                 }elseif($roomInfo['guize']['renshu'] == 2){        //如果是两人房
                     $gameInfo =    yield $this->erren($gameInfo,$weizhi,$roomInfo,$pai,$leix,$room_id); //2个人的玩法
                 }
@@ -375,7 +393,8 @@ class GameController extends Controller
      * Date: 3/22
      *
      */
-    private function sanren($gameInfo,$weizhi,$roomInfo,$pai,$leix,$room_id)
+
+    private function sanren($gameInfo,$weizhi,$roomInfo,$pai,$leix,$room_id)//,$room_id
     {
         for($i=1;$i<count($gameInfo['users']);$i++){
 
@@ -393,19 +412,11 @@ class GameController extends Controller
             $nextsp  =  $gameInfo['users'][$now]['shoupai'];//下一个人的手牌
 
             $tishi =  shoupai($nextsp,$pai,$leix) ;
+            $gameInfo['tishi'][$now] = $tishi;
             $msp = $gameInfo['users'][$this->mid]['shoupai'];
+
             if($tishi){
 
-                $data = [
-                    'now'=> $now, //现在改谁出牌
-                    'mid'=>$this->mid, //出牌人的mid
-                    'tishi'=>$tishi,
-                    'pai'=>$pai,
-                    'nowpai'=>$pai,
-                    'shoupai'=>$msp,
-                    'type'=>$leix['type']
-
-                ];
                 $gameInfo['now'] = $now;//存该谁打牌
                 $gameInfo['dachu']['tishi'] = $tishi;
 
