@@ -151,7 +151,7 @@ class GameController extends Controller
                     ];
                     $gameInfo['one'] == 0;
                     $this->sendToUids($this->uids,reData('dachu',$data),false);
-                    yield $this->sanren($gameInfo,$weizhi,$roomInfo,$pai,$leix,$room_id);
+                    $gameInfo =   yield $this->sanren($gameInfo,$weizhi,$roomInfo,$pai,$leix,$room_id);
 
 
                 }elseif($roomInfo['guize']['renshu'] == 2){        //如果是两人房
@@ -395,7 +395,7 @@ class GameController extends Controller
      */
 
     private function sanren($gameInfo,$weizhi,$roomInfo,$pai,$leix,$room_id)//,$room_id
-    {
+    {       $gameInfo['one'] = 0;
         for($i=1;$i<count($gameInfo['users']);$i++){
 
             if($weizhi+$i == 3) {
@@ -420,8 +420,8 @@ class GameController extends Controller
                 $gameInfo['now'] = $now;//存该谁打牌
                 $gameInfo['dachu']['tishi'] = $tishi;
 
-
-                yield $this->redis_pool->hset($room_id, 'gameInfo',serialize($gameInfo));
+//
+//                yield $this->redis_pool->hset($room_id, 'gameInfo',serialize($gameInfo));
                 break;
             }else{
 
@@ -452,8 +452,8 @@ class GameController extends Controller
                         'type'=>$leix['type']
                     ];
                 }
-            
-                yield $this->redis_pool->hset($room_id, 'gameInfo',serialize($gameInfo));
+
+//                yield $this->redis_pool->hset($room_id, 'gameInfo',serialize($gameInfo));
                 // yield $this->saveLogs(reData('dachu',$data));  //存游戏记录
                 $this->sendToUids($this->uids,reData('guo',$data),false);
 
