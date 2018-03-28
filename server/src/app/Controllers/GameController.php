@@ -205,7 +205,7 @@ class GameController extends Controller
                     foreach ($guo as $k=>$v){
                         $this->sendToUids($this->uids,reData('guo',$v),false);
                     }
-
+                    $gameInfo['one'] = 0;
                yield $this->redis_pool->hset($room_id, 'gameInfo',serialize($gameInfo));
 
                 }elseif($roomInfo['guize']['renshu'] == 2){        //如果是两人房
