@@ -85,7 +85,7 @@ class RoomController extends Controller
 
         }
         //模型处理数据
-        $re = yield $this->CommModel->jinru($this->mid, $this->room_id, $this->roomInfo,$this->userInfo);
+        $re = yield $this->CommModel->jinru($this->mid, $this->room_id, $this->roomInfo,$this->userInfo,$this->gameInfo);
         if($re){
             yield $this->redis_pool->getCoroutine()->hset('uids_'.$this->room_id,$this->mid,1); //设置用户状态
             //所有玩家状态

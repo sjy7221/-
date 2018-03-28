@@ -24,7 +24,7 @@ class CommModel extends Model
         }
         return false;
     }
-    public function jinru($mid,$room_id,$roomInfo,$userInfo)
+    public function jinru($mid,$room_id,$roomInfo,$userInfo,$gameInfo)
     {
              //判断是重连玩家 还是新进入的玩家
             if(in_array($mid,$roomInfo['weizhi'])){
@@ -60,12 +60,12 @@ class CommModel extends Model
                     'sex'=>$member['sex'],       //性别
 
                 ];
-//                $gameInfo['users'][$mid] = [
-//                    'id'=>$mid,
-//                    'shoupai' =>[],  //手牌
-//                    'dachu'=>[],    //打出的牌
-//                    'fenshu'=>1000  //分数
-//                ];
+                $gameInfo['users'][$mid] = [
+                    'id'=>$mid,
+                    'shoupai' =>[],  //手牌
+                    'dachu'=>[],    //打出的牌
+                    'fenshu'=>1000  //分数
+                ];
                 yield $this->mysql_pool->dbQueryBuilder ////用户表绑定房间号
                 ->update('gs_member')
                     ->set('room_id', $room_id)
@@ -86,8 +86,8 @@ class CommModel extends Model
                     $game_start = 0;
             }
 
-            yield $this->redis_pool->hset($room_id, 'roomInfo', serialize($roomInfo), 'userInfo', serialize($userInfo));
-             return [ 'is_user' => $is_user,'game_start' => $game_start, 'roomInfo' => $roomInfo,'userInfo'=>$userInfo];
+            yield $this->redis_pool->hset($room_id, 'roomInfo', serialize($roomInfo), 'userInfo', serialize($userInfo),'gameInfo',serialize($gameInfo));
+             return [ 'is_user' => $is_user,'game_start' => $game_start, 'roomInfo' => $roomInfo,'userInfo'=>$userInfo,'gameInfo'=>$gameInfo];
     }
     public function likai($mid, $room_id, $roomInfo)
     {
