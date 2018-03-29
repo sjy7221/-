@@ -123,8 +123,8 @@
         }
 
         $o = -1;
-        $h3id = '';
-        $niaoid = '';
+        $h3id = '0';
+        $niaoid = '0';
         foreach ( $gameInfo['users'] as $k=>$v) {
 
             $o++;
