@@ -246,11 +246,11 @@
         
         //做相同数计数
             $zhu = '';
-         foreach($numb as $k => $v){
+         foreach($cishu as $k => $v){
 
-            if($k == 3){
+            if($v == 3){
             $b+=1;
-            $zhu = $v;
+            $zhu = $k;
            }
          }
       
