@@ -101,7 +101,7 @@ class GameController extends Controller
             }
             $dc = zhuanhuan($pai); //去掉打出花色
                 D('打出：',$pai);
-
+        sort($dc)
             //判断打出的牌大小
            $dtype = $leix['type'];
 
