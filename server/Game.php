@@ -455,10 +455,12 @@
     function type1($pai, $dachu, $numb) {
             D('type1.单张 tishi:',1);
         for ($i = 0;$i < count($pai);$i++) {
-            if($pai[$i] > $dachu[0] + 10){
-                return $pai[$i];
-            }
 
+            for ($j = 0;$j < count($dachu);$j++) {
+                if ($pai[$i] > $dachu[$j] + 10) {
+                    return $pai[$i];
+                }
+            }
         }
 
         return  zha($numb, $pai);
