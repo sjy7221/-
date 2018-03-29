@@ -618,7 +618,7 @@
            }
             $ob = '';
            foreach ($k as $o => $vv) {
-               var_dump($vv)
+            
                if($vv > $dk){
                    $ob = $k[$o];
                }
