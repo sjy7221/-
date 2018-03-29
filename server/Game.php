@@ -469,33 +469,70 @@
         return  zha($numb, $pai);
     }
     function type2($pai, $dachu, $numb, $leix) {
+//        $u = 1;
+//        $tishi = []; //存牌
+//        $p = [];
+//        $snumb =  zhuanhuan($pai);
+//        $dnumb =  zhuanhuan($dachu);
+//        sort($dnumb);
+//        sort($snumb);
+//        for ($j = 1;$j < count($snumb);$j++) {
+//            if ($snumb[$j] > $dnumb[0]) {
+//                if ($snumb[$j] - 1 == $snumb[$j - 1]) {
+//                    $u+= 1;
+//                    $tishi[$j] = $pai[$j];
+//                    $p[] = $snumb[$j];
+//                    // echo $snumb[$j]; //把组成顺子的值存入数组不改变下标
+//
+//                }
+//            }
+//        }
+//        $kk = array_search($p[0] - 1, $snumb);
+//        $tishi[$kk] = $pai[$kk];
+//        sort($tishi);
+//        if ($u >= $leix['len']) {
+//            $tishi = array_slice($tishi, 0, count($dachu));
+//            D('type2.顺子 tishi:',$tishi);
+//            return $tishi; // 返回可以打出的数据
+//
+//        } else {      /////////接到炸弹方法！！！！！！！！！！
         $u = 1;
         $tishi = []; //存牌
         $p = [];
-        $snumb =  zhuanhuan($pai);
-        $dnumb =  zhuanhuan($dachu);
-        sort($dnumb);
-        sort($snumb);
-        for ($j = 1;$j < count($snumb);$j++) {
-            if ($snumb[$j] > $dnumb[0]) {
-                if ($snumb[$j] - 1 == $snumb[$j - 1]) {
-                    $u+= 1;
-                    $tishi[$j] = $pai[$j];
-                    $p[] = $snumb[$j];
-                    // echo $snumb[$j]; //把组成顺子的值存入数组不改变下标
-                    
+        $snumb = $this->zhuanhuan($pai);
+        $dnumb = $this->zhuanhuan($dachu);
+        $a =0;
+        $nu = [];
+        // [33,41,44,54,61,93,94,104,112,122,132,133,142,144,151],[51,61,73,82,92,101,113]
+        foreach($snumb as $k => $v){
+            if($v > $dnumb[0]){
+                for($i=1;$i<$leix['len'];$i++){
+                    if(in_array($v+$i,$snumb)){
+                        $nu[] = $v+$i;
+                        $nu[]=intval($v);
+                    }
                 }
+                // $nu[] = $v;
+
             }
         }
-        $kk = array_search($p[0] - 1, $snumb);
-        $tishi[$kk] = $pai[$kk];
-        sort($tishi);
-        if ($u >= $leix['len']) {
-            $tishi = array_slice($tishi, 0, count($dachu));
-            D('type2.顺子 tishi:',$tishi);
-            return $tishi; // 返回可以打出的数据
-            
-        } else {
+        $nu =   array_unique($nu);
+        sort($nu);
+
+        $nu =  array_slice($nu,0,$leix['len']);
+
+        $tishi = [];
+        foreach ($nu as $key => $value) {
+            $kk =  array_search($value,$snumb);
+            if($kk){
+                $tishi[] = $pai[$kk];
+            }
+
+        }
+        if(count($tishi) == $leix['len']){
+
+           return ($tishi);
+        }else{
             return  zha($numb, $pai);
         }
     }
