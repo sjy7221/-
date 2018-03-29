@@ -662,7 +662,7 @@ class GameController extends Controller
                 yield $this->mysql_pool->dbQueryBuilder
                     ->update('gs_member')
                     ->set('num',"num-{$numb}",false)
-                    ->where('mid',$roomInfo['fangzhu'])
+                    ->where('id',$roomInfo['fangzhu'])
                     ->coroutineSend();
 
             //加入room_user
