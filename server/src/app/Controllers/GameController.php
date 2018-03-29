@@ -87,7 +87,7 @@ class GameController extends Controller
         $gameInfo = $this->gameInfo;
         $shoupai = $gameInfo['users'][$this->mid]['shoupai'];
         $leix = panduan($pai,$shoupai);//判断打出牌是否在手牌中
-        yield  $this->jieshu($this->mid,$gameInfo); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
         //如果返回的类型
         if($leix){
             D('通过牌型',1);
@@ -511,7 +511,7 @@ class GameController extends Controller
         }
 
         $users = $gameInfo['users'];
-        var_dump($users);
+       D('所有用户',$users);
         $shu = array_diff($users,$mid);
         $ying = '';
         foreach($shu as $k => $v){
