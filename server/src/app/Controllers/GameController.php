@@ -483,7 +483,7 @@ class GameController extends Controller
             'gameInfo'=>$gameInfo
 
         ];
-         yield $this->saveLogs(reData('fapai',$data)); 存游戏记录
+         yield $this->saveLogs(reData('fapai',$data)); //存游戏记录
         $this->destroy();
     }
 
