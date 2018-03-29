@@ -168,8 +168,7 @@ class GameController extends Controller
                         $gameInfo['dachu']['tishi'] = [];
                         $gameInfo['now'] = $nextid;
                         $gameInfo['one'] == 0;
-//                        yield sleepCoroutine(500);
-//                        $this->sendToUids($this->uids,reData('guo',$data),false);
+
                         $guo[] = $data;
                         $tishi2 =  shoupai($nextsp,$pai,$leix) ;
                         if($tishi2){
@@ -213,32 +212,10 @@ class GameController extends Controller
                             'shoupai'=>$gameInfo['users'][$v]['shoupai']
 
                         ];
-//                        if($v == $gameInfo['now']){
-//                            $data = [
-//                                'now' => $gameInfo['now'],
-//                                'tishi' => $gameInfo['dachu']['tishi'],
-//                                'mid'=>$this->mid,
-//                                'pai'=>$pai,
-//
-//                                'type'=>$leix['type'],
-//                                'shoupai'=>$gameInfo['users'][$v]
-//
-//                            ];
-//                            $this->sendToUid($v,reData('dachu',$data),false);
-//                        }
+
                         $this->sendToUid($v,reData('dachu',$data),false);
                     }
-//                    $data = [
-//                        'now' => $gameInfo['now'],
-//                        'tishi' => $gameInfo['dachu']['tishi'],
-//                        'mid'=>$this->mid,
-//                        'pai'=>$pai,
-//
-//                        'type'=>$leix['type'],
-//                        'shoupai'=>$req,
-//
-//                    ];
-//                    $this->sendToUids($this->uids,reData('dachu',$data),false);
+
 
                     foreach ($guo as $k=>$v){
                         yield sleepCoroutine(500);
@@ -574,7 +551,7 @@ class GameController extends Controller
             $gameInfo['users'][$v]['fenshu'] =   $gameInfo['users'][$v]['fenshu'] - $shu ; //总分数
             $roomInfo['over'][$v]['zhadan'] += $gameInfo['users'][$v]['zhadan'];
             $roomInfo['over'][$v]['shu'] += 1;
-            $roomInfo['over'][$v]['zf'] += $shu;
+            $roomInfo['over'][$v]['zf'] -= $shu;
         }
         $roomInfo['over'][$mid]['zhadan'] +=  $gameInfo['users'][$v]['zhadan'];
         $roomInfo['over'][$mid]['ying'] += 1;
