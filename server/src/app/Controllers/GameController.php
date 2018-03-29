@@ -579,6 +579,7 @@ class GameController extends Controller
         }
         $gameInfo['users'][$mid]['fen'] = '+'.$ying;//每局赢的积分
         $gameInfo['users'][$mid]['fenshu'] = $gameInfo['users'][$v]['fenshu'] + $ying;
+        $gameInfo['users'][$mid]['shoupai'] = [];
         $roomInfo['nowjushu'] +=1; //局数加1
         $gameInfo['now'] = $mid;
 
