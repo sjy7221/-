@@ -54,6 +54,7 @@ class CommModel extends Model
                 $roomInfo['over'][$mid]['shu'] = 0;// 结束输的局数
                 $roomInfo['over'][$mid]['zf'] = 0; //结束总积分
                 $roomInfo['over'][$mid]['ying'] = 0;//赢的局数
+                $roomInfo['over'][$mid]['zg'] = 0;//最高
                 $userInfo[$mid] = [
                     'id' => $mid,     //用户id
                     'headimgurl' => $member['headimgurl'], //用户头像

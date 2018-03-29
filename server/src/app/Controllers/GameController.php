@@ -366,6 +366,7 @@ class GameController extends Controller
         }
         $this->sendToUids($this->uids,reData('jiesan_result',['status'=>1,'result'=>[]]),false);
         return;
+        $this->destroy();
     }
     /**
      * 断线重连.
@@ -424,18 +425,24 @@ class GameController extends Controller
             'now'=>$gameInfo['now']                    //当前操作玩家
         ];
         $this->send(reData('getGame',$data));
+        $this->destroy();
     }
 
     public function getlog()
     {
-        $rooms = yield $this->mysql_pool->dbQueryBuilder
-            ->select('type')
-            ->select('num')
-            ->select('mid')
-            ->where('room_id', $this->room_id)
-            ->from('gs_logs_info')
-            ->coroutineSend();
-        $rooms = $rooms['result'][0];
+       $gameInfo = $this->gameInfo;
+       $roomInfo = $this->roomInfo;
+       $data = [
+         'roomInfo'=>$roomInfo['over'],
+           'userInfo'=>$this->userInfo
+       ];
+        $this->sendToUids($this->uids,reData('getlog', $data),false);
+                    yield  $this->redis_pool->getCoroutine()->delete($this->room_id);  //房间所有数据
+            yield  $this->redis_pool->getCoroutine()->delete('uids_'.$this->room_id);  //玩家id
+            yield  $this->redis_pool->getCoroutine()->delete('jx_'.$this->room_id);    //继续
+            yield  $this->redis_pool->getCoroutine()->delete('js_'.$this->room_id);    //解散
+            yield  $this->redis_pool->getCoroutine()->delete('logs_'.$this->room_id);   //游戏记录
+        $this->destroy();
     }
     /**
      * 发牌流程.
@@ -567,6 +574,9 @@ class GameController extends Controller
         $roomInfo['over'][$mid]['zhadan'] +=  $gameInfo['users'][$v]['zhadan'];
         $roomInfo['over'][$mid]['ying'] += 1;
         $roomInfo['over'][$mid]['zf'] += $ying;
+        if($roomInfo['over'][$mid]['zg'] < $ying){
+            $roomInfo['over'][$mid]['zg'] = $ying;
+        }
         $gameInfo['users'][$mid]['fen'] = '+'.$ying;//每局赢的积分
         $gameInfo['users'][$mid]['fenshu'] = $gameInfo['users'][$v]['fenshu'] + $ying;
         $roomInfo['nowjushu'] +=1; //局数加1
@@ -605,11 +615,11 @@ class GameController extends Controller
 
         yield $this->redis_pool->hset($this->room_id, 'gameInfo',serialize($gameInfo),'roomInfo',serialize($roomInfo));
         if(!$game_status){       //全部打完 清空数据
-            yield  $this->redis_pool->getCoroutine()->delete($this->room_id);  //房间所有数据
-            yield  $this->redis_pool->getCoroutine()->delete('uids_'.$this->room_id);  //玩家id
-            yield  $this->redis_pool->getCoroutine()->delete('jx_'.$this->room_id);    //继续
-            yield  $this->redis_pool->getCoroutine()->delete('js_'.$this->room_id);    //解散
-            yield  $this->redis_pool->getCoroutine()->delete('logs_'.$this->room_id);   //游戏记录
+//            yield  $this->redis_pool->getCoroutine()->delete($this->room_id);  //房间所有数据
+//            yield  $this->redis_pool->getCoroutine()->delete('uids_'.$this->room_id);  //玩家id
+//            yield  $this->redis_pool->getCoroutine()->delete('jx_'.$this->room_id);    //继续
+//            yield  $this->redis_pool->getCoroutine()->delete('js_'.$this->room_id);    //解散
+//            yield  $this->redis_pool->getCoroutine()->delete('logs_'.$this->room_id);   //游戏记录
             yield  $this->mysql_pool->dbQueryBuilder
                 ->update('gs_member')
                 ->set('room_id',0)

@@ -100,7 +100,7 @@ class RoomController extends Controller
                     'mid'=>$this->mid
                 ];
                 $users =  yield $this->redis_pool->getCoroutine()->hkeys('uids_' . $this->room_id);
-              yield $this->saveLogs(reData('jinru',$data));
+
                 $this->sendToUids($users, reData('jinru', $data), false);
             }else{
                 $data = [
@@ -223,7 +223,7 @@ class RoomController extends Controller
             'gameInfo'=>$gameInfo
 
         ];
-         yield $this->saveLogs(reData('fapai',$data)); //存游戏记录
+//         yield $this->saveLogs(reData('fapai',$data)); //存游戏记录
         $this->destroy();
     }
 
