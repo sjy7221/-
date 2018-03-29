@@ -510,11 +510,12 @@ class GameController extends Controller
             $game_status = 1;
         }
 
-        $users = $gameInfo['users'];
+        $users = $roomInfo['users'];
        D('所有用户',$users);
-        $shu = array_diff($users,$mid);
+        $shuren = array_diff($users,$mid);
         $ying = '';
-        foreach($shu as $k => $v){
+        $shu = '';
+        foreach($shuren as $k => $v){
             if($v == $gameInfo['niaoid'] && $gameInfo['niaoid']){
               $shu =  count($v['shoupai'])*2;
             }else{
