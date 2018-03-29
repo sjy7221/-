@@ -197,17 +197,44 @@ class GameController extends Controller
                     $gameInfo['dachu']['pai'] = [];
 
                 }
-                    $data = [
-                        'now' => $gameInfo['now'],
-                        'tishi' => $gameInfo['dachu']['tishi'],
-                        'mid'=>$this->mid,
-                        'pai'=>$pai,
+                  $users = $this->$uids;
+                    foreach($users as $k => $v){
+                        $data = [
+                            'now' => $gameInfo['now'],
+//                            'tishi' => $gameInfo['dachu']['tishi'],
+                            'mid'=>$this->mid,
+                            'pai'=>$pai,
 
-                        'type'=>$leix['type'],
-                        'shoupai'=>$req,
+                            'type'=>$leix['type'],
+                            'shoupai'=>$gameInfo['users'][$v]
 
-                    ];
-                    $this->sendToUids($this->uids,reData('dachu',$data),false);
+                        ];
+                        if($v == $gameInfo['now']){
+                            $data = [
+                                'now' => $gameInfo['now'],
+                                'tishi' => $gameInfo['dachu']['tishi'],
+                                'mid'=>$this->mid,
+                                'pai'=>$pai,
+
+                                'type'=>$leix['type'],
+                                'shoupai'=>$gameInfo['users'][$v]
+
+                            ];
+                            $this->sendToUid($v,reData('dachu',$data),false);
+                        }
+                        $this->sendToUid($v,reData('dachu',$data),false);
+                    }
+//                    $data = [
+//                        'now' => $gameInfo['now'],
+//                        'tishi' => $gameInfo['dachu']['tishi'],
+//                        'mid'=>$this->mid,
+//                        'pai'=>$pai,
+//
+//                        'type'=>$leix['type'],
+//                        'shoupai'=>$req,
+//
+//                    ];
+//                    $this->sendToUids($this->uids,reData('dachu',$data),false);
 
                     foreach ($guo as $k=>$v){
                         yield sleepCoroutine(500);
