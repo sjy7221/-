@@ -99,7 +99,6 @@ class GameController extends Controller
 
 
             }
-
             $dc = zhuanhuan($pai); //去掉打出花色
                 D('打出：',$pai);
 
@@ -110,6 +109,7 @@ class GameController extends Controller
 
                 $stype = $gameInfo['dachu']['leix']['type'];
                 $sjp = zhuanhuan($gameInfo['dachu']['pai']);//去上家打出花色
+                sort($sjp);
                 //类型不同
                 if($dtype != $stype && $leix['type'] != 10){
                     D('牌型不对',2);
