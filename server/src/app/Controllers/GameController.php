@@ -202,7 +202,7 @@ class GameController extends Controller
                     foreach($users as $k => $v){
                         $data = [
                             'now' => $gameInfo['now'],
-                            'tishi' => [$tishi],
+                            'tishi' => $tishi,
                             'mid'=>$this->mid,
                             'pai'=>$pai,
 

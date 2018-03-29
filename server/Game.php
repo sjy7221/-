@@ -458,7 +458,7 @@
 
             for ($j = 0;$j < count($dachu);$j++) {
                 if ($pai[$i] > $dachu[$j] + 10) {
-                    return $pai[$i];
+                    return [$pai[$i]];
                 }
             }
         }
