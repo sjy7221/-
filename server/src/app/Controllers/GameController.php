@@ -512,7 +512,7 @@ class GameController extends Controller
 
         $users = $roomInfo['users'];
        D('所有用户',$users);
-        $shuren = array_diff($users,$mid);
+        $shuren = array_diff($users,[$mid]);
         $ying = '';
         $shu = '';
         foreach($shuren as $k => $v){
