@@ -197,7 +197,7 @@ class GameController extends Controller
                     $gameInfo['dachu']['pai'] = [];
 
                 }
-                  $users = $this->$uids;
+                  $users = $this->uids;
                     foreach($users as $k => $v){
                         $data = [
                             'now' => $gameInfo['now'],
