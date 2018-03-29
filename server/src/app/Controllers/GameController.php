@@ -215,11 +215,22 @@ class GameController extends Controller
 
                         $this->sendToUid($v,reData('dachu',$data),false);
                     }
+                /////////////存游戏记录
+                    $data = [
+                        'now' => $gameInfo['now'],
+                        'tishi' => $tishi,
+                        'mid'=>$this->mid,
+                        'pai'=>$pai,
 
+                        'type'=>$leix['type'],
+                        'shoupai'=>$gameInfo['users'][$v]['shoupai']
 
+                    ];
+                    yield $this->saveLogs(reData('dachu',$data)); //存游戏记录
                     foreach ($guo as $k=>$v){
                         yield sleepCoroutine(500);
                         $this->sendToUids($this->uids,reData('guo',$v),false);
+                        yield $this->saveLogs(reData('guo',$v)); //存游戏记录
                     }
                     $gameInfo['one'] = 0;
                yield $this->redis_pool->hset($room_id, 'gameInfo',serialize($gameInfo));
@@ -257,7 +268,7 @@ class GameController extends Controller
         $this->sendToUids($this->uids,reData('jixu',['mid'=>$this->mid]),false);
         if($num == $this->roomInfo['guize']['renshu']){
             yield  $this->redis_pool->getCoroutine()->delete("jx_".$this->room_id);
-            yield  $this->fapai();
+            yield  $this->fapai($this->gameInfo,$this->roomInfo,$this->userInfo);
         }
         $this->destroy();
     }
@@ -458,14 +469,14 @@ class GameController extends Controller
 
             $this->sendToUid($us,reData('fapai',$data),false);
         }
-//        $data = [
-//            'roomInfo'=>$roomInfo,//
-//            'userInfo'=>$userInfo,//
-//            'now'=>$gameInfo['now'],
-//            'gameInfo'=>$gameInfo
-//
-//        ];
-        // yield $this->saveLogs(reData('fapai',$data)); 存游戏记录
+        $data = [
+            'roomInfo'=>$roomInfo,//
+            'userInfo'=>$userInfo,//
+            'now'=>$gameInfo['now'],
+            'gameInfo'=>$gameInfo
+
+        ];
+         yield $this->saveLogs(reData('fapai',$data)); 存游戏记录
         $this->destroy();
     }
 
@@ -570,6 +581,7 @@ class GameController extends Controller
         ];
 
         $this->sendToUids($this->uids,reData('over', $data),false);
+        yield $this->saveLogs(reData('over',$data)); //存游戏记录
         // 存每局记录
         $userInfo = $this->userInfo;
         $users  = $this->uids;
