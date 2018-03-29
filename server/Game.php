@@ -500,6 +500,7 @@
         }
     }
     function type3($pai, $dachu,$numb) {
+        sort($pai);
         $snumb =  zhuanhuan($pai);
         $dnumb =  zhuanhuan($dachu);
         sort($dnumb);
