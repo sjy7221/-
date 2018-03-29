@@ -565,8 +565,12 @@ class GameController extends Controller
             'users'=>$this->userInfo,
         ];
         $this->sendToUids($this->uids,reData('over', $data),false);
-        $gameInfo['users'][$k]['shoupai'] = [];
-        $gameInfo['users'][$k]['dachu'] = [];
+        foreach($users as $kk => $vv){
+            $gameInfo['users'][$vv]['shoupai'] = [];
+            $gameInfo['users'][$vv]['dachu'] = [];
+        }
+//        $gameInfo['users'][$k]['shoupai'] = [];
+//        $gameInfo['users'][$k]['dachu'] = [];
         $roomInfo['nowjushu'] +=1;
         $gameInfo['now'] = $mid;
         yield $this->redis_pool->hset($this->room_id, 'gameInfo',serialize($gameInfo),'roomInfo',serialize($roomInfo));
