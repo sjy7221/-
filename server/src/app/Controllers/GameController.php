@@ -206,7 +206,7 @@ class GameController extends Controller
                             'pai'=>$pai,
 
                             'type'=>$leix['type'],
-                            'shoupai'=>$gameInfo['users'][$v]
+                            'shou'=>$gameInfo['users'][$v]
 
                         ];
 //                        if($v == $gameInfo['now']){
