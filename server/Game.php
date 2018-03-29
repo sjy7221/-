@@ -455,7 +455,7 @@
     function type1($pai, $dachu, $numb) {
             D('type1.单张 tishi:',1);
         for ($i = 0;$i < count($pai);$i++) {
-            if($pai[$i] > $dachu[0] + 100){
+            if($pai[$i] > $dachu[0] + 10){
                 return $pai[$i];
             }
 
