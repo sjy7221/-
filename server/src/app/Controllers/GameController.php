@@ -139,7 +139,7 @@ class GameController extends Controller
                 $gameInfo['users'][$this->mid]['shoupai'] = $req;//把剩余的手牌存起来
                 if($roomInfo['guize']['renshu'] == 3){
                     $gameInfo['dachu']['mid'] = $this->mid;//打出牌人的id
-                    $gameInfo['dachu']['pai'] = $pai;//打出的牌
+                    $gameInfo['dachu']['pai'] = [$pai];//打出的牌
                     $gameInfo['dachu']['leix'] = $leix;//打出的类型
                     $now = sweizhi($weizhi,$roomInfo);
 
