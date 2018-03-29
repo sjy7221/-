@@ -616,27 +616,33 @@
                    $dk = $kv;
                }
            }
-
+            $ob = '';
            foreach ($k as $o => $vv) {
+               var_dump($vv)
                if($vv > $dk){
                    $ob = $k[$o];
                }
 
            }
-           $tishi = [];
+                if($ob){
+                    $tishi = [];
 
-           foreach($numb as $n =>$b){
-               if($ob == $b){
-                   $tishi[] = $pai[$n];
-               }
-           }
+                    foreach($numb as $n =>$b){
+                        if($ob == $b){
+                            $tishi[] = $pai[$n];
+                        }
+                    }
 
-           $ti =  array_diff($pai,$tishi);
-           $arr = array($ti[0],$ti[1]);
-           var_dump($arr);
-           $tishi =  array_merge($arr,$tishi);
-           D('type5.3dai2 tishi:',$tishi);
-           return $tishi;
+                    $ti =  array_diff($pai,$tishi);
+                    $arr = array($ti[0],$ti[1]);
+                    var_dump($arr);
+                    $tishi =  array_merge($arr,$tishi);
+                    D('type5.3dai2 tishi:',$tishi);
+                    return $tishi;
+                }else{
+               return false;
+                }
+
        }
 
     }

@@ -500,7 +500,7 @@ class GameController extends Controller
      *
      */
     private function jieshu($mid,$gameInfo)
-    {    return false;
+    {
         $roomInfo = $this->roomInfo;
         //判断游戏是否结束
         if($roomInfo['nowjushu'] >= $roomInfo['guize']['jushu']){
