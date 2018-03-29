@@ -209,19 +209,19 @@ class GameController extends Controller
                             'shoupai'=>$gameInfo['users'][$v]
 
                         ];
-                        if($v == $gameInfo['now']){
-                            $data = [
-                                'now' => $gameInfo['now'],
-                                'tishi' => $gameInfo['dachu']['tishi'],
-                                'mid'=>$this->mid,
-                                'pai'=>$pai,
-
-                                'type'=>$leix['type'],
-                                'shoupai'=>$gameInfo['users'][$v]
-
-                            ];
-                            $this->sendToUid($v,reData('dachu',$data),false);
-                        }
+//                        if($v == $gameInfo['now']){
+//                            $data = [
+//                                'now' => $gameInfo['now'],
+//                                'tishi' => $gameInfo['dachu']['tishi'],
+//                                'mid'=>$this->mid,
+//                                'pai'=>$pai,
+//
+//                                'type'=>$leix['type'],
+//                                'shoupai'=>$gameInfo['users'][$v]
+//
+//                            ];
+//                            $this->sendToUid($v,reData('dachu',$data),false);
+//                        }
                         $this->sendToUid($v,reData('dachu',$data),false);
                     }
 //                    $data = [
