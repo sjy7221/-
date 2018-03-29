@@ -105,10 +105,11 @@ class GameController extends Controller
             D('打出：',$pai);
             //判断打出的牌大小
            $dtype = $leix['type'];
-
+            $dcz =  $leix['zhu'];
             if(isset($gameInfo['dachu']['leix']) && isset($gameInfo['dachu']['pai']) && $gameInfo['dachu']['leix'] && $gameInfo['dachu']['pai']){
 
                 $stype = $gameInfo['dachu']['leix']['type'];
+                $sjz = $gameInfo['dachu']['leix']['zhu'];
                 $sjp = zhuanhuan($gameInfo['dachu']['pai']);//去上家打出花色
                 sort($sjp);
                 D('上副打出：',$sjp);
@@ -119,7 +120,7 @@ class GameController extends Controller
                     return;
                 }
                 // 类型同 大小不同
-                if($dtype == $stype &&  $sjp[0] >= $dc[0] ){
+                if($dtype == $stype &&  $sjz >= $dcz ){
                     $this->send(reData('error', ['msg'=>'大小不对']),false);
                     return;
                 }

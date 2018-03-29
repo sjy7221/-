@@ -32,7 +32,7 @@
     {
 
         if(count($pai) == 1){
-         return ['type'=>1,'len'=>1] ; 
+         return ['type'=>1,'len'=>1,'zhu'=>$pai[0]] ;
         }else{
             return false;
         }
@@ -59,7 +59,7 @@
             
          if($u == count($pai)){
            
-           return ['type'=>2,'len'=>count($pai)];
+           return ['type'=>2,'len'=>count($pai),'zhu'=>$pai[0]];
          }else{
 
           return sandai($pai,$shoupai);
@@ -164,7 +164,7 @@
        //单对，两位相等
       if($numb[0] == $numb[1]){
     
-         return ['type'=>3,'len'=>2]; 
+         return ['type'=>3,'len'=>2,'zhu'=>$pai[0]];
       }else{
          return false;
       }
@@ -210,7 +210,7 @@
 
                if($u == count($numb)){
                 // var_dump($numb);
-          return ['type'=>4,'len'=>count($pai)];
+          return ['type'=>4,'len'=>count($pai),'zhu'=>$pai[0]];
          }else{
             return false;
          }
@@ -245,16 +245,18 @@
         $b = 0;
         
         //做相同数计数
-         foreach($numb as $v){
+            $zhu = '';
+         foreach($numb as $k => $v){
 
-            if($cishu[$v] === 3){
+            if($k == 3){
             $b+=1;
+            $zhu = $v;
            }
          }
       
        if($b == 1){
        
-         return ['type'=>5,'len'=>count($pai)];
+         return ['type'=>5,'len'=>count($pai),'zhu'=>$zhu];
 
        }else{
          return false;
@@ -351,13 +353,14 @@
             $numb =   array_unique($numb);
             $b = 0;
            $ob = [];
-           
+            $zhu = [];
         //做相同数计数
          foreach($numb as $v){
 
             if($cishu[$v] === 3){
             $b+=1;
-            //将相同的三位数的键存入数组
+                $zhu[] = $v;
+                //将相同的三位数的键存入数组
             array_push($ob,$v);
            }
          }
@@ -365,8 +368,8 @@
     
             //判断是否为333444连续
          if($b == 2 && $ob[0]+1 == $ob[1]){
-     
-         return ['type'=>8,'len'=>count($pai)];
+        $zhu = $zhu[0];
+         return ['type'=>8,'len'=>count($pai),'zhu'=>$zhu];
 
        }else{
 
@@ -406,7 +409,7 @@
     //炸弹
     function zhadan($numb)
     {
-         return ['type'=>10,'len'=>count($numb)];
+         return ['type'=>10,'len'=>count($numb),'pai'=>$numb[0]];
     }
 
     //私有转换牌去掉花色
