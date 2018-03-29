@@ -120,7 +120,7 @@ class GameController extends Controller
                     return;
                 }
                 // 类型同 大小不同
-                if($dtype == $stype &&  $sjz >= $dcz ){
+                if($dtype == $stype &&  $dcz < $sjz+3){
                     D('szhu',$sjz);
                     D('dcu',$dcz);
                     $this->send(reData('error', ['msg'=>'大小不对']),false);
