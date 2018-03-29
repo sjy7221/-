@@ -129,7 +129,8 @@ class IndexController extends Controller
             'nowjushu'=>'1',
             'status' => 0,//0代表未开始
             'users' => [],//
-            'weizhi'=>[] //位置
+            'weizhi'=>[], //位置
+            'over'=>[]
 
         ];
         $userInfo = [];
