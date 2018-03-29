@@ -513,22 +513,22 @@ class GameController extends Controller
         $users = $roomInfo['users'];
        D('所有用户',$users);
         $shuren = array_diff($users,[$mid]);
-        $ying = '';
+        $ying = 0;
         $shu = '';
         foreach($shuren as $k => $v){
             if($v == $gameInfo['niaoid'] && $gameInfo['niaoid']){
-              $shu =  count($v['shoupai'])*2;
+              $shu =  count($gameInfo['users'][$v]['shoupai'])*2;
             }else{
-                $shu = count($v['shoupai']);
+                $shu = count($gameInfo['users'][$v]['shoupai']);
             }
-            if(count($v['shoupai']) == 1){
+            if(count($gameInfo['users'][$v]['shoupai']) == 1){
                 $shu = 0;
             }
 
             $ying += $shu;
-            $gameInfo['user'][$v]['fen'] =  '-'.$shu;
+            $gameInfo['users'][$v]['fen'] =  '-'.$shu;
         }
-        $gameInfo['user'][$mid]['fen'] = '+'.$ying;
+        $gameInfo['users'][$mid]['fen'] = '+'.$ying;
         $data = [
             'win'=>$mid,
             'upais'=>$gameInfo['users'],  //所有人的手牌 和信息
