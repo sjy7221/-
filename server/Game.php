@@ -469,7 +469,7 @@
             $tishi = $tishi[$k];
             return [$tishi];
         }else{
-            return $this->zha($numb, $pai);
+            return zha($numb, $pai);
         }
     }
     function type2($pai, $dachu, $numb, $leix) {
