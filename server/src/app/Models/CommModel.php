@@ -47,7 +47,7 @@ class CommModel extends Model
                 $member = $member['result'][0];
 
                 //新玩家加入weihzi
-                $gameInfo['users'][$mid]['zhadan'] = 0; //个人炸弹数
+
                 $roomInfo['weizhi'][] = $mid;
                 $roomInfo['users'][] = $mid;
                 $roomInfo['over'][$mid]['zhadan'] = 0; // 结束炸弹总数
@@ -68,7 +68,8 @@ class CommModel extends Model
                     'id'=>$mid,
                     'shoupai' =>[],  //手牌
                     // 'dachu'=>[],    //打出的牌
-                    'fenshu'=>1000  //分数
+                    'fenshu'=>1000,  //分数
+                    'zhadan'=>0
                 ];
                 $gameInfo['dachu'] = [];
                 yield $this->mysql_pool->dbQueryBuilder ////用户表绑定房间号
