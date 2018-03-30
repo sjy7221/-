@@ -465,41 +465,14 @@
         }
 
         if($tishi){
-            $k = array_rand($tishi);
-            $tishi = $tishi[$k];
+          sort($tishi);
+         $tishi =  array_pop($tishi);
             return [$tishi];
         }else{
             return zha($numb, $pai);
         }
     }
     function type2($pai, $dachu, $numb, $leix) {
-//        $u = 1;
-//        $tishi = []; //存牌
-//        $p = [];
-//        $snumb =  zhuanhuan($pai);
-//        $dnumb =  zhuanhuan($dachu);
-//        sort($dnumb);
-//        sort($snumb);
-//        for ($j = 1;$j < count($snumb);$j++) {
-//            if ($snumb[$j] > $dnumb[0]) {
-//                if ($snumb[$j] - 1 == $snumb[$j - 1]) {
-//                    $u+= 1;
-//                    $tishi[$j] = $pai[$j];
-//                    $p[] = $snumb[$j];
-//                    // echo $snumb[$j]; //把组成顺子的值存入数组不改变下标
-//
-//                }
-//            }
-//        }
-//        $kk = array_search($p[0] - 1, $snumb);
-//        $tishi[$kk] = $pai[$kk];
-//        sort($tishi);
-//        if ($u >= $leix['len']) {
-//            $tishi = array_slice($tishi, 0, count($dachu));
-//            D('type2.顺子 tishi:',$tishi);
-//            return $tishi; // 返回可以打出的数据
-//
-//        } else {      /////////接到炸弹方法！！！！！！！！！！
         $u = 1;
         $tishi = []; //存牌
         $p = [];
@@ -522,23 +495,41 @@
         }
         $nu =   array_unique($nu);
         sort($nu);
-
+    
         $nu =  array_slice($nu,0,$leix['len']);
 
-        $tishi = [];
-        foreach ($nu as $key => $value) {
-            $kk =  array_search($value,$snumb);
-            if($kk){
-                $tishi[] = $pai[$kk];
+        $u = 1;
+        //顺子5起步
+        if (count($pai) >= 5) {
+
+            //做判断
+            for ($j = 1;$j < count($nu);$j++) {
+                if ($nu[0] + $j == $nu[$j]) {
+                    $u+= 1;
+                }
             }
 
-        }
-        if(count($tishi) == $leix['len']){
+            if ($u == count($nu) ){
+                $tishi = [];
+                foreach ($nu as $key => $value) {
+                    $kk =  array_search($value,$snumb);
+                    if($kk){
+                        $tishi[] = $pai[$kk];
+                    }
 
-           return ($tishi);
-        }else{
-            return  zha($numb, $pai);
+                }
+                if(count($tishi) == $leix['len']){
+
+                    return $tishi;
+                }else{
+                    return  false;
+                }
+            } else {
+                return  zha($numb, $pai);
+            }
         }
+
+
     }
     function type3($pai, $dachu,$numb) {
 
