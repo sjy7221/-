@@ -555,7 +555,7 @@
             $tishi = [];
             foreach($snumb as $a => $b){
 
-                if($[0] == $b){
+                if($nn[0] == $b){
                     $tishi[] = $pai[$a];
                 }
             }
