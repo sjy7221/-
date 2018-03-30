@@ -106,11 +106,12 @@ class GameController extends Controller
             //判断打出的牌大小
            $dtype = $leix['type'];
             $dcz =  $leix['zhu'];
-            D('打出类型比牌数',$dcz);
+            D('现在打出类型比牌数',$dcz);
             if(isset($gameInfo['dachu']['leix']) && isset($gameInfo['dachu']['pai']) && $gameInfo['dachu']['leix'] && $gameInfo['dachu']['pai']){
 
                 $stype = $gameInfo['dachu']['leix']['type'];
                 $sjz = $gameInfo['dachu']['leix']['zhu'];
+                D('上局打出类型比牌数',$sjz);
                 $sjp = $gameInfo['dachu']['pai'];//去上家打出花色
                 sort($sjp);
                 D('上副打出：',$sjp);
