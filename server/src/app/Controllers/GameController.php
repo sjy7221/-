@@ -464,6 +464,7 @@ class GameController extends Controller
         $roomInfo = $re['roomInfo'];
         $gameInfo = $re['gameInfo'];
         $roomid = $roomInfo['guize']['room_id'];
+        $roomInfo['status'] = 1;
         yield $this->redis_pool->hset($roomid, 'roomInfo', serialize($roomInfo),'gameInfo',serialize($gameInfo));
 
         foreach($gameInfo['users'] as $us => $u){
@@ -648,7 +649,7 @@ class GameController extends Controller
         $gameInfo['dachu']['pai'] = [];
         $gameInfo['dachu']['leix'] = [];
         $gameInfo['dachu']['tishi'] = [];
-
+        $roomInfo['status'] = 0;
         yield $this->redis_pool->hset($this->room_id, 'gameInfo',serialize($gameInfo),'roomInfo',serialize($roomInfo));
         if(!$game_status){       //全部打完 清空数据
 //            yield  $this->redis_pool->getCoroutine()->delete($this->room_id);  //房间所有数据
