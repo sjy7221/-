@@ -106,6 +106,7 @@ class GameController extends Controller
             //判断打出的牌大小
            $dtype = $leix['type'];
             $dcz =  $leix['zhu'];
+            D('打出类型比牌数',$dcz);
             if(isset($gameInfo['dachu']['leix']) && isset($gameInfo['dachu']['pai']) && $gameInfo['dachu']['leix'] && $gameInfo['dachu']['pai']){
 
                 $stype = $gameInfo['dachu']['leix']['type'];
