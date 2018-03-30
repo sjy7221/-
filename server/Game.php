@@ -515,7 +515,7 @@
                     $kk =  array_search($value,$snumb);
 
                         $tishi[] = $pai[$kk];
-                  
+
 
                 }
                 if(count($tishi) == $leix['len']){

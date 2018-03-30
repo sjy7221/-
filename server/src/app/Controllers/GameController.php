@@ -603,24 +603,26 @@ class GameController extends Controller
         $shu = '';
         $zdjf = $gameInfo['zhadan']*10;
         foreach($shuren as $k => $v){
-
+            $shu = count($gameInfo['users'][$v]['shoupai']);
+            if($v == $gameInfo['niaoid'] && $gameInfo['niaoid']){
+                $shu =  count($gameInfo['users'][$v]['shoupai'])*2 ;
+            }
+            if(count($gameInfo['users'][$v]['shoupai']) == 48/$roomInfo['guize']['jushu']){
+                $shu =  count($gameInfo['users'][$v]['shoupai'])*2 ;
+            }
             // 有鸟牌 且全关
             if($v == $gameInfo['niaoid'] && $gameInfo['niaoid'] && count($gameInfo['users'][$v]['shoupai']) == 48/$roomInfo['guize']['jushu']){
               $shu =  count($gameInfo['users'][$v]['shoupai'])*4 ;
 //              $shu += $shu*$gameInfo['users'][$v]['zhadan'];
-            }elseif($v == $gameInfo['niaoid'] && $gameInfo['niaoid']){
-                $shu =  count($gameInfo['users'][$v]['shoupai'])*2 ;
-            }elseif(count($gameInfo['users'][$v]['shoupai']) == 48/$roomInfo['guize']['jushu']){
-                $shu =  count($gameInfo['users'][$v]['shoupai'])*2 ;
-            }else{
-                $shu = count($gameInfo['users'][$v]['shoupai']);
             }
+
+
+                $shu += $zdjf;
             if(count($gameInfo['users'][$v]['shoupai']) == 1){
                 $shu = 0;
             }
-                $shu += $zdjf;
-            var_dump($roomInfo['over'][$v]['zhadan']);
-            var_dump($gameInfo['users'][$v]['zhadan']);
+//            var_dump($roomInfo['over'][$v]['zhadan']);
+//            var_dump($gameInfo['users'][$v]['zhadan']);
             $ying += $shu; //每局赢的积分
             $gameInfo['users'][$v]['fen'] =  '-'.$shu; //输的积分
             $gameInfo['users'][$v]['fenshu'] =   $gameInfo['users'][$v]['fenshu'] - $shu ; //总分数
