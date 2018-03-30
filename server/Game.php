@@ -495,7 +495,7 @@
         }
         $nu =   array_unique($nu);
         sort($nu);
-    
+
         $nu =  array_slice($nu,0,$leix['len']);
 
         $u = 1;
