@@ -463,9 +463,10 @@
                 $tishi[] = $pai[$i];
             }
         }
-        $k = array_rand($tishi);
-        $tishi = $tishi[$k];
+
         if($tishi){
+            $k = array_rand($tishi);
+            $tishi = $tishi[$k];
             return [$tishi];
         }else{
             return $this->zha($numb, $pai);
