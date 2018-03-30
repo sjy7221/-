@@ -256,7 +256,7 @@
       
        if($b == 1){
        
-         return ['type'=>5,'len'=>count($pai),'zhu'=>$numb[0]];
+         return ['type'=>5,'len'=>count($pai),'zhu'=>$zhu];
 
        }else{
          return false;
