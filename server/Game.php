@@ -32,7 +32,7 @@
     {
 
         if(count($pai) == 1){
-           $pai =  $pai[0] +5;
+           $pai =  $pai[0]+8;
          return ['type'=>1,'len'=>1,'zhu'=> $pai] ;
         }else{
             return false;
