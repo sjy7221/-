@@ -559,6 +559,9 @@
                     $tishi[] = $pai[$a];
                 }
             }
+            if(count($tishi) > 2){
+                $tishi =    array_slice($tishi,0,2);
+            }
             return $tishi;
         }else{
             return  zha($numb, $pai);
