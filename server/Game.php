@@ -585,6 +585,7 @@
         }
         $tis = [];
         $ti = [];
+        $t = [];
         if ($a >= count($n)) {
             for ($j = 1;$j < count($tishi);$j++) {
                 if ($tishi[0] + $j == $tishi[$j]) {
