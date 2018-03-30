@@ -629,7 +629,7 @@
 
     function type5($pai, $dachu, $numb)
     {
-        $cishu = array_count_values($pai);
+        $cishu = array_count_values($numb);
         $dnumb =  zhuanhuan($dachu);
          $dcishu = array_count_values($dnumb);
         $k = [];
