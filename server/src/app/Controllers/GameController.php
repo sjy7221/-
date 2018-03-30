@@ -600,7 +600,7 @@ class GameController extends Controller
             $roomInfo['over'][$v]['shu'] += 1;
             $roomInfo['over'][$v]['zf'] -= $shu;
         }
-        $roomInfo['over'][$mid]['zhadan'] +=  $gameInfo['users'][$v]['zhadan'];
+        $roomInfo['over'][$mid]['zhadan'] +=  $gameInfo['users'][$mid]['zhadan'];
         $roomInfo['over'][$mid]['ying'] += 1;
         $roomInfo['over'][$mid]['zf'] += $ying;
         if($roomInfo['over'][$mid]['zg'] < $ying){

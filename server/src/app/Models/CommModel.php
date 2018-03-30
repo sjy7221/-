@@ -47,7 +47,7 @@ class CommModel extends Model
                 $member = $member['result'][0];
 
                 //新玩家加入weihzi
-                $gameInfo['users'][$mid]['zhadan'] =0; //个人炸弹数
+                $gameInfo['users'][$mid]['zhadan'] = 0; //个人炸弹数
                 $roomInfo['weizhi'][] = $mid;
                 $roomInfo['users'][] = $mid;
                 $roomInfo['over'][$mid]['zhadan'] = 0; // 结束炸弹总数
