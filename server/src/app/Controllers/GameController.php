@@ -382,8 +382,14 @@ class GameController extends Controller
         }
         //房间内准备状态  并且游戏数据有
         if($this->roomInfo['status'] == 0 || empty($this->gameInfo)){
-            $this->send(reData('out', '游戏未开始无法获取'), false);
-            $this->close();
+
+            $data = [
+              'status'=> 0,
+              'users'=>$this->userInfo,
+                'roomInfo'=>$this->roomInfo
+            ];
+            $this->send(reData('getGame', $data), false);
+//            $this->close();
             return;
         }
         $roomInfo =  $this->roomInfo;
@@ -400,7 +406,7 @@ class GameController extends Controller
             }
             //再发选择状态的人
             foreach ($re as $kk2=>$vv2){
-                if($vv != 2){
+                if($vv2 != 2){
                     $this->sendToUids($this->uids,reData('jiesan',['mid'=>$kk2,'status'=>$vv2]),false);
                 }
             }
@@ -408,25 +414,32 @@ class GameController extends Controller
         }
         //如果当前正在发继续
         if( yield  $this->redis_pool->getCoroutine()->exists("jx_".$this->room_id)){
-            yield $this->jixu();
+           $users =  yield  $this->redis_pool->getCoroutine()->smembers("jx_".$this->room_id);
+            $data = [
+              'users'=>$this->userInfo,
+              'room'=>$this->roomInfo,
+              'jxusers'=>$users
+            ];
+            $this->send(reData('jx', $data), false);
+//            yield $this->jixu();
             return;
         }
-        $upais = [];
-        foreach ($weizhi as $v){
-            if($v == $this->mid){
-                $upais[$v]['s'] = spias($gameInfo['users'][$v]['shoupai']);
-            }else{
-                $upais[$v]['s'] = [];
-            }
-
-        }
+//        $upais = [];
+//        foreach ($weizhi as $v){
+//            if($v == $this->mid){
+//                $upais[$v]['s'] = spias($gameInfo['users'][$v]['shoupai']);
+//            }else{
+//                $upais[$v]['s'] = [];
+//            }
+//
+//        }
         $data = [
             'ju'=>$roomInfo['nowjushu'],                   //当前局数
             'pais'=>$gameInfo['user'][$this->mid]['pai'],                          //手牌
             'dachu'=>$gameInfo['dachu'],           //打出的所有信息
             'now'=>$gameInfo['now']                    //当前操作玩家
         ];
-        $this->send(reData('getGame',$data));
+        $this->send(reData('now',$data));
         $this->destroy();
     }
 
