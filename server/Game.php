@@ -623,7 +623,7 @@
                 D('type4.连对 tishi:',$tishi);
                 return $tishi;
             } else {
-                return false;
+                return  zha($numb, $pai);
             }
         } else {
             $numb =  zhuanhuan($pai);
