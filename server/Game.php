@@ -409,7 +409,7 @@
     //炸弹
     function zhadan($numb)
     {
-         return ['type'=>10,'len'=>count($numb),'pai'=>$numb[0]];
+         return ['type'=>10,'len'=>count($numb),'zhu'=>$numb[0]];
     }
 
     //私有转换牌去掉花色
