@@ -121,17 +121,16 @@ class GameController extends Controller
                 }
                 // 类型同 大小不同
                 if($dtype == $stype &&  $dcz < $sjz+3){
-//                    D('szhu',$sjz);
-//                    D('dcu',$dcz);
                     $this->send(reData('error', ['msg'=>'大小不对']),false);
                     return;
                 }
             }
 
-            $gameInfo['users'][$this->mid]['zhadan'] = 0;
+//            $gameInfo['users'][$this->mid]['zhadan'] = 0;
             $weizhi =  array_search($this->mid,$roomInfo['weizhi']);//当前位置;
             if($leix['type'] == 10){ //炸弹数
-                $gameInfo['users'][$this->mid]['zhadan'] +=1;
+                $gameInfo['users'][$this->mid]['zhadan'] +=1; //个人炸弹数
+                $gameInfo['zhadan'] +=1;  //每局总炸弹数
             }
 
             //从手牌中去除打出的牌
@@ -236,7 +235,7 @@ class GameController extends Controller
                yield $this->redis_pool->hset($room_id, 'gameInfo',serialize($gameInfo));
 
                 }elseif($roomInfo['guize']['renshu'] == 2){        //如果是两人房
-                    $gameInfo =    yield $this->erren($gameInfo,$weizhi,$roomInfo,$pai,$leix,$room_id); //2个人的玩法
+                    $gameInfo = yield $this->erren($gameInfo,$weizhi,$roomInfo,$pai,$leix,$room_id); //2个人的玩法
                 }
 
                 $gameInfo['one'] == 0;
@@ -437,7 +436,7 @@ class GameController extends Controller
            'userInfo'=>$this->userInfo
        ];
         $this->sendToUids($this->uids,reData('getlog', $data),false);
-                    yield  $this->redis_pool->getCoroutine()->delete($this->room_id);  //房间所有数据
+             yield  $this->redis_pool->getCoroutine()->delete($this->room_id);  //房间所有数据
             yield  $this->redis_pool->getCoroutine()->delete('uids_'.$this->room_id);  //玩家id
             yield  $this->redis_pool->getCoroutine()->delete('jx_'.$this->room_id);    //继续
             yield  $this->redis_pool->getCoroutine()->delete('js_'.$this->room_id);    //解散
@@ -504,32 +503,54 @@ class GameController extends Controller
         $now = $roomInfo['weizhi'][$now];//取出下一个人的mid
         $nextsp  =  $gameInfo['users'][$now]['shoupai'];//下一个人的手牌
         $tishi =  shoupai($nextsp,$pai,$leix) ;
-        if($tishi){
+        $gameInfo['dachu']['tishi'] = $tishi;
+        $gameInfo['now'] = $now;
+        $users = $this->uids;
+        $tishi = $gameInfo['dachu']['tishi'];
+        foreach($users as $k => $v){
             $data = [
-                'now'=> $now,
+                'now' => $gameInfo['now'],
+                'tishi' => $tishi,
                 'mid'=>$this->mid,
-                'tishi'=>$tishi,
                 'pai'=>$pai,
-                'nowshoupai'=>$nextsp,
-                'type'=>$leix['type']
+
+                'type'=>$leix['type'],
+                'shoupai'=>$gameInfo['users'][$v]['shoupai']
+
             ];
-            $gameInfo['now'] = $now;//存该谁打牌
-            $gameInfo['tishi'][$now] = $tishi;
-            yield $this->redis_pool->hset($room_id, 'gameInfo',serialize($gameInfo));
-            // yield $this->saveLogs(reData('dachu',$data));//游戏记录
-            $this->sendToUids($this->uids,reData('dachu',$data),false);
-        }else{
+
+            $this->sendToUid($v,reData('dachu',$data),false);
+        }
+        /////////////存游戏记录
+        $data = [
+            'now' => $gameInfo['now'],
+            'tishi' => $tishi,
+            'mid'=>$this->mid,
+            'pai'=>$pai,
+
+            'type'=>$leix['type'],
+            'shoupai'=>$gameInfo['users'][$v]['shoupai']
+
+        ];
+        yield $this->saveLogs(reData('dachu',$data)); //存游戏记录
+        if(!$tishi){
+
             $data = [
 
-                'now'=>$now,
-                'nowshoupai'=>$nextsp,
-                'mid'=>$this->mid,
+                'now'=>$this->mid,
+                'pai'=>$pai,
+                'mid'=>$now,
                 'type'=> false,
                 'mg'=> '要不起'
             ];
-            yield $this->redis_pool->hset($room_id, 'gameInfo',serialize($gameInfo));
-            // yield $this->saveLogs(reData('dachu',$data));//游戏记录
+
             $this->sendToUids($this->uids,reData('guo',$data),false);
+            yield $this->saveLogs(reData('dachu',$data));//游戏记录
+            $gameInfo['dachu']['tishi'] = [];
+            $gameInfo['now'] = $this->mid;
+            $gameInfo['dachu']['leix'] = [];
+            $gameInfo['dachu']['pai'] = [];
+            $gameInfo['one'] == 0;
         }
         return $gameInfo;
     }
@@ -554,16 +575,24 @@ class GameController extends Controller
         $shuren = array_diff($users,[$mid]);
         $ying = 0;
         $shu = '';
+        $zdjf = $gameInfo['zhadan']*10;
         foreach($shuren as $k => $v){
-            if($v == $gameInfo['niaoid'] && $gameInfo['niaoid']){
-              $shu =  count($gameInfo['users'][$v]['shoupai'])*2;
+
+            // 有鸟牌 且全关
+            if($v == $gameInfo['niaoid'] && $gameInfo['niaoid'] && count($gameInfo['users'][$v]['shoupai']) == 48/$roomInfo['guize']['jushu']){
+              $shu =  count($gameInfo['users'][$v]['shoupai'])*4 ;
+//              $shu += $shu*$gameInfo['users'][$v]['zhadan'];
+            }elseif($v == $gameInfo['niaoid'] && $gameInfo['niaoid']){
+                $shu =  count($gameInfo['users'][$v]['shoupai'])*2 ;
+            }elseif(count($gameInfo['users'][$v]['shoupai']) == 48/$roomInfo['guize']['jushu']){
+                $shu =  count($gameInfo['users'][$v]['shoupai'])*2 ;
             }else{
                 $shu = count($gameInfo['users'][$v]['shoupai']);
             }
             if(count($gameInfo['users'][$v]['shoupai']) == 1){
                 $shu = 0;
             }
-
+                $shu += $zdjf;
             $ying += $shu; //每局赢的积分
             $gameInfo['users'][$v]['fen'] =  '-'.$shu; //输的积分
             $gameInfo['users'][$v]['fenshu'] =   $gameInfo['users'][$v]['fenshu'] - $shu ; //总分数

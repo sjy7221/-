@@ -121,6 +121,8 @@ class RoomController extends Controller
                 E('开始游戏');
 //              $this->sendToUids($this->uids, reData('game_go', '开始游戏'), false);
 
+
+                    $re['gameInfo']['zhadan'] = 0;
                 yield $this->fapai($re['gameInfo'],$re['roomInfo'],$re['userInfo']);
             }
         }
