@@ -451,7 +451,15 @@ class GameController extends Controller
          'roomInfo'=>$roomInfo['over'],
            'userInfo'=>$this->userInfo
        ];
-        $this->sendToUids($this->uids,reData('getlog', $data),false);
+        $this->sendToUid($this->mid,reData('getlog', $data),false);
+        $zf = $gameInfo['over'][$this->mid]['zf'];
+        yield $this->mysql_pool->dbQueryBuilder ////用户表绑定房间号
+        ->update('gs_rooms_user')
+            ->set('type', 1)
+            ->set('fen', $zf)
+            ->where('id', $this->mid)
+            ->where('room_id', $this->room_id)
+            ->coroutineSend();
              yield  $this->redis_pool->getCoroutine()->delete($this->room_id);  //房间所有数据
             yield  $this->redis_pool->getCoroutine()->delete('uids_'.$this->room_id);  //玩家id
             yield  $this->redis_pool->getCoroutine()->delete('jx_'.$this->room_id);    //继续

@@ -673,6 +673,7 @@
                     }
 
                     $ti =  array_diff($pai,$tishi);
+                    sort($ti);
                     $arr = array($ti[0],$ti[1]);
                     var_dump($arr);
                     $tishi =  array_merge($arr,$tishi);
@@ -730,6 +731,9 @@
 
             $tishi = array_slice($tishi, 0, count($dd));
             // 拼花色;
+            if(!$tishi){
+                return false;
+            }
             $p1 = $tishi[0];
             $p2 = $tishi[1];
             $ttshi = [];
