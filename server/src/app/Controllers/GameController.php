@@ -169,7 +169,8 @@ class GameController extends Controller
                         $gameInfo['one'] == 0;
 
                         $guo[] = $data;
-                        $tishi2 =  shoupai($nextsp,$pai,$leix) ;
+                        $nextsp2  =  $gameInfo['users'][$nextid]['shoupai'];//下一个人的手牌;
+                        $tishi2 =  shoupai($nextsp2,$pai,$leix) ;
                         if($tishi2){
                             $gameInfo['dachu']['tishi'] = $tishi2;
                             $gameInfo['now'] = $nextid;
