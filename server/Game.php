@@ -457,16 +457,19 @@
     }
     function type1($pai, $dachu, $numb) {
             D('type1.单张 tishi:',1);
+        $tishi = [];
         for ($i = 0;$i < count($pai);$i++) {
-
-            for ($j = 0;$j < count($dachu);$j++) {
-                if ($pai[$i] > $dachu[$j] + 10) {
-                    return [$pai[$i]];
-                }
+            if($pai[$i] > $dachu[0] +10){
+                $tishi[] = $pai[$i];
             }
         }
-
-        return  zha($numb, $pai);
+        $k = array_rand($tishi);
+        $tishi = $tishi[$k];
+        if($tishi){
+            return [$tishi];
+        }else{
+            return $this->zha($numb, $pai);
+        }
     }
     function type2($pai, $dachu, $numb, $leix) {
 //        $u = 1;
@@ -499,8 +502,8 @@
         $u = 1;
         $tishi = []; //存牌
         $p = [];
-        $snumb = $this->zhuanhuan($pai);
-        $dnumb = $this->zhuanhuan($dachu);
+        $snumb = zhuanhuan($pai);
+        $dnumb = zhuanhuan($dachu);
         $a =0;
         $nu = [];
         // [33,41,44,54,61,93,94,104,112,122,132,133,142,144,151],[51,61,73,82,92,101,113]
@@ -537,38 +540,36 @@
         }
     }
     function type3($pai, $dachu,$numb) {
+
         sort($pai);
-        $snumb =  zhuanhuan($pai);
-        $dnumb =  zhuanhuan($dachu);
-        sort($dnumb);
-        sort($snumb);
-        // var_dump($snumb);
-        $tishi = []; //存牌
-        $p = [];
-        foreach ($snumb as $k => $v) {
-            if ($v > $dnumb[0]) {
-                if ($k == 0) {
-                    $i = 0;
-                } else {
-                    if ($snumb[$k - 1] == $v) {
-                        $tishi[$k] = $pai[$k]; //存牌
-                        
-                    }
-                }
+        sort($dachu);
+        $snumb = zhuanhuan($pai);
+        $dnumb = zhuanhuan($dachu);
+        $n = [];
+        foreach($snumb as $k => $v){
+            if($v > $dnumb[0]){
+                $n[] = $v;
             }
         }
-        foreach ($tishi as $kk => $vv) {
-            $p[] = $pai[$kk - 1];
+        $n =  array_count_values($n);
+        $nn = [];
+        foreach($n as $kk => $vv){
+            if($vv >= 2){
+                $nn[] = $kk;
+            }
         }
-        $tishi = array_merge($p, $tishi);
-        $tishi = array_unique($tishi);
-        sort($tishi);
-        if (empty($tishi)) {
-            return  zha($numb, $pai);
-        } else {
-            $tishi = array_slice($tishi, 0, count($dachu));
-            D('type3.对子 tishi:',$tishi);
+        if($nn){
+
+            $tishi = [];
+            foreach($snumb as $a => $b){
+
+                if($nn[0] == $b){
+                    $tishi[] = $pai[$a];
+                }
+            }
             return $tishi;
+        }else{
+            return  zha($numb, $pai);
         }
     }
     function type4($pai, $dachu, $numb) {
@@ -636,7 +637,7 @@
 
     function type5($pai, $dachu, $numb)
     {
-        $cishu = array_count_values($numb);
+        $cishu = array_count_values($pai);
         $dnumb =  zhuanhuan($dachu);
          $dcishu = array_count_values($dnumb);
         $k = [];

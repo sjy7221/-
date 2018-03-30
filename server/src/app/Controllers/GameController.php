@@ -572,6 +572,7 @@ class GameController extends Controller
 
         $users = $roomInfo['users'];
        D('所有用户',$users);
+
         $shuren = array_diff($users,[$mid]);
         $ying = 0;
         $shu = '';
@@ -593,6 +594,8 @@ class GameController extends Controller
                 $shu = 0;
             }
                 $shu += $zdjf;
+            var_dump($roomInfo['over'][$v]['zhadan']);
+            var_dump($gameInfo['users'][$v]['zhadan']);
             $ying += $shu; //每局赢的积分
             $gameInfo['users'][$v]['fen'] =  '-'.$shu; //输的积分
             $gameInfo['users'][$v]['fenshu'] =   $gameInfo['users'][$v]['fenshu'] - $shu ; //总分数
