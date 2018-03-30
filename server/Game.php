@@ -513,9 +513,9 @@
                 $tishi = [];
                 foreach ($nu as $key => $value) {
                     $kk =  array_search($value,$snumb);
-                    if($kk){
+
                         $tishi[] = $pai[$kk];
-                    }
+                  
 
                 }
                 if(count($tishi) == $leix['len']){
@@ -675,7 +675,7 @@
                     $ti =  array_diff($pai,$tishi);
                     sort($ti);
                     $arr = array($ti[0],$ti[1]);
-                    var_dump($arr);
+//                    var_dump($arr);
                     $tishi =  array_merge($arr,$tishi);
                     D('type5.3dai2 tishi:',$tishi);
                     return $tishi;
