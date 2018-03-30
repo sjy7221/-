@@ -32,7 +32,7 @@
     {
 
         if(count($pai) == 1){
-           $pai =  $pai[0]+8;
+        $pai =   zhuanhuan($pai);
          return ['type'=>1,'len'=>1,'zhu'=> $pai] ;
         }else{
             return false;
@@ -60,7 +60,7 @@
             
          if($u == count($pai)){
            
-           return ['type'=>2,'len'=>count($pai),'zhu'=>$pai[0]];
+           return ['type'=>2,'len'=>count($pai),'zhu'=>$numb[0]];
          }else{
 
           return sandai($pai,$shoupai);
