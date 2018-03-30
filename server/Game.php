@@ -680,7 +680,7 @@
                     D('type5.3dai2 tishi:',$tishi);
                     return $tishi;
                 }else{
-               return false;
+                    return  zha($numb, $pai);
                 }
 
        }
