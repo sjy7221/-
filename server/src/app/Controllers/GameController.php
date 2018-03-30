@@ -110,7 +110,7 @@ class GameController extends Controller
 
                 $stype = $gameInfo['dachu']['leix']['type'];
                 $sjz = $gameInfo['dachu']['leix']['zhu'];
-                $sjp = zhuanhuan($gameInfo['dachu']['pai']);//去上家打出花色
+                $sjp = $gameInfo['dachu']['pai'];//去上家打出花色
                 sort($sjp);
                 D('上副打出：',$sjp);
                 //类型不同

@@ -164,7 +164,7 @@
        //单对，两位相等
       if($numb[0] == $numb[1]){
     
-         return ['type'=>3,'len'=>2,'zhu'=>$pai[0]];
+         return ['type'=>3,'len'=>2,'zhu'=>$numb[0]];
       }else{
          return false;
       }
@@ -210,7 +210,7 @@
 
                if($u == count($numb)){
                 // var_dump($numb);
-          return ['type'=>4,'len'=>count($pai),'zhu'=>$pai[0]];
+          return ['type'=>4,'len'=>count($pai),'zhu'=>$numb[0]];
          }else{
             return false;
          }
@@ -256,7 +256,7 @@
       
        if($b == 1){
        
-         return ['type'=>5,'len'=>count($pai),'zhu'=>$zhu];
+         return ['type'=>5,'len'=>count($pai),'zhu'=>$numb[0]];
 
        }else{
          return false;
@@ -369,7 +369,7 @@
             //判断是否为333444连续
          if($b == 2 && $ob[0]+1 == $ob[1]){
         $zhu = $zhu[0];
-         return ['type'=>8,'len'=>count($pai),'zhu'=>$zhu];
+         return ['type'=>8,'len'=>count($pai),'zhu'=>$zhu[0]];
 
        }else{
 
