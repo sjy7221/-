@@ -683,7 +683,7 @@
     }
     function type8($pai, $dachu, $numb)
     {
-        $cishu = (array_count_values($numb));
+        $cishu = array_count_values($numb);
         $dnumb =  zhuanhuan($dachu);
         $dcishu = array_count_values($dnumb);
         //找出手牌中3个相同的牌
@@ -740,6 +740,9 @@
            $tishi =  array_merge($ts,$ttshi);
            sort($tishi);
             D('type8.飞机 tishi:',$tishi);
+            if(count($tishi) != count($dachu)){
+                return false;
+            }
            return $tishi;
 
 
