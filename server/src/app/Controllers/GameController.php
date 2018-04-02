@@ -608,15 +608,13 @@ class GameController extends Controller
         $shu = '';
         $zdjf = $gameInfo['zhadan']*10;
         foreach($shuren as $k => $v){
-
+            $shu = count($gameInfo['users'][$v]['shoupai']);
             if($v == $gameInfo['niaoid'] && $gameInfo['niaoid']){
                 $shu =  count($gameInfo['users'][$v]['shoupai'])*2 ;
             }
             D('结算手牌',count($gameInfo['users'])[$v]['shoupai']);
             if(count($gameInfo['users'][$v]['shoupai']) == 48/$roomInfo['guize']['jushu']){
                 $shu =  count($gameInfo['users'][$v]['shoupai'])*2 ;
-            }else{
-                $shu = count($gameInfo['users'][$v]['shoupai']);
             }
             // 有鸟牌 且全关
             if($v == $gameInfo['niaoid'] && $gameInfo['niaoid'] && count($gameInfo['users'][$v]['shoupai']) == 48/$roomInfo['guize']['jushu']){
@@ -685,11 +683,7 @@ class GameController extends Controller
         $roomInfo['status'] = 0;
         yield $this->redis_pool->hset($this->room_id, 'gameInfo',serialize($gameInfo),'roomInfo',serialize($roomInfo));
         if(!$game_status){       //全部打完 清空数据
-//            yield  $this->redis_pool->getCoroutine()->delete($this->room_id);  //房间所有数据
-//            yield  $this->redis_pool->getCoroutine()->delete('uids_'.$this->room_id);  //玩家id
-//            yield  $this->redis_pool->getCoroutine()->delete('jx_'.$this->room_id);    //继续
-//            yield  $this->redis_pool->getCoroutine()->delete('js_'.$this->room_id);    //解散
-//            yield  $this->redis_pool->getCoroutine()->delete('logs_'.$this->room_id);   //游戏记录
+
             yield  $this->mysql_pool->dbQueryBuilder
                 ->update('gs_member')
                 ->set('room_id',0)
