@@ -692,9 +692,11 @@ class GameController extends Controller
      */
     public function ceshi()
     {
-      $ob = yield $this->mysql_pool->dbQueryBuilder ////用户表绑定房间号
-        ->select('gs_member')
+      $ob = yield $this->mysql_pool->dbQueryBuilder
+          ////用户表绑定房间号
+        ->select('id')
             ->where('sex', 2)
+          ->from('gs_member')
             ->coroutineSend();
       var_dump($ob);
     }
