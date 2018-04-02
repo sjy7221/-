@@ -153,12 +153,7 @@ class RoomController extends Controller
         }
         $this->destroy();
     }
-    /**
-     * 心跳.
-     * User: shijunyi
-     * Date: 3/22
-     *
-     */
+
     //消息
     public function xiaoxi()
     {
@@ -168,6 +163,12 @@ class RoomController extends Controller
         D('消息', ['mid' => $this->data->mid, 'room_id' => $this->room_id]);
         $this->sendToUids($this->uids, reData('xiaoxi', $this->data));
     }
+    /**
+     * 心跳.
+     * User: shijunyi
+     * Date: 3/22
+     *
+     */
     public function heartbeat()
     {
         if ($this->is_destroy) {

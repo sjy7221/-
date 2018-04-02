@@ -147,10 +147,10 @@
         if( $roomInfo['nowjushu'] == 1){
             $gameInfo['now'] = $h3id;
         }
-        if(isset($roomInfo['guize']['suanfa'][1]) && $roomInfo['guize']['suanfa'][1]){
+        if(isset($roomInfo['guize']['suanfa'][1]) && $roomInfo['guize']['suanfa'][1] != 0){
             $gameInfo['niaoid'] = $niaoid;
         }
-        if(isset($roomInfo['guize']['suanfa'][2]) && $roomInfo['guize']['suanfa'][2]){
+        if(isset($roomInfo['guize']['suanfa'][2]) && $roomInfo['guize']['suanfa'][2] !=0 ){
             $roomInfo['xianshi'] = 1;
         }
         return ['roomInfo'=>$roomInfo,'gameInfo'=>$gameInfo];
