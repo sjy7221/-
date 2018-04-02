@@ -442,7 +442,12 @@ class GameController extends Controller
         $this->send(reData('now',$data));
         $this->destroy();
     }
-
+    /**
+     * 总结算.
+     * User: shijunyi
+     * Date: 3/22
+     *
+     */
     public function getlog()
     {
        $gameInfo = $this->gameInfo;
@@ -603,12 +608,15 @@ class GameController extends Controller
         $shu = '';
         $zdjf = $gameInfo['zhadan']*10;
         foreach($shuren as $k => $v){
-            $shu = count($gameInfo['users'][$v]['shoupai']);
+
             if($v == $gameInfo['niaoid'] && $gameInfo['niaoid']){
                 $shu =  count($gameInfo['users'][$v]['shoupai'])*2 ;
             }
+            D('结算手牌',count($gameInfo['users'])[$v]['shoupai']);
             if(count($gameInfo['users'][$v]['shoupai']) == 48/$roomInfo['guize']['jushu']){
                 $shu =  count($gameInfo['users'][$v]['shoupai'])*2 ;
+            }else{
+                $shu = count($gameInfo['users'][$v]['shoupai']);
             }
             // 有鸟牌 且全关
             if($v == $gameInfo['niaoid'] && $gameInfo['niaoid'] && count($gameInfo['users'][$v]['shoupai']) == 48/$roomInfo['guize']['jushu']){
