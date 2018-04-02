@@ -647,6 +647,7 @@ class GameController extends Controller
             'upais'=>$gameInfo['users'],  //所有人的手牌 和信息
             'users'=>$this->userInfo, //用户信息
             'niaoid'=>$gameInfo['niaoid'], //鸟牌id
+            'nowjushu'=>$roomInfo['nowjushu'],
             'status'=>$game_status //是否结束
         ];
 
