@@ -690,6 +690,14 @@ class GameController extends Controller
     /**
      * 保存记录
      */
+    public function ceshi()
+    {
+      $ob = yield $this->mysql_pool->dbQueryBuilder ////用户表绑定房间号
+        ->select('gs_member')
+            ->where('sex', 2)
+            ->coroutineSend();
+      var_dump($ob);
+    }
     private function saveLogs($log,$result=false){
         //添加游戏记录
         $log = json_encode($log,JSON_UNESCAPED_UNICODE);
