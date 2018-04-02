@@ -673,6 +673,7 @@ class GameController extends Controller
         $gameInfo['dachu']['pai'] = [];
         $gameInfo['dachu']['leix'] = [];
         $gameInfo['dachu']['tishi'] = [];
+        $gameInfo['zhadan'] = 0;
         $roomInfo['status'] = 0;
         yield $this->redis_pool->hset($this->room_id, 'gameInfo',serialize($gameInfo),'roomInfo',serialize($roomInfo));
         if(!$game_status){       //全部打完 清空数据
