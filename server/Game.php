@@ -591,6 +591,7 @@
 
 
         $tishi = array_unique($tishi);
+
         $ti = [];
         $titi = [];
         foreach ($tishi as $k => $v) {
@@ -609,6 +610,7 @@
         if($ti && count($ti)>= count($dachu)){
 
             $ti =   array_unique($ti);
+            $ti =  array_slice($ti,0,count($n));
             sort($ti);
             $kk = [];
             for($j=1;$j<5;$j++){
@@ -619,7 +621,7 @@
 
                 }
             }
-            $kk =  array_slice($kk,0,count($dachu));
+
             return $kk;
         }else {
             $numb =  zhuanhuan($pai);
