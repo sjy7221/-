@@ -452,9 +452,20 @@ class GameController extends Controller
     {
        $gameInfo = $this->gameInfo;
        $roomInfo = $this->roomInfo;
+       $uids = $this->uids;
+       $f = [];
+       foreach($uids as $k =>$v)
+       {
+         $f[$k] =  $roomInfo['over'][$v]['zf'];
+       }
+        $key = array_search(max($f),$f);
+
        $data = [
          'roomInfo'=>$roomInfo['over'],
-           'userInfo'=>$this->userInfo
+           'userInfo'=>$this->userInfo,
+           'fangzhu'=>$roomInfo['fangzhu'],
+           'guize'=>$roomInfo['guize'],
+           'dyj'=>$key
        ];
         $this->sendToUid($this->mid,reData('getlog', $data),false);
         $zf = $gameInfo['over'][$this->mid]['zf'];
