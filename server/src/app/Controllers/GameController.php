@@ -70,7 +70,7 @@ class GameController extends Controller
      * Date: 3/22
      *
      */
-    public function dachu()
+     public function dachu()
     {
         //如果打完
 
@@ -386,7 +386,7 @@ class GameController extends Controller
             $data = [
               'status'=> 0,
               'users'=>$this->userInfo,
-                'roomInfo'=>$this->roomInfo
+               'roomInfo'=>$this->roomInfo
             ];
             $this->send(reData('getGame', $data), false);
 //            $this->close();

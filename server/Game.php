@@ -487,6 +487,8 @@
                     if(in_array($v+$i,$snumb)){
                         $nu[] = $v+$i;
                         $nu[]=intval($v);
+                    }else{
+                        break; /////////////////修改  跳出本次for循环
                     }
                 }
                 // $nu[] = $v;
@@ -568,14 +570,17 @@
         }
     }
     function type4($pai, $dachu, $numb) {
-        $snumb =  zhuanhuan($pai);
-        $dnumb =  zhuanhuan($dachu);
-        $cishu = (array_count_values($numb));
-        $numb = array_unique($snumb);
+        $snumb = zhuanhuan($pai);
+        $dnumb = zhuanhuan($dachu);
+        $cishu = array_count_values($snumb);
+        // $numb = array_unique($snumb);
+
         $n = array_unique($dnumb);
+
         $a = 0;
         $tishi = [];
-        foreach ($numb as $k => $v) {
+        foreach ($snumb as $k => $v) {
+
             if ($v > $dnumb[0]) {
                 if ($cishu[$v] >= 2 && $cishu[$v] < 4) {
                     $a+= 1;
@@ -583,49 +588,40 @@
                 }
             }
         }
-        $tis = [];
+
+
+        $tishi = array_unique($tishi);
         $ti = [];
-        $t = [];
-        if ($a >= count($n)) {
-            for ($j = 1;$j < count($tishi);$j++) {
-                if ($tishi[0] + $j == $tishi[$j]) {
-                    $tis[$j] = $tishi[$j];
-                    $tis[0] = $tishi[0];
-                    $key = array_search($tishi[$j], $snumb);
-                    $ks = array_search($tishi[0], $snumb);
-                    $tis[$j] = $pai[$key - 1];
-                    $tis[0] = $pai[$ks];
-                    $ti[] = $pai[$key + 1];
-                    $t[] = $pai[$key];
+        $titi = [];
+        foreach ($tishi as $k => $v) {
+            for($i=1;$i<count($n);$i++){
+                // echo $i;
+                if(in_array($v+$i,$tishi)){
+                    $ti[]=intval($v);
+                    $ti[] = $v+$i;
+
+                }else{
+                    break;
                 }
             }
-            $tishi = array_merge($tis, $ti, $t);
-            $tishi = array_unique($tishi);
-            sort($tishi);
-            $tis =  zhuanhuan($tishi);
-            // var_dump($tishi);
-            $tis = array_count_values($tis);
-            $jian = [];
-            foreach ($tis as $key => $value) {
-                if ($value == 3) {
-                    $jian[] = $key;
+        }
+
+        if($ti){
+
+            $ti =   array_unique($ti);
+            sort($ti);
+            $kk = [];
+            for($j=1;$j<5;$j++){
+                foreach ($ti as $key => $value) {
+                    if(in_array($value.$j,$pai)){
+                        $kk[] =  intval($value.$j);
+                    }
+
                 }
             }
-            $m = '';
-            foreach ($jian as $key => $value) {
-                $m = array_search($value . '1', $tishi);
-                if ($m) {
-                    unset($tishi[$m]);
-                }
-            }
-            if (count($tishi) >= count($dachu)) {
-                $tishi = array_slice($tishi, 0, count($dachu));
-                D('type4.连对 tishi:',$tishi);
-                return $tishi;
-            } else {
-                return  zha($numb, $pai);
-            }
-        } else {
+            $kk =  array_slice($kk,0,count($dachu));
+            return $kk;
+        }else {
             $numb =  zhuanhuan($pai);
             return  zha($numb, $pai);
         }
