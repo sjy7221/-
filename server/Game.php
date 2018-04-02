@@ -606,7 +606,7 @@
             }
         }
 
-        if($ti){
+        if($ti && count($ti)>= count($dachu)){
 
             $ti =   array_unique($ti);
             sort($ti);
