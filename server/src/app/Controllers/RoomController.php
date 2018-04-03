@@ -38,7 +38,7 @@ class RoomController extends Controller
 
         if($res){
             $this->send('nonono,数据错误',false);
-            $this->close();
+//            $this->close();
             return;
         }
         $room = yield $this->redis_pool->getCoroutine()->hgetall($this->room_id);
@@ -117,7 +117,7 @@ class RoomController extends Controller
                 $this->sendToUid($this->mid, reData('chonglian', $this->mid), false);
             }
 
-            if($re['game_start'] == 1){
+            if($re['game_start'] == 1 ){
                 E('开始游戏');
 //              $this->sendToUids($this->uids, reData('game_go', '开始游戏'), false);
 
