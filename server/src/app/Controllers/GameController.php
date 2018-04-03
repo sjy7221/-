@@ -426,18 +426,10 @@ class GameController extends Controller
 //            yield $this->jixu();
             return;
         }
-//        $upais = [];
-//        foreach ($weizhi as $v){
-//            if($v == $this->mid){
-//                $upais[$v]['s'] = spias($gameInfo['users'][$v]['shoupai']);
-//            }else{
-//                $upais[$v]['s'] = [];
-//            }
-//
-//        }
+
         $data = [
             'ju'=>$roomInfo['nowjushu'],                   //当前局数
-            'pais'=>$gameInfo['user'][$this->mid]['pai'],                          //手牌
+            'pais'=>$gameInfo['users'][$this->mid]['shoupai'],                          //手牌
             'dachu'=>$gameInfo['dachu'],           //打出的所有信息
             'now'=>$gameInfo['now']                    //当前操作玩家
         ];
