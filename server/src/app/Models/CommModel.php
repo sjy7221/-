@@ -72,6 +72,7 @@ class CommModel extends Model
                     'zhadan'=>0
                 ];
                 $gameInfo['dachu'] = [];
+
                 yield $this->mysql_pool->dbQueryBuilder ////用户表绑定房间号
                 ->update('gs_member')
                     ->set('room_id', $room_id)

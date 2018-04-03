@@ -392,7 +392,7 @@ class GameController extends Controller
             $data = [
               'status'=> 0,
               'users'=>$this->userInfo,
-               'roomInfo'=>$this->roomInfo
+              'roomInfo'=>$this->roomInfo
             ];
 //            $this->send(reData('getGame', $data), false);
 ////            $this->close();

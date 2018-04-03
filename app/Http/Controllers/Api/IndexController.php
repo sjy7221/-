@@ -134,7 +134,7 @@ class IndexController extends Controller
 
         ];
         $userInfo = [];
-        $re = Redis::hmset($fang, 'roomInfo', serialize($roomInfo), 'userInfo', serialize($userInfo));
+        $re = Redis::hmset($fang, 'roomInfo', serialize($roomInfo), 'userInfo', serialize($userInfo),'gameInfo',serialize([]));
         if ($re) {
             $rid =  DB::table('rooms')->insertGetId([
                 'room_id' => $fang,
