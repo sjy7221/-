@@ -497,7 +497,7 @@ class GameController extends Controller
         ->update('gs_rooms_user')
             ->set('type', 1)
             ->set('fen', $zf)
-            ->where('id', $this->mid)
+            ->where('mid', $this->mid)
             ->where('room_id', $this->room_id)
             ->coroutineSend();
         yield $this->redis_pool->hset($this->room_id,'roomInfo',serialize($roomInfo));
