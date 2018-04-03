@@ -444,7 +444,7 @@ class GameController extends Controller
            foreach ($users as $k => $v){
                 $countp[$v] = count($gameInfo['users'][$v]['shoupai']);
            }
-        
+
             $data = [
                 'ju'=>$roomInfo['nowjushu'],                   //当前局数
                 'pais'=>$gameInfo['users'][$this->mid]['shoupai'],                          //手牌
@@ -479,7 +479,7 @@ class GameController extends Controller
        $f = [];
        foreach($uids as $k =>$v)
        {
-         $f[$k] =  $roomInfo['over'][$v]['zf'];
+         $f[$v] =  $roomInfo['over'][$v]['zf'];
        }
         $key = array_search(max($f),$f);
 
