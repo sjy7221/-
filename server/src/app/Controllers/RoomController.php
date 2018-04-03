@@ -112,7 +112,7 @@ class RoomController extends Controller
             }
 
             if($re['is_user'] == 1){
-               
+               D('room 重连',$this->mid);
                 $uids = array_diff($this->uids, [$this->mid]);
                 $this->sendToUid($this->mid, reData('chonglian', $this->mid), false);
             }
