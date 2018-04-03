@@ -123,8 +123,8 @@
         }
 
         $o = -1;
-        $h3id = '0';
-        $niaoid = '0';
+        $h3id = 0;
+        $niaoid = 0;
         foreach ( $gameInfo['users'] as $k=>$v) {
 
             $o++;
@@ -149,9 +149,13 @@
         }
         if(isset($roomInfo['guize']['suanfa'][1]) && $roomInfo['guize']['suanfa'][1] != 0){
             $gameInfo['niaoid'] = $niaoid;
+        }else{
+            $gameInfo['niaoid'] = 0;
         }
         if(isset($roomInfo['guize']['suanfa'][2]) && $roomInfo['guize']['suanfa'][2] !=0 ){
             $roomInfo['xianshi'] = 1;
+        }else{
+            $roomInfo['xianshi'] = 0;
         }
         return ['roomInfo'=>$roomInfo,'gameInfo'=>$gameInfo];
 

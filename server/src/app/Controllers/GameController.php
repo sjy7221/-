@@ -620,7 +620,7 @@ class GameController extends Controller
         $zdjf = $gameInfo['zhadan']*10;
         foreach($shuren as $k => $v){
             $shu = count($gameInfo['users'][$v]['shoupai']);
-            if($v == $gameInfo['niaoid'] && $gameInfo['niaoid']){
+            if(isset($gameInfo['niaoid']) && $v == $gameInfo['niaoid'] && $gameInfo['niaoid']){
                 $shu =  count($gameInfo['users'][$v]['shoupai'])*2 ;
             }
             D('结算手牌',count($gameInfo['users'])[$v]['shoupai']);
@@ -628,7 +628,7 @@ class GameController extends Controller
                 $shu =  count($gameInfo['users'][$v]['shoupai'])*2 ;
             }
             // 有鸟牌 且全关
-            if($v == $gameInfo['niaoid'] && $gameInfo['niaoid'] && count($gameInfo['users'][$v]['shoupai']) == 48/$roomInfo['guize']['jushu']){
+            if($v == $gameInfo['niaoid'] && isset($gameInfo['niaoid']) && count($gameInfo['users'][$v]['shoupai']) == 48/$roomInfo['guize']['jushu']){
               $shu =  count($gameInfo['users'][$v]['shoupai'])*4 ;
 //              $shu += $shu*$gameInfo['users'][$v]['zhadan'];
             }
