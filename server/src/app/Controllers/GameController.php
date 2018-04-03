@@ -444,14 +444,14 @@ class GameController extends Controller
            foreach ($users as $k => $v){
                 $countp[$v] = count($gameInfo['users'][$v]['shoupai']);
            }
-           var_dump($countp);
+        
             $data = [
                 'ju'=>$roomInfo['nowjushu'],                   //当前局数
                 'pais'=>$gameInfo['users'][$this->mid]['shoupai'],                          //手牌
                 'dachu'=>$gameInfo['dachu'],           //打出的所有信息
                 'now'=>$gameInfo['now'],//当前操作玩家
-                'users'=>$this->userInfo,
-                'countpai'=>$countp
+                'users'=>$this->userInfo,  //玩家信息
+                'countpai'=>$countp //其他玩家手牌长度
             ];
             $dapai = $data;
         }
