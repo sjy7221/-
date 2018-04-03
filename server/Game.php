@@ -315,7 +315,7 @@
     {
         //自己手牌
 //        $shoupai = [101,111,121];
-        if(count($shoupai) == 3 && $shoupai==$pai){
+        if(count($shoupai) == 3 ){
                $numb =  zhuanhuan($pai);
        //array_count_values 对数组中的所有值进行计数：
        $cishu = (array_count_values($numb));
