@@ -112,9 +112,9 @@ class RoomController extends Controller
             }
 
             if($re['is_user'] == 1){
-                //自己不用发
+               
                 $uids = array_diff($this->uids, [$this->mid]);
-                $this->sendToUids($uids, reData('chonglian', $this->mid), false);
+                $this->sendToUid($this->mid, reData('chonglian', $this->mid), false);
             }
 
             if($re['game_start'] == 1){

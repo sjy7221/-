@@ -380,8 +380,9 @@ class GameController extends Controller
         if ($this->is_destroy) {
             return;
         }
+        $gameInfo = $this->gameInfo;
         //房间内准备状态  并且游戏数据有
-        if($this->roomInfo['status'] == 0 || empty($this->gameInfo)){
+        if($this->roomInfo['status'] == 0 || empty($gameInfo['users'][$this->mid]['shoupai'])){
 
             $data = [
               'status'=> 0,
