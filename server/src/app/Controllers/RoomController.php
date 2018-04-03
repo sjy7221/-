@@ -172,9 +172,9 @@ class RoomController extends Controller
         if ($this->is_destroy) {
             return;
         }
-        if(yield $this->redis_pool->getCoroutine()->get('del_'.$this->room_id)){
-            $this->send(reData('out', '房主解散房间'), false);
-        }
+//        if(yield $this->redis_pool->getCoroutine()->get('del_'.$this->room_id)){
+//            $this->send(reData('out', '房主解散房间'), false);
+//        }
         if($this->roomid){
             $redis_key = 'heartbeat_' . $this->room_id;
             if (yield $this->redis_pool->getCoroutine()->setnx($redis_key, time())) {
