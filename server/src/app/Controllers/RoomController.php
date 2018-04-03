@@ -123,6 +123,9 @@ class RoomController extends Controller
 
 
                     $re['gameInfo']['zhadan'] = 0;
+                   if($re['roomInfo']['nowjushu'] != 1){
+                       return;
+                   }
                 yield $this->fapai($re['gameInfo'],$re['roomInfo'],$re['userInfo']);
             }
         }
