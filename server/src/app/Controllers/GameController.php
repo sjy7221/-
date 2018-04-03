@@ -769,13 +769,13 @@ class GameController extends Controller
                     ->coroutineSend();
 
             //加入room_user
-            foreach ($this->uids as  $v){
-                yield $this->mysql_pool->dbQueryBuilder
-                    ->insert('gs_rooms_user')
-                    ->set('room_id',$this->room_id)
-                    ->set('mid',$v)
-                    ->coroutineSend();
-            }
+//            foreach ($this->uids as  $v){
+//                yield $this->mysql_pool->dbQueryBuilder
+//                    ->insert('gs_rooms_user')
+//                    ->set('room_id',$this->room_id)
+//                    ->set('mid',$v)
+//                    ->coroutineSend();
+//            }
 
         }
             if($roomInfo['nowjushu'] == $roomInfo['guize']['jushu']){
