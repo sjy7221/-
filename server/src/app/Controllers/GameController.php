@@ -623,12 +623,12 @@ class GameController extends Controller
             if(isset($gameInfo['niaoid']) && $v == $gameInfo['niaoid'] && $gameInfo['niaoid']){
                 $shu =  count($gameInfo['users'][$v]['shoupai'])*2 ;
             }
-            D('结算手牌',count($gameInfo['users'])[$v]['shoupai']);
-            if(count($gameInfo['users'][$v]['shoupai']) == 48/$roomInfo['guize']['jushu']){
+            D('结算手牌',count($gameInfo['users'][$v]['shoupai']));
+            if(count($gameInfo['users'][$v]['shoupai']) == 48/$roomInfo['guize']['renshu']){
                 $shu =  count($gameInfo['users'][$v]['shoupai'])*2 ;
             }
             // 有鸟牌 且全关
-            if($v == $gameInfo['niaoid'] && isset($gameInfo['niaoid']) && count($gameInfo['users'][$v]['shoupai']) == 48/$roomInfo['guize']['jushu']){
+            if($v == $gameInfo['niaoid'] && isset($gameInfo['niaoid']) && count($gameInfo['users'][$v]['shoupai']) == 48/$roomInfo['guize']['renshu']){
               $shu =  count($gameInfo['users'][$v]['shoupai'])*4 ;
 //              $shu += $shu*$gameInfo['users'][$v]['zhadan'];
             }
