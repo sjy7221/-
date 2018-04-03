@@ -476,11 +476,11 @@ class GameController extends Controller
             ->where('id', $this->mid)
             ->where('room_id', $this->room_id)
             ->coroutineSend();
-            yield  $this->redis_pool->getCoroutine()->delete($this->room_id);  //房间所有数据
-            yield  $this->redis_pool->getCoroutine()->delete('uids_'.$this->room_id);  //玩家id
-            yield  $this->redis_pool->getCoroutine()->delete('jx_'.$this->room_id);    //继续
-            yield  $this->redis_pool->getCoroutine()->delete('js_'.$this->room_id);    //解散
-            yield  $this->redis_pool->getCoroutine()->delete('logs_'.$this->room_id);   //游戏记录
+//            yield  $this->redis_pool->getCoroutine()->delete($this->room_id);  //房间所有数据
+//            yield  $this->redis_pool->getCoroutine()->delete('uids_'.$this->room_id);  //玩家id
+//            yield  $this->redis_pool->getCoroutine()->delete('jx_'.$this->room_id);    //继续
+//            yield  $this->redis_pool->getCoroutine()->delete('js_'.$this->room_id);    //解散
+//            yield  $this->redis_pool->getCoroutine()->delete('logs_'.$this->room_id);   //游戏记录
         $this->destroy();
     }
     /**
