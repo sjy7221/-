@@ -381,6 +381,10 @@ class GameController extends Controller
             return;
         }
         D('getGame 重连',$this->mid);
+        $jiesan = [];
+        $jixu = [];
+        $jinru = [];
+        $dapai = [];
         $gameInfo = $this->gameInfo;
         //房间内准备状态  并且游戏数据有
         if($this->roomInfo['status'] == 0 || empty($gameInfo['users'][$this->mid]['shoupai'])){
@@ -390,29 +394,33 @@ class GameController extends Controller
               'users'=>$this->userInfo,
                'roomInfo'=>$this->roomInfo
             ];
-            $this->send(reData('getGame', $data), false);
-//            $this->close();
-            return;
+//            $this->send(reData('getGame', $data), false);
+////            $this->close();
+//            return;
+            $jinru = $data;
         }
         $roomInfo =  $this->roomInfo;
         $weizhi =  $roomInfo['weizhi'];
         $gameInfo =  $this->gameInfo;
+
         //如果当前正在发起解散
         if( yield  $this->redis_pool->getCoroutine()->exists("js_".$this->room_id)){
             $re = yield  $this->redis_pool->getCoroutine()->hGetAll("js_".$this->room_id);
             //先发发起结算的人
             foreach ($re as $kk=>$vv){
                 if($vv  == 2){
-                    $this->sendToUids($this->uids,reData('jiesan',['mid'=>$kk,'status'=>$vv]),false);
+                    $jiesan[$kk]['status'] = $vv;
+//                    $this->sendToUids($this->uids,reData('jiesan',['mid'=>$kk,'status'=>$vv]),false);
                 }
             }
             //再发选择状态的人
             foreach ($re as $kk2=>$vv2){
                 if($vv2 != 2){
-                    $this->sendToUids($this->uids,reData('jiesan',['mid'=>$kk2,'status'=>$vv2]),false);
+                    $jiesan[$kk2]['status'] = $vv2;
+//                    $this->sendToUids($this->uids,reData('jiesan',['mid'=>$kk2,'status'=>$vv2]),false);
                 }
             }
-            return;
+//            return;
         }
         //如果当前正在发继续
         if( yield  $this->redis_pool->getCoroutine()->exists("jx_".$this->room_id)){
@@ -422,18 +430,28 @@ class GameController extends Controller
               'room'=>$this->roomInfo,
               'jxusers'=>$users
             ];
-            $this->send(reData('jx', $data), false);
-//            yield $this->jixu();
-            return;
+//            $this->send(reData('jx', $data), false);
+////            yield $this->jixu();
+//            return;
+            $jixu = $data;
         }
-
-        $data = [
-            'ju'=>$roomInfo['nowjushu'],                   //当前局数
-            'pais'=>$gameInfo['users'][$this->mid]['shoupai'],                          //手牌
-            'dachu'=>$gameInfo['dachu'],           //打出的所有信息
-            'now'=>$gameInfo['now']                    //当前操作玩家
-        ];
-        $this->send(reData('now',$data));
+        if($gameInfo['now']){
+            $data = [
+                'ju'=>$roomInfo['nowjushu'],                   //当前局数
+                'pais'=>$gameInfo['users'][$this->mid]['shoupai'],                          //手牌
+                'dachu'=>$gameInfo['dachu'],           //打出的所有信息
+                'now'=>$gameInfo['now']                    //当前操作玩家
+            ];
+            $dapai = $data;
+        }
+    
+            $data = [
+                'jiesan'=>$jiesan,
+                'jixu'=>$jixu,
+                'jinru'=>$jinru,
+                'dapai'=>$dapai
+            ];
+        $this->send(reData('getGame',$data));
         $this->destroy();
     }
     /**
