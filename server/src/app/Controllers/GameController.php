@@ -435,7 +435,7 @@ class GameController extends Controller
 //            return;
             $jixu = $data;
         }
-        if($gameInfo['now']){
+        if($gameInfo['now'] || isset($gameInfo['now'])){
             $data = [
                 'ju'=>$roomInfo['nowjushu'],                   //当前局数
                 'pais'=>$gameInfo['users'][$this->mid]['shoupai'],                          //手牌
@@ -444,7 +444,7 @@ class GameController extends Controller
             ];
             $dapai = $data;
         }
-    
+
             $data = [
                 'jiesan'=>$jiesan,
                 'jixu'=>$jixu,
