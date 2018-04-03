@@ -437,7 +437,7 @@ class GameController extends Controller
         }
         if($gameInfo['now'] || isset($gameInfo['now'])){
             $users = $this->uids;
-            $users = array_diff($this->uids,$this->mid);
+            $users = array_diff($this->mid,$this->uids);
             $countp = [];
             foreach ($users as $k => $v){
                 $countp[$k] = count($v);
