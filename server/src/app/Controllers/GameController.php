@@ -665,7 +665,7 @@ class GameController extends Controller
 //            var_dump($gameInfo['users'][$v]['zhadan']);
             $ying += $shu; //每局赢的积分
             $gameInfo['users'][$v]['fen'] =  '-'.$shu; //输的积分
-            $gameInfo['users'][$v]['fenshu'] =   $gameInfo['users'][$v]['fenshu'] - $shu ; //总分数
+            $gameInfo['users'][$v]['fenshu'] -=   $shu ; //总分数
             $roomInfo['over'][$v]['zhadan'] += $gameInfo['users'][$v]['zhadan'];
             $roomInfo['over'][$v]['shu'] += 1;
             $roomInfo['over'][$v]['zf'] -= $shu;
@@ -677,7 +677,7 @@ class GameController extends Controller
             $roomInfo['over'][$mid]['zg'] = $ying;
         }
         $gameInfo['users'][$mid]['fen'] = '+'.$ying;//每局赢的积分
-        $gameInfo['users'][$mid]['fenshu'] = $gameInfo['users'][$v]['fenshu'] + $ying;
+        $gameInfo['users'][$mid]['fenshu'] +=  $ying;
         $gameInfo['users'][$mid]['shoupai'] = [];
         $roomInfo['nowjushu'] +=1; //局数加1
         $gameInfo['now'] = $mid;
