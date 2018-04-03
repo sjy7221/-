@@ -442,7 +442,7 @@ class GameController extends Controller
 
             $countp = [];
            foreach ($users as $k => $v){
-                $countp[$v] = count($gameInfo['users']);
+                $countp[$v] = count($gameInfo['users'][$v]['shoupai']);
            }
            var_dump($countp);
             $data = [
