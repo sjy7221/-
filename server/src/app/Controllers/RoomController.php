@@ -175,13 +175,16 @@ class RoomController extends Controller
         if(yield $this->redis_pool->getCoroutine()->get('del_'.$this->room_id)){
             $this->send(reData('out', '房主解散房间'), false);
         }
-        $redis_key = 'heartbeat_' . $this->room_id;
-        if (yield $this->redis_pool->getCoroutine()->setnx($redis_key, time())) {
-            yield $this->redis_pool->expireAt($redis_key, time() + 10);
-            $this->sendToUids($this->uids,reData('heartbeat',$this->room_id));
-        } else {
-            $this->destroy();
+        if($this->roomid){
+            $redis_key = 'heartbeat_' . $this->room_id;
+            if (yield $this->redis_pool->getCoroutine()->setnx($redis_key, time())) {
+                yield $this->redis_pool->expireAt($redis_key, time() + 10);
+                $this->sendToUids($this->uids,reData('heartbeat',$this->room_id));
+            } else {
+                $this->destroy();
+            }
         }
+        $this->destroy();
     }
     /**
      * 发牌流程.
