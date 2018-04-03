@@ -439,11 +439,11 @@ class GameController extends Controller
             $users = $this->uids;
             $mid = $this->mid;
             $users = array_diff($users,[$mid]);
-            var_dump($users);
+
             $countp = [];
-//            foreach ($users as $k => $v){
-//                $countp[$k] = count($v);
-//            }
+           foreach ($users as $k => $v){
+                $countp[$v] = count($gameInfo['users'][$v]['shoupai']);
+           }
             $data = [
                 'ju'=>$roomInfo['nowjushu'],                   //当前局数
                 'pais'=>$gameInfo['users'][$this->mid]['shoupai'],                          //手牌
