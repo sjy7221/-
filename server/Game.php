@@ -121,8 +121,12 @@
             sort($pais[$i]);
 
         }
+        if($renshu == 3){
+            $o = -1;
+        }else{
+            $o = 0;
+        }
 
-        $o = -1;
         $h3id = 0;
         $niaoid = 0;
         foreach ( $gameInfo['users'] as $k=>$v) {

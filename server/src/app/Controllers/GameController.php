@@ -727,7 +727,7 @@ class GameController extends Controller
                 ->coroutineSend();
             //如果当前局数==1 并且打完了 那么开始扣砖石
             if($roomInfo['nowjushu'] == 1){
-                $numb = '';
+                $numb = 0;
                 if($roomInfo['guize']['jushu'] == 10){
                     $numb = 1;
                 }
