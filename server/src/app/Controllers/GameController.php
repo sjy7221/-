@@ -402,7 +402,7 @@ class GameController extends Controller
                 'jinru'=>$jinru,
                 'dapai'=>[]
             ];
-            $this->send(reData('getGame',$data));
+            $this->send(reData('getGame',$data),false);
 //            return;
         }
         $roomInfo =  $this->roomInfo;
