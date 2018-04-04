@@ -227,9 +227,70 @@ class RoomController extends Controller
             'gameInfo'=>$gameInfo
 
         ];
-//         yield $this->saveLogs(reData('fapai',$data)); //存游戏记录
+        yield $this->saveLogs(reData('fapai',$data)); //存游戏记录
         $this->destroy();
     }
+    /**
+     * 保存记录
+     */
 
+    private function saveLogs($log,$result=false){
+        //添加游戏记录
+        $log = json_encode($log,JSON_UNESCAPED_UNICODE);
+        $key = yield  $this->redis_pool->getCoroutine()->Scard("logs_".$this->room_id);
+        $re = $key.'--'.$log;
+        $roomInfo = $this->roomInfo;
+        yield  $this->redis_pool->getCoroutine()->sAdd("logs_".$this->room_id,$re);
+        if($result){
+            //保存游戏记录
+            $re =  yield  $this->redis_pool->getCoroutine()->sMembers("logs_".$this->room_id);
+            $data = json_encode($re,JSON_UNESCAPED_UNICODE);
+
+            yield $this->mysql_pool->dbQueryBuilder
+                ->insert('gs_logs_info')
+                ->set('ju',$roomInfo['nowjushu'])
+                ->set('info',$data)
+                ->set('users',$result)
+                ->set('room_id',$this->room_id)
+                ->coroutineSend();
+            //如果当前局数==1 并且打完了 那么开始扣砖石
+            if($roomInfo['nowjushu'] == 1){
+                $numb = 0;
+                if($roomInfo['guize']['jushu'] == 10){
+                    $numb = 1;
+                }
+                if($roomInfo['guize']['jushu'] == 20){
+                    $numb = 2;
+                }
+                yield $this->mysql_pool->dbQueryBuilder
+                    ->update('gs_member')
+                    ->set('num',"num-{$numb}",false)
+                    ->where('id',$roomInfo['fangzhu'])
+                    ->coroutineSend();
+
+                //加入room_user
+//            foreach ($this->uids as  $v){
+//                yield $this->mysql_pool->dbQueryBuilder
+//                    ->insert('gs_rooms_user')
+//                    ->set('room_id',$this->room_id)
+//                    ->set('mid',$v)
+//                    ->coroutineSend();
+//            }
+
+            }
+            if($roomInfo['nowjushu'] == $roomInfo['guize']['jushu']){
+                //修改状态
+                yield $this->mysql_pool->dbQueryBuilder
+                    ->update('gs_rooms')
+                    ->set('status',2)
+//                    ->set('result',$result)
+                    ->where('room_id',$this->room_id)
+                    ->coroutineSend();
+            }
+
+            //删除redis
+            yield  $this->redis_pool->getCoroutine()->del("logs_".$this->room_id);
+        }
+    }
 
 }

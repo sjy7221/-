@@ -394,10 +394,16 @@ class GameController extends Controller
               'users'=>$this->userInfo,
               'roomInfo'=>$this->roomInfo
             ];
-//            $this->send(reData('getGame', $data), false);
-////            $this->close();
-//            return;
+
             $jinru = $data;
+            $data = [
+                'jiesan'=>[],
+                'jixu'=>[],
+                'jinru'=>$jinru,
+                'dapai'=>[]
+            ];
+            $this->send(reData('getGame',$data));
+            return;
         }
         $roomInfo =  $this->roomInfo;
         $weizhi =  $roomInfo['weizhi'];
@@ -420,7 +426,14 @@ class GameController extends Controller
 //                    $this->sendToUids($this->uids,reData('jiesan',['mid'=>$kk2,'status'=>$vv2]),false);
                 }
             }
-//            return;
+            $data = [
+                'jiesan'=>$jiesan,
+                'jixu'=>[],
+                'jinru'=>[],
+                'dapai'=>[]
+            ];
+            $this->send(reData('getGame',$data));
+            return;
         }
         //如果当前正在发继续
         if( yield  $this->redis_pool->getCoroutine()->exists("jx_".$this->room_id)){
@@ -430,10 +443,16 @@ class GameController extends Controller
               'room'=>$this->roomInfo,
               'jxusers'=>$users
             ];
-//            $this->send(reData('jx', $data), false);
-////            yield $this->jixu();
-//            return;
+
             $jixu = $data;
+            $data = [
+                'jiesan'=>[],
+                'jixu'=>$jixu,
+                'jinru'=>[],
+                'dapai'=>[]
+            ];
+            $this->send(reData('getGame',$data));
+            return;
         }
         if($gameInfo['now'] || isset($gameInfo['now'])){
             $users = $this->uids;
@@ -457,9 +476,9 @@ class GameController extends Controller
         }
 
             $data = [
-                'jiesan'=>$jiesan,
-                'jixu'=>$jixu,
-                'jinru'=>$jinru,
+                'jiesan'=>[],
+                'jixu'=>[],
+                'jinru'=>[],
                 'dapai'=>$dapai
             ];
         $this->send(reData('getGame',$data));
