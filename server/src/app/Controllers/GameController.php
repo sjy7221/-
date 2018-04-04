@@ -436,7 +436,7 @@ class GameController extends Controller
             return;
         }
         //如果当前正在发继续
-        if( yield  $this->redis_pool->getCoroutine()->exists("jx_".$this->room_id) || $this->roomInfo['status'] == 0 || empty($gameInfo['users'][$this->mid]['shoupai'])){
+        if( yield  $this->redis_pool->getCoroutine()->exists("jx_".$this->room_id) ){
            $users =  yield  $this->redis_pool->getCoroutine()->smembers("jx_".$this->room_id);
             $data = [
               'users'=>$this->userInfo,
@@ -461,7 +461,7 @@ class GameController extends Controller
             yield  $this->redis_pool->getCoroutine()->delete('js_'.$this->room_id);    //解散
             yield  $this->redis_pool->getCoroutine()->delete('logs_'.$this->room_id);   //游戏记录
             $this->send('game_over',false);
-          
+
 
         }
         if($gameInfo['now'] || isset($gameInfo['now'])){
