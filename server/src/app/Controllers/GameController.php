@@ -387,24 +387,24 @@ class GameController extends Controller
         $dapai = [];
         $gameInfo = $this->gameInfo;
         //房间内准备状态  并且游戏数据有
-        if($this->roomInfo['status'] == 0 || empty($gameInfo['users'][$this->mid]['shoupai'])){
-
-            $data = [
-              'status'=> 0,
-              'users'=>$this->userInfo,
-              'roomInfo'=>$this->roomInfo
-            ];
-
-            $jinru = $data;
-            $data = [
-                'jiesan'=>[],
-                'jixu'=>[],
-                'jinru'=>$jinru,
-                'dapai'=>[]
-            ];
-            $this->send(reData('getGame',$data));
-            return;
-        }
+//        if($this->roomInfo['status'] == 0 || empty($gameInfo['users'][$this->mid]['shoupai'])){
+//
+//            $data = [
+//              'status'=> 0,
+//              'users'=>$this->userInfo,
+//              'roomInfo'=>$this->roomInfo
+//            ];
+//
+//            $jinru = $data;
+//            $data = [
+//                'jiesan'=>[],
+//                'jixu'=>[],
+//                'jinru'=>$jinru,
+//                'dapai'=>[]
+//            ];
+//            $this->send(reData('getGame',$data));
+//            return;
+//        }
         $roomInfo =  $this->roomInfo;
         $weizhi =  $roomInfo['weizhi'];
         $gameInfo =  $this->gameInfo;
