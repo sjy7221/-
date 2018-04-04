@@ -403,7 +403,7 @@ class GameController extends Controller
                 'dapai'=>[]
             ];
             $this->send(reData('getGame',$data));
-            return;
+//            return;
         }
         $roomInfo =  $this->roomInfo;
         $weizhi =  $roomInfo['weizhi'];
