@@ -454,6 +454,16 @@ class GameController extends Controller
             $this->send(reData('getGame',$data));
             return;
         }
+        if($roomInfo['nowjushu'] >= $roomInfo['guize']['jushu']){
+            yield  $this->redis_pool->getCoroutine()->delete($this->room_id);  //房间所有数据
+            yield  $this->redis_pool->getCoroutine()->delete('uids_'.$this->room_id);  //玩家id
+            yield  $this->redis_pool->getCoroutine()->delete('jx_'.$this->room_id);    //继续
+            yield  $this->redis_pool->getCoroutine()->delete('js_'.$this->room_id);    //解散
+            yield  $this->redis_pool->getCoroutine()->delete('logs_'.$this->room_id);   //游戏记录
+            $this->send('game_over',false);
+          
+
+        }
         if($gameInfo['now'] || isset($gameInfo['now'])){
             $users = $this->uids;
             $mid = $this->mid;
