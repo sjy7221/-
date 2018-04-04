@@ -436,12 +436,12 @@ class GameController extends Controller
             return;
         }
         //如果当前正在发继续
-        if( yield  $this->redis_pool->getCoroutine()->exists("jx_".$this->room_id) ){
-           $users =  yield  $this->redis_pool->getCoroutine()->smembers("jx_".$this->room_id);
+        if( yield  $this->redis_pool->getCoroutine()->exists("jx_".$this->room_id)){
+            $users =  yield  $this->redis_pool->getCoroutine()->smembers("jx_".$this->room_id);
             $data = [
-              'users'=>$this->userInfo,
-              'room'=>$this->roomInfo,
-              'jxusers'=>$users
+                'users'=>$this->userInfo,
+                'room'=>$this->roomInfo,
+                'jxusers'=>$users
             ];
 
             $jixu = $data;
@@ -454,7 +454,7 @@ class GameController extends Controller
             $this->send(reData('getGame',$data));
             return;
         }
-        if($roomInfo['nowjushu'] >= $roomInfo['guize']['jushu']){
+        if($roomInfo['nowjushu'] > $roomInfo['guize']['jushu']){
             yield  $this->redis_pool->getCoroutine()->delete($this->room_id);  //房间所有数据
             yield  $this->redis_pool->getCoroutine()->delete('uids_'.$this->room_id);  //玩家id
             yield  $this->redis_pool->getCoroutine()->delete('jx_'.$this->room_id);    //继续
@@ -470,9 +470,9 @@ class GameController extends Controller
             $users = array_diff($users,[$mid]);
 
             $countp = [];
-           foreach ($users as $k => $v){
+            foreach ($users as $k => $v){
                 $countp[$v] = count($gameInfo['users'][$v]['shoupai']);
-           }
+            }
 
             $data = [
                 'ju'=>$roomInfo['nowjushu'],                   //当前局数
@@ -485,12 +485,12 @@ class GameController extends Controller
             $dapai = $data;
         }
 
-            $data = [
-                'jiesan'=>[],
-                'jixu'=>[],
-                'jinru'=>[],
-                'dapai'=>$dapai
-            ];
+        $data = [
+            'jiesan'=>[],
+            'jixu'=>[],
+            'jinru'=>[],
+            'dapai'=>$dapai
+        ];
         $this->send(reData('getGame',$data));
         $this->destroy();
     }
